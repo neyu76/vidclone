@@ -1,0 +1,524 @@
+{
+ "samples": [
+  "/root/vc_samples/new/S01.mp4",
+  "/root/vc_samples/new/S02.mp4",
+  "/root/vc_samples/new/S03.mp4",
+  "/root/vc_samples/new/S04.mp4",
+  "/root/vc_samples/new/S05.mp4"
+ ],
+ "n": 5,
+ "metrics": {
+  "duration_s": {
+   "median": 50.039,
+   "min": 10.8,
+   "max": 60.79,
+   "label": "Duration (s)"
+  },
+  "wpm": {
+   "median": 248.6,
+   "min": 232.1,
+   "max": 293.2,
+   "label": "Narration pace (words/min)"
+  },
+  "hook_end_s": {
+   "median": 3.12,
+   "min": 2.94,
+   "max": 4.3,
+   "label": "Hook sentence ends by (s)"
+  },
+  "closer_words": {
+   "median": 18.0,
+   "min": 11,
+   "max": 31,
+   "label": "Closing sentence words"
+  },
+  "longest_pause_s": {
+   "median": 0.3,
+   "min": 0.3,
+   "max": 0.36,
+   "label": "Longest pause (s)"
+  },
+  "speech_start_s": {
+   "median": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "label": "First word starts by (s)"
+  },
+  "shot_len_median_s": {
+   "median": 1.5,
+   "min": 1.333,
+   "max": 1.667,
+   "label": "Median shot length (s)"
+  },
+  "transitions_per_min": {
+   "median": 31.64,
+   "min": 22.22,
+   "max": 36.53,
+   "label": "Transitions per minute"
+  },
+  "cuts": {
+   "median": 14.0,
+   "min": 3,
+   "max": 24,
+   "label": "Hard cuts (count)"
+  },
+  "dissolve_dur_s": {
+   "median": 0.45,
+   "min": 0.3165,
+   "max": 0.633,
+   "label": "Dissolve length (s)"
+  },
+  "cuts_in_last_3s": {
+   "median": 0.0,
+   "min": 0,
+   "max": 1,
+   "label": "Hard cuts in last 3 s"
+  },
+  "static_share": {
+   "median": 0.094,
+   "min": 0.004,
+   "max": 0.532,
+   "label": "Camera static share"
+  },
+  "push_share": {
+   "median": 0.339,
+   "min": 0.144,
+   "max": 0.811,
+   "label": "Camera push-in share"
+  },
+  "pull_share": {
+   "median": 0.281,
+   "min": 0.154,
+   "max": 0.354,
+   "label": "Camera pull-out share"
+  },
+  "pan_share": {
+   "median": 0.04,
+   "min": 0.031,
+   "max": 0.359,
+   "label": "Camera pan share"
+  },
+  "move_run_median_s": {
+   "median": 0.5333,
+   "min": 0.3833,
+   "max": 0.6667,
+   "label": "Camera move changes every (s)"
+  },
+  "jitter": {
+   "median": 6.984,
+   "min": 5.956,
+   "max": 8.504,
+   "label": "Handheld jitter"
+  },
+  "saturation": {
+   "median": 69.0,
+   "min": 51.0,
+   "max": 109.0,
+   "label": "Saturation median"
+  },
+  "brightness": {
+   "median": 140.1577,
+   "min": 116.0067,
+   "max": 161.2426,
+   "label": "Brightness median"
+  },
+  "contrast": {
+   "median": 49.107,
+   "min": 42.2206,
+   "max": 56.5853,
+   "label": "Contrast (luma std)"
+  },
+  "detail": {
+   "median": 0.909,
+   "min": 0.8979,
+   "max": 0.9532,
+   "label": "Fine detail ratio"
+  },
+  "warmth": {
+   "median": 6.0491,
+   "min": 0.5177,
+   "max": 12.3717,
+   "label": "Warmth (Lab b*)"
+  },
+  "face_share": {
+   "median": 0.429,
+   "min": 0.118,
+   "max": 0.545,
+   "label": "Frames with a face"
+  },
+  "caption_share": {
+   "median": 0.28,
+   "min": 0.078,
+   "max": 0.918,
+   "label": "Seconds with captions"
+  },
+  "caption_baseline": {
+   "median": 0.7219,
+   "min": 0.5191,
+   "max": 0.7227,
+   "label": "Caption baseline (y / height)"
+  },
+  "caption_height": {
+   "median": 0.0289,
+   "min": 0.0254,
+   "max": 0.0465,
+   "label": "Caption letter height (/ height)"
+  },
+  "caption_words": {
+   "median": 1.0,
+   "min": 1.0,
+   "max": 1.0,
+   "label": "Words on screen per caption"
+  },
+  "lufs": {
+   "median": -13.75,
+   "min": -13.95,
+   "max": -13.12,
+   "label": "Loudness (LUFS)"
+  },
+  "true_peak": {
+   "median": 0.0,
+   "min": -1.04,
+   "max": 0.17,
+   "label": "True peak (dBTP)"
+  },
+  "bed_db": {
+   "median": -7.9,
+   "min": -10.9,
+   "max": -6.2,
+   "label": "Music/bed in gaps vs voice (dB)"
+  },
+  "stereo_side_db": {
+   "median": -19.3,
+   "min": -25.9,
+   "max": -15.1,
+   "label": "Stereo side − mid (dB)"
+  }
+ },
+ "facts": {
+  "resolution": [
+   "1080x1920",
+   "1080x1920",
+   "1080x1920",
+   "1080x1920",
+   "1080x1920"
+  ],
+  "fps": [
+   60.0,
+   60.0,
+   60.0,
+   60.0,
+   60.0
+  ],
+  "language": [
+   "en",
+   "en",
+   "en",
+   "en",
+   "en"
+  ],
+  "music_key": [
+   "A minor",
+   "G minor",
+   "C minor",
+   "A minor",
+   "D minor"
+  ],
+  "tempo_bpm": [
+   136.0,
+   107.7,
+   129.2,
+   117.5,
+   143.6
+  ],
+  "voice_f0_hz": [
+   126.4033,
+   110.6779,
+   114.581,
+   123.5163,
+   137.0499
+  ],
+  "transition_mix": [
+   {
+    "cut": 13,
+    "dissolve": 15,
+    "flash": 0,
+    "fade": 0,
+    "whip": 0
+   },
+   {
+    "cut": 15,
+    "dissolve": 8,
+    "flash": 0,
+    "fade": 1,
+    "whip": 2
+   },
+   {
+    "cut": 24,
+    "dissolve": 13,
+    "flash": 0,
+    "fade": 0,
+    "whip": 0
+   },
+   {
+    "cut": 14,
+    "dissolve": 8,
+    "flash": 0,
+    "fade": 0,
+    "whip": 2
+   },
+   {
+    "cut": 3,
+    "dissolve": 1,
+    "flash": 0,
+    "fade": 0,
+    "whip": 0
+   }
+  ],
+  "camera_share": [
+   {
+    "static": 0.094,
+    "push": 0.39,
+    "pull": 0.354,
+    "pan": 0.033,
+    "tilt": 0.129,
+    "roll": 0.0
+   },
+   {
+    "static": 0.019,
+    "push": 0.301,
+    "pull": 0.268,
+    "pan": 0.359,
+    "tilt": 0.042,
+    "roll": 0.012
+   },
+   {
+    "static": 0.167,
+    "push": 0.339,
+    "pull": 0.32,
+    "pan": 0.17,
+    "tilt": 0.004,
+    "roll": 0.0
+   },
+   {
+    "static": 0.532,
+    "push": 0.144,
+    "pull": 0.281,
+    "pan": 0.04,
+    "tilt": 0.002,
+    "roll": 0.0
+   },
+   {
+    "static": 0.004,
+    "push": 0.811,
+    "pull": 0.154,
+    "pan": 0.031,
+    "tilt": 0.0,
+    "roll": 0.0
+   }
+  ],
+  "dissolve_dur_s": [
+   0.333,
+   0.3165,
+   0.567,
+   0.45,
+   0.633
+  ],
+  "palette": [
+   [
+    {
+     "hex": "#615943",
+     "share": 0.226
+    },
+    {
+     "hex": "#807b63",
+     "share": 0.207
+    },
+    {
+     "hex": "#3e3b2d",
+     "share": 0.16
+    },
+    {
+     "hex": "#ada48b",
+     "share": 0.153
+    },
+    {
+     "hex": "#191916",
+     "share": 0.147
+    },
+    {
+     "hex": "#d5d1c8",
+     "share": 0.106
+    }
+   ],
+   [
+    {
+     "hex": "#cfd3da",
+     "share": 0.276
+    },
+    {
+     "hex": "#7c715e",
+     "share": 0.181
+    },
+    {
+     "hex": "#99999f",
+     "share": 0.172
+    },
+    {
+     "hex": "#514b3f",
+     "share": 0.155
+    },
+    {
+     "hex": "#c4ab73",
+     "share": 0.112
+    },
+    {
+     "hex": "#20211c",
+     "share": 0.103
+    }
+   ],
+   [
+    {
+     "hex": "#a2907a",
+     "share": 0.23
+    },
+    {
+     "hex": "#635846",
+     "share": 0.215
+    },
+    {
+     "hex": "#c1cdd2",
+     "share": 0.159
+    },
+    {
+     "hex": "#292a2b",
+     "share": 0.152
+    },
+    {
+     "hex": "#0a487d",
+     "share": 0.132
+    },
+    {
+     "hex": "#1e79b5",
+     "share": 0.113
+    }
+   ],
+   [
+    {
+     "hex": "#635846",
+     "share": 0.201
+    },
+    {
+     "hex": "#3e788e",
+     "share": 0.197
+    },
+    {
+     "hex": "#9c8b72",
+     "share": 0.186
+    },
+    {
+     "hex": "#4892c8",
+     "share": 0.159
+    },
+    {
+     "hex": "#c7d0de",
+     "share": 0.14
+    },
+    {
+     "hex": "#2a2926",
+     "share": 0.116
+    }
+   ],
+   [
+    {
+     "hex": "#7e6e5b",
+     "share": 0.259
+    },
+    {
+     "hex": "#9b8d78",
+     "share": 0.218
+    },
+    {
+     "hex": "#5f5342",
+     "share": 0.213
+    },
+    {
+     "hex": "#3c3626",
+     "share": 0.148
+    },
+    {
+     "hex": "#c0b49c",
+     "share": 0.113
+    },
+    {
+     "hex": "#090906",
+     "share": 0.049
+    }
+   ]
+  ],
+  "caption_style": [
+   {
+    "fill": "#e2d0b3",
+    "edge": "#000000",
+    "boxed": false,
+    "uppercase_share": 0.5,
+    "words_hist": {
+     "1": 1.0
+    }
+   },
+   {
+    "fill": "#9a7d57",
+    "edge": "#000000",
+    "boxed": false,
+    "uppercase_share": 1.0,
+    "words_hist": {
+     "1": 0.933,
+     "2": 0.067
+    }
+   },
+   {
+    "fill": "#ff7602",
+    "edge": "#000000",
+    "boxed": false,
+    "uppercase_share": 1.0,
+    "words_hist": {
+     "1": 0.982,
+     "2": 0.018
+    }
+   },
+   {
+    "fill": "#bab5a8",
+    "edge": "#000000",
+    "boxed": false,
+    "uppercase_share": 0.5,
+    "words_hist": {
+     "1": 0.75,
+     "2": 0.25
+    }
+   },
+   {
+    "fill": "#e87e33",
+    "edge": "#000000",
+    "boxed": false,
+    "uppercase_share": 0.5,
+    "words_hist": {
+     "1": 1.0
+    }
+   }
+  ],
+  "hooks": [
+   "Pandas are actually herbivores, right? Um, nope.",
+   "Huskies ignore their owner's commands because they're dumb, right?",
+   "Two animals that figured out a way to save us. In 1998, Joanne Altman collapsed from a heart attack.",
+   "Here are three animals that handle death just like humans do. First up, dolphins.",
+   "Koalas sleep 20 hours a day because they're lazy, right? Actually, nope."
+  ],
+  "closers": [
+   "As a result, they only absorb about 17 % of the nutrients, forcing them to eat for 16 straight hours a day just to have enough energy to eat more bamboo.",
+   "If they don't like something, they'll happily argue right back at you with all kinds of weird noises.",
+   "The two whales were using their own bodies to shield her.",
+   "Scientists believe they're actually studying how it died, so they can avoid that danger zone in the future.",
+   "Their only food is eucalyptus, which is basically poisoned with almost no calories, so they barely have the energy to stay awake, and one single meal can take days to digest."
+  ]
+ }
+}

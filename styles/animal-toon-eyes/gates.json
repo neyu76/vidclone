@@ -1,0 +1,285 @@
+[
+ {
+  "key": "duration_s",
+  "path": "info.dur",
+  "label": "Duration (s)",
+  "target": 50.039,
+  "lo": 8.1,
+  "hi": 75.9875,
+  "on": true
+ },
+ {
+  "key": "wpm",
+  "path": "speech.wpm",
+  "label": "Narration pace (words/min)",
+  "target": 248.6,
+  "lo": 213.532,
+  "hi": 316.656,
+  "on": true
+ },
+ {
+  "key": "hook_end_s",
+  "path": "speech.hook.end",
+  "label": "Hook sentence ends by (s)",
+  "target": 3.12,
+  "lo": null,
+  "hi": 5.3,
+  "on": true
+ },
+ {
+  "key": "closer_words",
+  "path": "speech.closer.words",
+  "label": "Closing sentence words",
+  "target": 18.0,
+  "lo": null,
+  "hi": 34,
+  "on": true
+ },
+ {
+  "key": "longest_pause_s",
+  "path": "speech.longest_pause",
+  "label": "Longest pause (s)",
+  "target": 0.3,
+  "lo": null,
+  "hi": 0.61,
+  "on": true
+ },
+ {
+  "key": "speech_start_s",
+  "path": "speech.speech_start",
+  "label": "First word starts by (s)",
+  "target": 0.0,
+  "lo": null,
+  "hi": 0.4,
+  "on": true
+ },
+ {
+  "key": "shot_len_median_s",
+  "path": "edit.summary.shot_len.median",
+  "label": "Median shot length (s)",
+  "target": 1.5,
+  "lo": 0.8665,
+  "hi": 2.2505,
+  "on": true
+ },
+ {
+  "key": "transitions_per_min",
+  "path": "edit.summary.transitions_per_min",
+  "label": "Transitions per minute",
+  "target": 31.64,
+  "lo": 13.332,
+  "hi": 51.142,
+  "on": true
+ },
+ {
+  "key": "cuts",
+  "path": "edit.summary.transition_mix.cut",
+  "label": "Hard cuts (count)",
+  "target": 14.0,
+  "lo": null,
+  "hi": 25,
+  "on": true
+ },
+ {
+  "key": "dissolve_dur_s",
+  "path": "edit.summary.dissolve_dur.median",
+  "label": "Dissolve length (s)",
+  "target": 0.45,
+  "lo": 0.1965,
+  "hi": 0.753,
+  "on": true
+ },
+ {
+  "key": "cuts_in_last_3s",
+  "path": "edit.summary.cuts_in_last_3s",
+  "label": "Hard cuts in last 3 s",
+  "target": 0.0,
+  "lo": null,
+  "hi": 1,
+  "on": true
+ },
+ {
+  "key": "static_share",
+  "path": "edit.summary.camera_share.static",
+  "label": "Camera static share",
+  "target": 0.094,
+  "lo": 0.0,
+  "hi": 0.652,
+  "on": true
+ },
+ {
+  "key": "push_share",
+  "path": "edit.summary.camera_share.push",
+  "label": "Camera push-in share",
+  "target": 0.339,
+  "lo": 0.0,
+  "hi": 0.961,
+  "on": true
+ },
+ {
+  "key": "pull_share",
+  "path": "edit.summary.camera_share.pull",
+  "label": "Camera pull-out share",
+  "target": 0.281,
+  "lo": 0.034,
+  "hi": 0.474,
+  "on": true
+ },
+ {
+  "key": "pan_share",
+  "path": "edit.summary.camera_share.pan",
+  "label": "Camera pan share",
+  "target": 0.04,
+  "lo": 0.0,
+  "hi": 0.509,
+  "on": true
+ },
+ {
+  "key": "move_run_median_s",
+  "path": "edit.summary.camera_move_run_s.median",
+  "label": "Camera move changes every (s)",
+  "target": 0.5333,
+  "lo": 0.1916,
+  "hi": 1.0,
+  "on": true
+ },
+ {
+  "key": "jitter",
+  "path": "edit.summary.handheld_jitter",
+  "label": "Handheld jitter",
+  "target": 6.984,
+  "lo": 2.3824,
+  "hi": 13.6064,
+  "on": true
+ },
+ {
+  "key": "saturation",
+  "path": "look.saturation.median",
+  "label": "Saturation median",
+  "target": 69.0,
+  "lo": 43.35,
+  "hi": 125.35,
+  "on": true
+ },
+ {
+  "key": "brightness",
+  "path": "look.brightness.median",
+  "label": "Brightness median",
+  "target": 140.1577,
+  "lo": 102.0859,
+  "hi": 180.5917,
+  "on": true
+ },
+ {
+  "key": "contrast",
+  "path": "look.contrast.median",
+  "label": "Contrast (luma std)",
+  "target": 49.107,
+  "lo": 33.7765,
+  "hi": 67.9024,
+  "on": true
+ },
+ {
+  "key": "detail",
+  "path": "look.detail.median",
+  "label": "Fine detail ratio",
+  "target": 0.909,
+  "lo": 0.8479,
+  "hi": 1.0032,
+  "on": true
+ },
+ {
+  "key": "warmth",
+  "path": "look.warmth.median",
+  "label": "Warmth (Lab b*)",
+  "target": 6.0491,
+  "lo": -5.4823,
+  "hi": 18.3717,
+  "on": true
+ },
+ {
+  "key": "face_share",
+  "path": "look.face_share",
+  "label": "Frames with a face",
+  "target": 0.429,
+  "lo": 0.0,
+  "hi": 0.745,
+  "on": false,
+  "manual": true,
+  "note": "Haar face detector fires erratically on animals with drawn-on eyes; not style-defining"
+ },
+ {
+  "key": "caption_share",
+  "path": "text.captions.present_share",
+  "label": "Seconds with captions",
+  "target": 0.28,
+  "lo": 0.0,
+  "hi": 1.0,
+  "on": false,
+  "manual": true,
+  "note": "OCR misses the small condensed outlined caption font (reads 8-92 %); sheets show a caption on every spoken word - check by eye"
+ },
+ {
+  "key": "caption_baseline",
+  "path": "text.captions.baseline_rel.median",
+  "label": "Caption baseline (y / height)",
+  "target": 0.7219,
+  "lo": 0.4891,
+  "hi": 0.7527,
+  "on": true
+ },
+ {
+  "key": "caption_height",
+  "path": "text.captions.height_rel.median",
+  "label": "Caption letter height (/ height)",
+  "target": 0.0289,
+  "lo": 0.0203,
+  "hi": 0.0558,
+  "on": true
+ },
+ {
+  "key": "caption_words",
+  "path": "text.captions.words_on_screen.median",
+  "label": "Words on screen per caption",
+  "target": 1.0,
+  "lo": 0.0,
+  "hi": 2.0,
+  "on": true
+ },
+ {
+  "key": "lufs",
+  "path": "audio.lufs",
+  "label": "Loudness (LUFS)",
+  "target": -13.75,
+  "lo": -14.95,
+  "hi": -12.12,
+  "on": true
+ },
+ {
+  "key": "true_peak",
+  "path": "audio.true_peak",
+  "label": "True peak (dBTP)",
+  "target": 0.0,
+  "lo": null,
+  "hi": 0.67,
+  "on": true
+ },
+ {
+  "key": "bed_db",
+  "path": "audio.bed_under_voice_db",
+  "label": "Music/bed in gaps vs voice (dB)",
+  "target": -7.9,
+  "lo": -13.9,
+  "hi": -3.2,
+  "on": true
+ },
+ {
+  "key": "stereo_side_db",
+  "path": "audio.side_minus_mid_db",
+  "label": "Stereo side − mid (dB)",
+  "target": -19.3,
+  "lo": -31.9,
+  "hi": -9.1,
+  "on": true
+ }
+]

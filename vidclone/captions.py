@@ -13,7 +13,7 @@ def _ass_col(hexc, alpha=0):
 
 def style_from(style_dir=None):
     s = {'font': 'Work Sans', 'bold': 1, 'baseline_rel': 0.717, 'height_rel': 0.028, 'fill': '#ffffff', 'edge': '#000000',
-         'boxed': False, 'upper': False, 'words_hist': {'1': 0.7, '2': 0.27, '3': 0.03}, 'outline_rel': 0.1,
+         'boxed': False, 'upper': False, 'words_hist': {'1': 0.7, '2': 0.27, '3': 0.03}, 'outline_rel': 0.1, 'shadow_rel': 0.0,
          'size_per_cap': 1.42, 'max_hold': 1.0, 'pop': False, 'strip_punct': False}
     if style_dir and os.path.exists(f'{style_dir}/profile.json'):
         p = load(f'{style_dir}/profile.json'); m = p['metrics']
@@ -60,6 +60,7 @@ def write(words_json, out, W=1080, H=1920, style_dir=None, script=None, offset=0
     cap_px = st['height_rel'] * H
     size = round(cap_px * st['size_per_cap'])
     outline = max(1, round(size * st['outline_rel']))
+    shadow = round(size * st['shadow_rel'])
     margin_v = round(H * (1 - st['baseline_rel']) - size * 0.2)
     border = 3 if st['boxed'] else 1
     hdr = f"""[Script Info]
@@ -71,7 +72,7 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,{st['font']},{size},{_ass_col(st['fill'])},{_ass_col(st['fill'])},{_ass_col(st['edge'])},{_ass_col(st['edge'], 0x40 if st['boxed'] else 0)},{-1 if st['bold'] else 0},0,0,0,100,100,0,0,{border},{outline},0,2,40,40,{margin_v},1
+Style: Cap,{st['font']},{size},{_ass_col(st['fill'])},{_ass_col(st['fill'])},{_ass_col(st['edge'])},{_ass_col(st['edge'], 0x40 if st['boxed'] else 0)},{-1 if st['bold'] else 0},0,0,0,100,100,0,0,{border},{outline},{shadow},2,40,40,{margin_v},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
