@@ -1,0 +1,20 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "vidclone",
+  "description": "vidclone: learn any video style from sample videos and make new videos in it — workflow knowledge (skills) for Claude Code",
+  "owner": {
+    "name": "neyu76"
+  },
+  "plugins": [
+    {
+      "name": "vidclone",
+      "description": "Learn a video style from samples (edit rhythm, transitions, camera, colour, captions, narration, music, loudness → style bible + QA gates), then make new videos in that style for any niche with ElevenLabs/vidIQ/own footage and a deterministic ffmpeg/OpenCV assembler, QA'd against the samples.",
+      "version": "0.1.0",
+      "author": {
+        "name": "neyu76"
+      },
+      "category": "productivity",
+      "source": "./plugins/vidclone"
+    }
+  ]
+}

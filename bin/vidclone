@@ -1,0 +1,6 @@
+#!/bin/bash
+# Runs the vidclone CLI from any directory with the toolchain venv.
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+VENV="${VIDCLONE_VENV:-$HOME/.vidclone/venv}"
+[ -x "$VENV/bin/python" ] || { echo "vidclone: no venv at $VENV — run: bash \"$ROOT/setup.sh\"" >&2; exit 2; }
+PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}" exec "$VENV/bin/python" -m vidclone "$@"

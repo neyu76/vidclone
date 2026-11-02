@@ -1,0 +1,9 @@
+{
+  "name": "vidclone",
+  "version": "0.1.0",
+  "description": "Learn a video style from sample videos and make new videos in that style (any niche): analysis → style bible + QA gates → script, voice, visuals, EDL assembly, captions, mix → QA against the samples. Workflow knowledge only — the code lives in the vidclone repo.",
+  "author": {
+    "name": "neyu76"
+  },
+  "keywords": ["video", "shorts", "style", "analysis", "ffmpeg", "opencv", "whisper", "elevenlabs", "captions"]
+}

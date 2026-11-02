@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+_test/
+# samples, their frames and audio never leave the machine
+styles/*/samples/*/work/
+styles/*/samples/*/sheets/
+styles/*/qa/*/work/
+styles/*/qa/*/sheets/
+*.mp4
+*.mov
+*.wav
+*.mp3
