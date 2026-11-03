@@ -19,13 +19,14 @@ def _hist(f):
 def _hd(a, b):
     return float(cv2.compareHist(a, b, cv2.HISTCMP_BHATTACHARYYA))
 
-def _simfit(flow, rng):
-    """dx = s*cx - r*cy + tx ; dy = r*cx + s*cy + ty, iteratively reweighted."""
+def _simfit(flow, rng, pool=None):
+    """dx = s*cx - r*cy + tx ; dy = r*cx + s*cy + ty, iteratively reweighted. pool = allowed flat pixel indices."""
     h, w = flow.shape[:2]
     ys, xs = np.mgrid[0:h, 0:w]
     cx, cy = (xs - w / 2).ravel(), (ys - h / 2).ravel()
     dx, dy = flow[..., 0].ravel(), flow[..., 1].ravel()
-    sel = rng.choice(h * w, min(4000, h * w), replace=False)
+    pool = np.arange(h * w) if pool is None else pool
+    sel = rng.choice(pool, min(4000, len(pool)), replace=False)
     for _ in range(3):
         A = np.zeros((2 * len(sel), 4)); b = np.empty(2 * len(sel))
         A[0::2, 0] = cx[sel]; A[0::2, 1] = -cy[sel]; A[0::2, 2] = 1
@@ -39,29 +40,131 @@ def _simfit(flow, rng):
     mag = float(np.median(np.hypot(dx, dy)))
     return p, float(inl), mag
 
-def analyze(proxy, fps_out=30):
+def _grammar(cam, near, sharp, fps, FW, FH):
+    """Camera grammar in px/frame at 720 px short side (the unit most measured style notes use):
+    hold/drift/move shares, move bursts (peak, attack, release, FWHM, size), push-in during quiet frames,
+    high-frequency residual (hand-held float), impact kicks (sign flips every frame), whips (fast + blurred)."""
+    from scipy.ndimage import gaussian_filter1d
+    n = len(cam)
+    k = 720 / min(FW, FH); R = np.hypot(FW, FH) / 2 * k          # px scale; frame-corner radius
+    s, tx, ty = cam[:, 6].copy(), cam[:, 7] * k, cam[:, 8] * k
+    bad = near.copy(); bad[0] = True
+    # fill transition frames with 0 motion before smoothing so they do not smear into neighbours
+    for a in (s, tx, ty): a[bad] = 0
+    g = lambda a: gaussian_filter1d(a, 1.2, mode='nearest')
+    ss, sx, sy = g(s), g(tx), g(ty)
+    trans = np.hypot(sx, sy)
+    speed = np.hypot(trans, ss * R)
+    ok = ~bad
+    sp = speed[ok]
+    out = {'hold_share': None}
+    if not ok.any(): return out, speed
+    out['hold_share'] = round(float(np.mean(sp < 0.3)), 3)
+    out['drift_share'] = round(float(np.mean((sp >= 0.3) & (sp < 2))), 3)
+    out['move_share'] = round(float(np.mean(sp >= 2)), 3)
+    out['speed_px720'] = dist([float(v) for v in sp])
+
+    # bursts: local peaks ≥ 6 px/f; attack/release measured to 10 % of the peak, FWHM at 50 %
+    bursts, last = [], -99
+    for i in range(1, n - 1):
+        if bad[i] or speed[i] < 6 or speed[i] < speed[max(0, i - 5):i + 6].max(): continue
+        if i - last < 4: continue
+        pk = speed[i]
+        a = i
+        while a > 0 and not bad[a - 1] and speed[a - 1] >= 0.1 * pk and i - a < 90: a -= 1
+        b = i
+        while b < n - 1 and not bad[b + 1] and speed[b + 1] >= 0.1 * pk and b - i < 90: b += 1
+        h0 = i
+        while h0 > a and speed[h0 - 1] >= 0.5 * pk: h0 -= 1
+        h1 = i
+        while h1 < b and speed[h1 + 1] >= 0.5 * pk: h1 += 1
+        bursts.append({'f': i, 't': round(i / fps, 2), 'peak': round(float(pk), 1), 'attack': i - a, 'release': b - i,
+                       'fwhm': h1 - h0 + 1, 'size_px': round(float(speed[a:b + 1].sum()), 0),
+                       'zoom_pct': round(float(ss[a:b + 1].sum() * 100), 1)})
+        last = i
+    dur_ok = ok.sum() / fps
+    out['moves_per_10s'] = round(len(bursts) / max(dur_ok, 1e-6) * 10, 2)
+    out['move_peak_px720'] = dist([b['peak'] for b in bursts])
+    out['move_attack_f'] = dist([b['attack'] for b in bursts])
+    out['move_release_f'] = dist([b['release'] for b in bursts])
+    out['move_fwhm_f'] = dist([b['fwhm'] for b in bursts])
+    out['move_size_px720'] = dist([b['size_px'] for b in bursts])
+    sym = [b['attack'] / b['release'] for b in bursts if b['release']]
+    out['move_attack_over_release'] = round(float(np.median(sym)), 2) if sym else None
+
+    # quiet frames (translation < 2 px/f): is the camera still pushing in?
+    quiet = ok & (trans < 2)
+    if quiet.any():
+        zq = ss[quiet] * 100  # %/frame
+        act = np.abs(zq) >= 0.05
+        out['quiet_zoom_active_share'] = round(float(act.mean()), 3)
+        out['quiet_push_share'] = round(float((zq[act] > 0).mean()), 3) if act.any() else 0.0
+        out['quiet_push_rate_pct_f'] = dist([float(v) for v in zq[act & (zq > 0)]])
+
+    # hand-held float = residual of the raw path around the smoothed one
+    hf = np.hypot(tx - sx, ty - sy)[ok]
+    out['hf_residual_px720'] = round(float(np.median(hf)), 3)
+
+    # impact kicks: ≥ 3 frames in a row whose residual flips sign, |res| ≥ 1.5 px
+    rx, ry = tx - gaussian_filter1d(tx, 3), ty - gaussian_filter1d(ty, 3)
+    res = np.where(np.abs(rx) > np.abs(ry), rx, ry)
+    kicks, i = [], 1
+    while i < n - 2:
+        j = i
+        while j + 1 < n and ok[j + 1] and abs(res[j]) >= 1.5 and abs(res[j + 1]) >= 1.5 and np.sign(res[j]) != np.sign(res[j + 1]):
+            j += 1
+        if ok[i] and j - i + 1 >= 3:
+            kicks.append({'t': round(i / fps, 2), 'frames': j - i + 1, 'amp_px': round(float(np.abs(res[i:j + 1]).max()), 1)})
+            i = j + 1
+        else:
+            i += 1
+    out['kicks_per_min'] = round(len(kicks) / max(dur_ok, 1e-6) * 60, 2)
+    out['kicks'] = kicks[:20]
+
+    # whips: bursts with peak ≥ 40 px/f; blur = sharpness at the peak / median sharpness ±15 f
+    sharp = np.asarray(sharp, float); whips = []
+    for b in bursts:
+        if b['peak'] < 40: continue
+        i = b['f']; ctx = np.r_[sharp[max(0, i - 15):max(0, i - 4)], sharp[i + 5:i + 16]]
+        whips.append({'t': b['t'], 'peak': b['peak'], 'blur_ratio': round(float(sharp[i] / (np.median(ctx) + 1e-6)), 2) if len(ctx) else None})
+    out['whips_per_min'] = round(len(whips) / max(dur_ok, 1e-6) * 60, 2)
+    out['whips'] = whips
+    out['bursts'] = bursts
+    return out, speed
+
+def analyze(proxy, fps_out=30, mask_band=None):
+    """mask_band = (y0, y1) as fractions of the height: rows left out of the camera fit (burned-in captions)."""
     info = probe(proxy)
     W = 180
     H = int(round(W * info['h'] / info['w'] / 2) * 2)
     if info['w'] > info['h']:
         H = 180; W = int(round(H * info['w'] / info['h'] / 2) * 2)
+    # camera flow runs on the full proxy (360 px short side): sub-pixel holds/drifts need the resolution
+    FW, FH = info['w'], info['h']
+    rows = np.arange(FH)
+    if mask_band:
+        rows = rows[(rows < mask_band[0] * FH) | (rows > mask_band[1] * FH)]
+    pool = (rows[:, None] * FW + np.arange(FW)[None, :]).ravel()
     rng = np.random.default_rng(0)
     hist, luma, sharp, diff, cam = [], [], [], [], []
     prev = None; frames = []
-    for f in read_frames(proxy, (W, H)):
+    for big in read_frames(proxy):
+        G = cv2.cvtColor(big, cv2.COLOR_BGR2GRAY)
+        f = cv2.resize(big, (W, H), interpolation=cv2.INTER_AREA)
         g = cv2.cvtColor(f, cv2.COLOR_BGR2GRAY)
         hist.append(_hist(f)); luma.append(float(g.mean()))
         sharp.append(float(cv2.Laplacian(g, cv2.CV_32F).var()))
         frames.append(cv2.resize(g, (W // 2, H // 2), interpolation=cv2.INTER_AREA).astype(np.float32))
         if prev is None:
-            diff.append(0.0); cam.append([0, 0, 0, 0, 0, 0])
+            diff.append(0.0); cam.append([0, 0, 0, 0, 0, 0, 0, 0, 0])
         else:
-            diff.append(float(np.abs(g.astype(np.int16) - prev).mean()))
-            fl = cv2.calcOpticalFlowFarneback(prev, g, None, 0.5, 3, 15, 3, 5, 1.2, 0)
-            p, inl, mag = _simfit(fl, rng)
-            # zoom %/frame, rot deg/frame, pan/tilt % of width/frame, fit residual, flow magnitude
-            cam.append([p[0] * 100, np.degrees(p[1]), p[2] / W * 100, p[3] / W * 100, inl, mag / W * 100])
-        prev = g
+            diff.append(float(np.abs(G.astype(np.int16) - prev).mean()))
+            fl = cv2.calcOpticalFlowFarneback(prev, G, None, 0.5, 3, 15, 3, 5, 1.2, 0)
+            p, inl, mag = _simfit(fl, rng, pool)
+            # zoom %/frame, rot deg/frame, pan/tilt % of width/frame, fit residual, flow magnitude,
+            # raw fit (zoom fraction, tx px, ty px) for the camera-grammar measures
+            cam.append([p[0] * 100, np.degrees(p[1]), p[2] / FW * 100, p[3] / FW * 100, inl, mag / FW * 100, p[0], p[2], p[3]])
+        prev = G
     n = len(hist); fps = info['fps'] or fps_out
     hd1 = np.array([0] + [_hd(hist[i - 1], hist[i]) for i in range(1, n)])
     luma = np.array(luma); sharp = np.array(sharp); cam = np.array(cam, float)
@@ -162,6 +265,7 @@ def analyze(proxy, fps_out=30):
     from scipy.ndimage import uniform_filter1d
     raw = cam[:, 2] * fps
     jitter = float(np.std((raw - uniform_filter1d(raw, int(0.5 * fps)))[~near]))
+    grammar, speed = _grammar(cam, near, sharp, fps, FW, FH)
     for sh_ in shots:
         a, b = int(sh_['start'] * fps), int(sh_['end'] * fps)
         cc = [c for c in cls[a:b] if c]
@@ -173,8 +277,9 @@ def analyze(proxy, fps_out=30):
     dur = n / fps
     kinds = [t['kind'] for t in trans]
     return {
-        'frames': n, 'fps': fps,
+        'frames': n, 'fps': fps, 'mask_band': list(mask_band) if mask_band else None,
         'shots': shots,
+        'camera_grammar': grammar,
         'transitions': trans,
         'summary': {
             'shot_count': len(shots),
@@ -193,5 +298,6 @@ def analyze(proxy, fps_out=30):
             't': [round(i / fps, 2) for i in range(0, n, 3)],
             'zoom': [round(float(v), 2) for v in z[::3]], 'pan': [round(float(v), 2) for v in pan[::3]],
             'tilt': [round(float(v), 2) for v in tilt[::3]], 'luma': [round(float(v), 1) for v in luma[::3]],
+            'speed_px720': [round(float(v), 1) for v in speed[::3]],
         },
     }

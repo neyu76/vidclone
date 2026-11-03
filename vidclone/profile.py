@@ -3,6 +3,14 @@ import os, glob, numpy as np
 from . import edit, look, speech, audio, text, sheets
 from .common import prepare, save, load
 
+def caption_band(tx):
+    """Rows to leave out of the camera fit: burned-in captions change every word and read as motion.
+    Band = baseline − 4 letter heights … baseline + 1.5 letter heights, padded 3 % (≈ 56–80 % on 9:16 one-word captions)."""
+    c = (tx or {}).get('captions') or {}
+    if (c.get('present_share') or 0) < 0.2 or not c.get('baseline_rel'): return None
+    b, h = c['baseline_rel']['median'], c['height_rel']['median']
+    return (round(max(0.0, b - 4 * h - 0.03), 3), round(min(1.0, b + 1.5 * h + 0.03), 3))
+
 def analyze(video, out, script=None, with_sheets=True):
     work = f'{out}/work'
     info = prepare(video, work)
@@ -10,11 +18,11 @@ def analyze(video, out, script=None, with_sheets=True):
     tr = speech.transcribe(f'{work}/audio16.wav', f'{out}/words.json', sc) if info['acodec'] else {'words': [], 'language': None}
     words = tr['words']
     r = {'source': os.path.abspath(video), 'info': info}
-    print('· edit/camera', flush=True); r['edit'] = edit.analyze(f'{work}/proxy.mp4')
+    print('· text', flush=True); r['text'] = text.analyze(work, words)
+    print('· edit/camera', flush=True); r['edit'] = edit.analyze(f'{work}/proxy.mp4', mask_band=caption_band(r['text']))
     print('· look', flush=True); r['look'] = look.analyze(work)
     print('· speech', flush=True); r['speech'] = speech.analyze(tr, info['dur'])
     print('· audio', flush=True); r['audio'] = audio.analyze(work, words, info['dur']) if info['acodec'] else None
-    print('· text', flush=True); r['text'] = text.analyze(work, words)
     if script: r['script_given'] = sc
     save(r, f'{out}/analysis.json')
     if with_sheets:
@@ -49,6 +57,16 @@ GATES = [
     ('pan_share', 'edit.summary.camera_share.pan', 'abs', 0.15, 'Camera pan share'),
     ('move_run_median_s', 'edit.summary.camera_move_run_s.median', 'rel', 0.5, 'Camera move changes every (s)'),
     ('jitter', 'edit.summary.handheld_jitter', 'rel', 0.6, 'Handheld jitter'),
+    ('cam_hold_share', 'edit.camera_grammar.hold_share', 'max', 0.1,'Camera dead-still frames (< 0.3 px/f)'),
+    ('cam_move_share', 'edit.camera_grammar.move_share', 'abs', 0.12, 'Camera moving frames (≥ 2 px/f)'),
+    ('moves_per_10s', 'edit.camera_grammar.moves_per_10s', 'rel', 0.4, 'Camera moves per 10 s'),
+    ('move_peak_px', 'edit.camera_grammar.move_peak_px720.median', 'rel', 0.5, 'Camera move peak speed (px/f @720)'),
+    ('move_peak_p90_px', 'edit.camera_grammar.move_peak_px720.p90', 'max', 10, 'Fastest moves, p90 (px/f @720)'),
+    ('move_fwhm_f', 'edit.camera_grammar.move_fwhm_f.median', 'min', 2, 'Camera move width at half speed (frames)'),
+    ('move_attack_f', 'edit.camera_grammar.move_attack_f.median', 'min', 2, 'Camera move ease-in (frames)'),
+    ('quiet_push_rate', 'edit.camera_grammar.quiet_push_rate_pct_f.median', 'rel', 0.6, 'Push-in during holds (%/f)'),
+    ('hf_residual_px', 'edit.camera_grammar.hf_residual_px720', 'max', 0.1, 'Hand-held float (px @720)'),
+    ('whips_per_min', 'edit.camera_grammar.whips_per_min', 'max', 0.5, 'Whip pans per minute'),
     ('saturation', 'look.saturation.median', 'rel', 0.15, 'Saturation median'),
     ('brightness', 'look.brightness.median', 'rel', 0.12, 'Brightness median'),
     ('contrast', 'look.contrast.median', 'rel', 0.2, 'Contrast (luma std)'),

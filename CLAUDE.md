@@ -6,7 +6,7 @@ Workflow lives in the plugin skills (`plugins/vidclone/skills/{setup,learn,make,
 | Module | Does |
 |---|---|
 | `common.py` | ffprobe, analysis inputs (30 fps H.264 proxy at 360 px short side, 1 fps PNG stills at 720 px, 48 k stereo + 16 k mono wav) |
-| `edit.py` | shots, transitions, camera motion (Farneback flow → robust similarity fit: zoom %/s, pan/tilt % width/s, roll) |
+| `edit.py` | shots, transitions, camera motion (Farneback flow on the 360 px proxy, caption band masked → robust similarity fit: zoom %/s, pan/tilt % width/s, roll) + `camera_grammar` in px/f @720: hold/drift/move shares, move bursts (peak, attack, release, FWHM, size), push-in during holds, hand-held residual, impact kicks, blurred whips (method from mromidev/claude-animated-shorts `motion.md`, MIT) |
 | `look.py` | colour/light/detail/palette/faces/letterbox from stills |
 | `speech.py` | faster-whisper word timings (`VIDCLONE_WHISPER` = model, default `small`), pace, pauses, hook, closer |
 | `audio.py` | loudness (ffmpeg loudnorm), stereo, bed vs voice, key (Krumhansl), tempo, pyin pitch, onsets |
@@ -24,6 +24,10 @@ Workflow lives in the plugin skills (`plugins/vidclone/skills/{setup,learn,make,
 - Transitions: 0–1 hard cut per sample, dissolves 0.2–0.37 s median (Style Bible: 6–8 frames). Fast whips are sometimes logged as
   dissolves, a fade through a dark frame as a dissolve; flashes are found. Always confirm surprising transitions on the frames
   (`proxy.mp4`, frame numbers in `analysis.json`).
+- Camera grammar (2026-11-03): the caption band (`profile.caption_band`, ≈ 57–79 % of the height for one-word 9:16 captions) is left
+  out of the camera fit — captions change every word and read as motion. Team S01–S04: move peaks 12–20 px/f, attack ≈ release
+  (7–19 f), holds push in 0.15–0.25 %/f, hand-held residual 0.02–0.17 px — in line with the 20-sample toon reference (14 px/f, 10 f/10 f,
+  0.14 %/f, 0.08 px). Hold share reads higher (21–35 % vs 10 %): flat backgrounds give no flow. Kicks are informational (not a gate).
 - Music character (`percussive_ratio`, `beat_regularity`) is unreliable under continuous narration (voice counts as percussive) — not a gate.
 - `bed_under_voice_db` = median level in word gaps minus 75th percentile of speech level; compare it only with the same metric.
 - Faces: OpenCV Haar frontal faces (needs `opencv-python-headless<5`; OpenCV 5 dropped CascadeClassifier).
