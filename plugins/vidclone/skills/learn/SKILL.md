@@ -29,7 +29,19 @@ What it measures (all relative to frame size, so it transfers across resolutions
 - **audio**: LUFS / true peak / LRA, stereo width, music bed level in gaps vs voice, key, tempo, beat regularity, voice pitch, onset/SFX density.
 - **text**: captions (OCR matched to the narration): baseline/height/width/centre, words on screen (histogram), case, fill/edge colours,
   boxed or outlined; other on-screen text (titles, labels, numbers).
+- **motion**: picture changes per minute (cuts + in-place swaps + block moves, camera-tolerant) and local motion inside shots
+  (share of the frame moving, p95 speed, heat maps in `parts/`) — separates "stills + camera" from animated / cut-out styles.
 Check the numbers against the sheets when something looks odd (e.g. a "cut" that is a 4-frame dissolve) and say so in the bible.
+
+## 1b. Watch the motion at 10 fps (1 fps sheets hide it)
+For each sample, three 2.4 s stretches (start, middle, late) as 10 fps strips, kept in a scratch folder (never in the repo):
+```bash
+ffmpeg -ss <t> -t 2.4 -i <sample.mp4> -vf "fps=10,scale=120:-1,tile=12x2" -frames:v 1 strip.jpg
+```
+plus a few full-size stills of close-ups. Write down what moves and how: camera only, pose swaps, keyframed cut-out blocks
+(whole-object moves over a fixed background), part animation (jaws, limbs), entrances / exits, props and side characters as
+separate pieces, faces / eyes and expression changes, and every device (gauges, bubbles, counters, icons, labels, tints,
+ghosts). This list drives section 4b of the bible and the recipe.
 
 ## 2. Merge → gates
 ```bash
@@ -62,6 +74,10 @@ Pick the engine(s) from `docs/ENGINES.md` that can reach this look with the tool
 ```
 Caption fonts: if the measured style needs another face, pick an OFL font (Google Fonts) that matches the letterforms on the sheets, put
 the .ttf in `fonts/` (with its licence) and name it in `style.json`.
+Then write **`styles/<name>/recipe.md`** — how to BUILD this style (template at the end of `docs/STYLE_TEMPLATE.md`): numbers
+to hit, asset pipeline, motion system mapped to `vidclone/layers.py` features, faces / expressions, devices → layer types, voice.
+Everything niche-specific goes there (and in an optional `kit.py` / `examples/`), never into the generic skills. When the
+user corrects a video, add the lesson to the recipe so the next video of this style starts from it.
 
 ## 5. Report
 Show the user: a short summary of the style (5–8 lines), the key numbers, the engine choice and its limits, and where the bible is.

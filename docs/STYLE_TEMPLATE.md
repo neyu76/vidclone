@@ -20,6 +20,12 @@ character design (proportions, faces, expressions, outfits), sets/props, depth o
 Shot sizes and angles, what each beat type looks like, how a sentence becomes an on-screen action, recurring visual devices
 (documents, counters, maps, x-ray, POV, labels), motifs and loops, text-on-screen use.
 
+## 4b. Motion inside the picture
+Picture changes / min and local motion [measured, `motion` gates]; what moves (camera only / pose swaps / keyframed cut-out
+blocks / puppet parts / real footage) [seen at 10 fps]; entrances and exits, part animation (jaws, limbs), faces / eyes and
+how expressions change; every device (gauges, bubbles, counters, icons, labels, ghosts, tints) with the words it lands on.
+How to BUILD all of this goes in `recipe.md` (see below).
+
 ## 5. Camera and edit
 Camera shares (push/pull/pan/tilt/static), move change rate, speeds, shot length median/p10/p90, transitions/min and mix, dissolve length,
 cut rules, rhythm against the narration.
@@ -37,3 +43,10 @@ loudness, stereo/mono, silence use.
 
 ## 9. Avoid
 Things that break the style, and the samples' own content (scripts, characters, logos, music) that must not be copied.
+
+---
+# Companion files in the style folder
+- `recipe.md` — the production recipe: numbers to hit, asset pipeline (which generator, cut-outs, plates, props), the motion
+  system and its rules, faces / expressions, devices → layer types, voice settings, lessons from the user's feedback.
+- `kit.py` (optional) — helpers for writing this style's EDLs (see `styles/animal-toon-eyes/kit.py`).
+- `examples/` (optional) — a reference build the user accepted, our own content only.

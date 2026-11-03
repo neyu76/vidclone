@@ -14,6 +14,20 @@ def _frames(video):
                           '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], capture_output=True, check=True).stdout
     return np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
 
+def motion(video, k=2.0, floor=4.0):
+    """Picture changes per minute: every cut, in-place pose swap or big block move, counted with a detector that tolerates
+    camera motion (a frame counts when its change is > k x the median of its neighbours ±2..9 frames and > floor).
+    Character / pose-swap styles read 30-110 / min; stills with camera moves read 10-20."""
+    F = _frames(video).astype(np.int16)
+    d = np.abs(np.diff(F, axis=0)).mean(axis=(1, 2, 3))
+    hits = []
+    for i in range(len(d)):
+        nb = np.r_[d[max(0, i - 9):max(0, i - 1)], d[i + 2:i + 10]]
+        if len(nb) and d[i] > max(floor, k * float(np.median(nb))) and (not hits or i - hits[-1] > 3): hits.append(i + 1)
+    dur = len(F) / FPS
+    return {'changes': len(hits), 'changes_per_min': round(len(hits) / max(dur, 1e-6) * 60, 1),
+            'median_frame_diff': round(float(np.median(d)), 2) if len(d) else 0.0, 'change_frames': hits[:400]}
+
 def planned_from_edl(E):
     """Frame numbers where a jump is intended: every shot start (±1), every transition span, overlay edges."""
     fps = E.get('fps', 30); k = FPS / fps

@@ -23,40 +23,26 @@ bin/vidclone transcribe voice/take1.mp3 --out words.json --script script.txt
 Measure wpm = words / speech span; outside the gate → regenerate with another speed, or time-stretch (`ffmpeg -af atempo=X`, 0.9–1.15)
 and transcribe again. Words must equal the script (fix ASR spellings in `words.json` against `script.txt`).
 
-## 3a. Pose script first (for character styles such as animal-toon-eyes)
-Measure the samples' **picture changes per minute** (`frames.check` with no planned set: every cut or in-place swap counts):
-animal-toon-eyes samples 29–101 / min (median ~51); stills-with-puppet-wiggle only reaches 15–20. So the action is carried by
-**pose drawings**, not by wiggle:
-- Write, per sentence, the **poses** the character goes through — one new pose or framing every 0.6–1.5 s (stand → sit → paw on chin →
-  close-up worried → squashed by a patting hand …). Each pose is its own picture, chained from the character's base for identity.
-- **2-frame loops** for repeated actions (eating, chewing, rubbing a forehead, paddling): two pictures swapped at 2–4 Hz.
-- **Entrances and exits**: characters rise from behind foreground plants, slide in from the edge, dive in; hands slide in and act
-  (pat, feed, poke) — cut-out layer with keys, a foreground layer (ferns, grass, leaf) in front of it.
-- **Several characters** in a frame when the narration lists animals; a human stand-in (real body, cartoon head) for "scientists / you".
-- Per pose 1–2 small events on the words: eye change, icon pop, thought bubble, prop slide, typed note, squash on impact.
-- **Keyframed blocks, not point wiggle** (user correction 2026-11-03, confirmed at 10 fps on S01): every pose picture is cut out
-  (BiRefNet, full-frame and aligned) and placed over ONE clean plate per scene ("remove the animal" edit); the block itself is
-  keyframed — walk in from the edge with `hop` bounces and shrink to its spot, drop onto its seat with a landing squash, snap in
-  with `ease: back`, lean / tilt about a `pivot`, slide in from the side the body is cut off on, rise from the bottom. Props and
-  foreground plants (ferns, leaves) are blocks with their own paths, in front of the character. Eyes ride on the block (`parent`).
-  Reference build: `REMAKE-S01-panda/gen_edl_v3.py`. Puppet warp only as a last resort; never as the main motion.
-- Don't skimp (user correction): draw every prop the sample has as its own block (food held to the mouth, bitten food,
-  chewed bits, grass tufts at the feet and in the mouth, bushes in front of people); side characters are separate blocks
-  with toon eyes and entrances (rebuild group shots over an empty plate); eating = the jaw lifted off the block (`parts`,
-  dark mouth behind) and chewing; profile = ONE eye (`single`); an expression change on almost every beat (brows, lids,
-  `low`, `mood: happy|shock`, `pupil`); plates slightly blurred; `shadow` under standing blocks; eyes ~0.58 x eye spacing
-  (panda), set `lid` for dark-furred animals. Read positions off gridded crops (picture fractions), never by guess.
-  Cover cut-out defects (broken legs, halo) with a foreground prop.
-- Devices from the other samples (all in `vidclone/layers.py`): `meter` battery that drains with effort, cutout `fill`
-  (silhouette energy gauge), `bubble` thought/speech with words that change (`texts`), `text` + `texts` for calendars and
-  counters, `tint` for night → day / flashback (list it LAST to wash the whole frame), keys `alpha` + icon `halo` for ghosts,
-  cutout `glow` for the injured / chosen one, icons skull / heart / clock / fire / zap / note on their words, line-ups of
-  characters entering one by one with labels. Use `layers.shift_times(layers, dt)` to turn absolute script times into shot times.
-- Keep the camera calm while the pictures change (S01: camera moving on ~48 % of frames): big push/pull on every pose swap
-  hides the swaps and doubles the frame difference. Small travel per shot, the pose change carries the beat.
-QA: picture changes / min inside the samples' range, plus `vidclone.parts` local motion. Count changes with a detector that
-ignores camera motion (frame diff > 2× the median of its ±2–9 neighbours, ≥ 4): REMAKE-S01-panda 111 / min vs S01 98 / min,
-local motion 79 % active / p95 6.0 px/f (samples 65–100 %, 6–11) — the pose-script reference build.
+## 3a. Style recipe and motion
+Niche rules live in the style folder, not here. If `styles/<name>/recipe.md` exists it is this style's production recipe
+(assets, motion system, numbers, devices, voice) — follow it, use its `kit.py` helpers and `examples/` reference build.
+Whatever the niche, match the **motion**, not only the edit. The gates `picture_changes_per_min`, `local_motion_share`
+and `local_motion_p95` (measured by `analyze`, checked by `qa`) tell what kind of video it is:
+- Few changes, little local motion → stills / footage with camera moves; the shot list and the camera carry it.
+- Many changes / high local motion → the action is inside the pictures. Plan it before any image is made:
+  a **pose script** (a new pose or framing every ~0.6–1.5 s, each pose its own picture chained from the character's base for
+  identity; 2-frame loops for repeated actions), then **keyframed cut-out blocks**: each character / prop cut out and placed
+  over one clean plate per scene, the block keyframed as a whole (walk in with `hop`, land with a squash, snap in with
+  `ease: back`, lean about a `pivot`, slide in from the side it is cut off on). Moving parts (jaws, paws) are `parts` lifted
+  off the block. Side characters and props are blocks of their own. Faces / eyes / expressions on the words.
+  Puppet warp only as a last resort, never as the main motion.
+- Keep the camera calm while pictures change — a big move on every swap hides the swaps.
+- Study the samples at 10 fps (not 1 fps sheets) for every device they use, and add it to the recipe.
+Toolbox (`vidclone/layers.py`, documented in its docstring): cut-out blocks (`keys` with ease / hop / alpha, `pose`,
+`parts`, `shadow`, `fill` silhouette gauge, `glow`), cartoon `eyes` (single profile eye, brows, lids, moods), `png` props,
+`icon`s, `text` with changing `texts`, `bubble`, `meter`, `tint`, `lens`, `warp`. Write layer times in script seconds and
+convert with `layers.shift_times(layers, shot_start)`. Read positions off gridded crops (picture fractions), never guess;
+cover cut-out defects with a foreground prop.
 
 ## 3. Shot list (`shots.md`)
 One row per beat from the bible's shot grammar, placed on the word timings:
@@ -70,9 +56,9 @@ on the same image if the samples loop), text overlays where the samples use them
 - **stills-motion**: one image per shot (or per 2–3 shots with different framings via `focus`/`from`/`to`), generated with
   `style.json.image_prompt` + the shot's subject; consistent characters = same description block + reference image every time. Vertical
   canvas, leave room for camera moves (generate ≥ 1.2× the frame).
-- **Animated layers** (when the bible's samples animate inside shots — check them at 6 fps, not 1 fps): give shots `layers`
-  (see `vidclone/layers.py`): procedural eyes over the animal's real eyes (positions via `gemini.find_points` or read off the picture),
-  props generated on pure green and cut with `python -m vidclone.cutout`, icons, bounce text; key expressions and pops on the words.
+- **Animated layers** (when the samples animate inside shots — see 3a): give shots `layers` (`vidclone/layers.py`): cut-out
+  blocks over clean plates, characters' eyes (positions from gridded crops or `gemini.find_points`), props generated on pure green
+  (or white when the prop is green) and cut with `python -m vidclone.cutout [--white]`, icons, text; key expressions and pops on the words.
 - **ai-video**: one clip per shot from `video_prompt` (+ start image from stills-motion for consistency); trim with `in`/`dur`.
 - **footage**: the user's clips; cut on the word timings, punch-in (`push` with amount 0.1–0.25 over ≤ 0.3 s) where the style does.
 - **3d-toon**: hand the script, shot list and gates to the `rickclips` plugin (`/rickclips:episode`), then QA here.

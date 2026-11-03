@@ -48,7 +48,7 @@ def generate(prompt, out, refs=(), aspect='9:16', size='2K', model=None):
     raise SystemExit(f'no image in Gemini reply: {json.dumps(r)[:400]}')
 
 def find_points(image, what, max_side=768):
-    """Bounding boxes of `what` (e.g. 'each eye of the animal') as 0..1 boxes; Gemini box_2d is [ymin, xmin, ymax, xmax] /1000.
+    """Bounding boxes of `what` (e.g. 'each eye of the character') as 0..1 boxes; Gemini box_2d is [ymin, xmin, ymax, xmax] /1000.
     The picture is sent downscaled (positions are relative), which keeps free-tier calls fast."""
     import io, tempfile
     from PIL import Image

@@ -1,6 +1,8 @@
 # vidclone — notes for Claude
 
 Workflow lives in the plugin skills (`plugins/vidclone/skills/{setup,learn,make,qa}`); this file is the code map and the known limits.
+Keep the skills and `vidclone/` niche-neutral. Everything specific to one style lives in `styles/<name>/`: `style.md` (bible),
+`style.json`, `gates.json`, `recipe.md` (how to build it), optional `kit.py` helpers and `examples/` reference builds.
 
 ## Code (`vidclone/`, Python 3.10+, venv `~/.vidclone/venv`, run via `bin/vidclone`)
 | Module | Does |
@@ -14,7 +16,7 @@ Workflow lives in the plugin skills (`plugins/vidclone/skills/{setup,learn,make,
 | `sheets.py` | contact sheets (per second, per shot, sample-vs-new) |
 | `profile.py` | analyze one video; merge samples → profile + gates (`GATES` table: path, rule, tolerance) |
 | `qa.py` | analyze a video, compare to gates, frame check, report.md/qa.json + compare sheet |
-| `frames.py` | every frame at 30 fps: black / unplanned white / frozen holds / pops, planned jumps from the EDL, problems.jpg (idea from mromidev/claude-animated-shorts, MIT) |
+| `frames.py` | every frame at 30 fps: black / unplanned white / frozen holds / pops, planned jumps from the EDL, problems.jpg (idea from mromidev/claude-animated-shorts, MIT); `motion()` = picture changes / min, camera-tolerant (gated via `analyze` → `motion`) |
 | `assemble.py` | EDL → mp4: OpenCV compositor (moves, creep on held shots, impact kicks, transitions, overlays) → ffmpeg (grade, ASS captions, mux) |
 | `layers.py` | animated layers on a shot's picture (before the camera move): procedural cartoon eyes (looks, brows, lids, blinks, single profile eye, happy / shock moods, lower lid), PNG props / icons / lens / bounce text with pop, slide, bob, wobble, keyframes (per-key ease, hop, alpha); cut-out blocks with jaw `parts`, contact `shadow`, silhouette `fill`, `glow`; `meter`, `bubble`, `tint`, changing `texts`; `shift_times` |
 | `cutout.py` | green-screen prop → trimmed RGBA PNG (soft edge, despill); `--white` for green props shot on white |

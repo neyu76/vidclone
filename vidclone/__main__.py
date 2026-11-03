@@ -6,6 +6,7 @@
   vidclone assemble <edl.json>
   vidclone captions <words.json> --style styles/<name> --w 1080 --h 1920 --out captions.ass
   vidclone transcribe <audio> --out words.json [--script script.txt]
+  vidclone motion  styles/<name>/samples/S01      # (re)measure picture changes + local motion into analysis.json
 """
 import argparse, json, os, sys
 
@@ -21,7 +22,17 @@ def main():
     c.add_argument('--h', type=int, default=1920); c.add_argument('--out', required=True); c.add_argument('--script')
     t = sub.add_parser('transcribe'); t.add_argument('audio'); t.add_argument('--out', required=True); t.add_argument('--script')
     t.add_argument('--lang', help="force the language, e.g. en (recommended with --script)")
+    mo = sub.add_parser('motion'); mo.add_argument('sample_dirs', nargs='+')
     x = ap.parse_args()
+    if x.cmd == 'motion':   # back-fill / refresh the motion block of already analysed samples
+        from . import profile
+        from .common import load, save
+        for d in x.sample_dirs:
+            d = d.rstrip('/'); r = load(f'{d}/analysis.json')
+            r['motion'] = profile.motion(f'{d}/work/proxy.mp4', f'{d}/analysis.json', f'{d}/parts', profile.caption_band(r.get('text')))
+            save(r, f'{d}/analysis.json')
+            print(d, json.dumps(r['motion']))
+        return
     if x.cmd == 'analyze':
         from . import profile
         sid = x.id or os.path.splitext(os.path.basename(x.video))[0]

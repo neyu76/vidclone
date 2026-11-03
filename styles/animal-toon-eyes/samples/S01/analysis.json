@@ -5025,5 +5025,17 @@
   "styles/animal-toon-eyes/samples/S01/sheets/shots_02.jpg",
   "styles/animal-toon-eyes/samples/S01/sheets/shots_03.jpg",
   "styles/animal-toon-eyes/samples/S01/sheets/shots_04.jpg"
- ]
+ ],
+ "motion": {
+  "changes": 68,
+  "changes_per_min": 81.5,
+  "median_frame_diff": 4.98,
+  "local": {
+   "shots": 25,
+   "shots_with_local_motion": 25,
+   "share_with_local_motion": 1.0,
+   "active_share_median": 0.6891,
+   "local_p95_median": 7.95
+  }
+ }
 }

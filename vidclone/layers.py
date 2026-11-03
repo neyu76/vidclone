@@ -578,7 +578,7 @@ def _apply_parts(spr, parts, t):
     return spr if out is None else out
 
 def _silhouette(spr, F, t):
-    """The block as a flat silhouette (energy gauge in the animal's shape): "color" body, "level_color" filled from the
+    """The block as a flat silhouette (energy gauge in the character's shape): "color" body, "level_color" filled from the
     bottom up to "levels" (0..1 of the opaque height)."""
     s = spr.astype(np.float32).copy(); a = s[..., 3]
     ys = np.where(a.max(1) > 20)[0]

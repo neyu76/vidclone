@@ -25,10 +25,26 @@ def analyze(video, out, script=None, with_sheets=True):
     print('· audio', flush=True); r['audio'] = audio.analyze(work, words, info['dur']) if info['acodec'] else None
     if script: r['script_given'] = sc
     save(r, f'{out}/analysis.json')
+    print('· motion', flush=True)
+    r['motion'] = motion(f'{work}/proxy.mp4', f'{out}/analysis.json', f'{out}/parts', caption_band(r['text']))
+    save(r, f'{out}/analysis.json')
     if with_sheets:
         r['sheets'] = sheets.seconds(work, f'{out}/sheets') + sheets.shots(video, r['edit']['shots'], work, f'{out}/sheets')
         save(r, f'{out}/analysis.json')
     return r
+
+def motion(proxy, analysis_path, parts_out, band=None):
+    """How much happens INSIDE the picture: picture changes / min (cuts + pose swaps + block moves) and local motion
+    (flow minus the camera fit: share of the frame that moves, p95 speed). Separates "stills + camera" styles from
+    animated / cut-out / pose-swap styles in any niche."""
+    from . import frames, parts
+    m = frames.motion(proxy); m.pop('change_frames', None)
+    try:
+        lp = parts.analyze(proxy, analysis_path, parts_out, band or (1.0, 1.0))   # no captions -> keep every row
+        m['local'] = {k: v for k, v in lp.items() if not isinstance(v, (list, dict))}
+    except Exception as e:   # local motion is optional (very short or static videos)
+        m['local'] = {'error': str(e)[:200]}
+    return m
 
 # ---------------------------------------------------------------- merge + gates
 def _get(d, path):
@@ -67,6 +83,9 @@ GATES = [
     ('quiet_push_rate', 'edit.camera_grammar.quiet_push_rate_pct_f.median', 'rel', 0.6, 'Push-in during holds (%/f)'),
     ('hf_residual_px', 'edit.camera_grammar.hf_residual_px720', 'max', 0.1, 'Hand-held float (px @720)'),
     ('whips_per_min', 'edit.camera_grammar.whips_per_min', 'max', 0.5, 'Whip pans per minute'),
+    ('picture_changes_per_min', 'motion.changes_per_min', 'rel', 0.35, 'Picture changes per minute (cuts + swaps + block moves)'),
+    ('local_motion_share', 'motion.local.active_share_median', 'abs', 0.2, 'Share of the frame moving inside shots'),
+    ('local_motion_p95', 'motion.local.local_p95_median', 'rel', 0.8, 'Local motion speed p95 (px/f @720)'),
     ('saturation', 'look.saturation.median', 'rel', 0.15, 'Saturation median'),
     ('brightness', 'look.brightness.median', 'rel', 0.12, 'Brightness median'),
     ('contrast', 'look.contrast.median', 'rel', 0.2, 'Contrast (luma std)'),

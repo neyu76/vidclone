@@ -170,6 +170,24 @@
    "max": 6.58,
    "label": "Whip pans per minute"
   },
+  "picture_changes_per_min": {
+   "median": 54.3,
+   "min": 47.8,
+   "max": 81.5,
+   "label": "Picture changes per minute (cuts + swaps + block moves)"
+  },
+  "local_motion_share": {
+   "median": 0.8188,
+   "min": 0.6891,
+   "max": 1.0,
+   "label": "Share of the frame moving inside shots"
+  },
+  "local_motion_p95": {
+   "median": 8.74,
+   "min": 5.05,
+   "max": 11.32,
+   "label": "Local motion speed p95 (px/f @720)"
+  },
   "saturation": {
    "median": 69.0,
    "min": 51.0,

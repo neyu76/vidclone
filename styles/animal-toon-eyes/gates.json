@@ -243,6 +243,33 @@
   "on": true
  },
  {
+  "key": "picture_changes_per_min",
+  "path": "motion.changes_per_min",
+  "label": "Picture changes per minute (cuts + swaps + block moves)",
+  "target": 54.3,
+  "lo": 31.07,
+  "hi": 110.025,
+  "on": true
+ },
+ {
+  "key": "local_motion_share",
+  "path": "motion.local.active_share_median",
+  "label": "Share of the frame moving inside shots",
+  "target": 0.8188,
+  "lo": 0.4891,
+  "hi": 1.0,
+  "on": true
+ },
+ {
+  "key": "local_motion_p95",
+  "path": "motion.local.local_p95_median",
+  "label": "Local motion speed p95 (px/f @720)",
+  "target": 8.74,
+  "lo": 1.01,
+  "hi": 20.376,
+  "on": true
+ },
+ {
   "key": "saturation",
   "path": "look.saturation.median",
   "label": "Saturation median",

@@ -65,8 +65,9 @@ The samples are not "stills with camera moves". Something animates in every shot
   separate cut-out over a still background plate: the whole silhouette breathes / sways (S05 koala), parts move on their own —
   mouth chewing and bamboo moving in the paws (S01), head bob/tilt and tongue swap (S02), whole animals slide in from the frame edge
   (S04 elephants), pose swaps (stand → sit).
-- **Pose drawings carry the action** [measured 2026-11-03, `frames.check` with no planned set]: picture changes per minute
-  S01 101, S05 61, S03 51, S02 38, S04 29 — our gecko v3 16, otter 20. S01 0–20 s, frame by frame: stand → sit (1.2 s) → paw on chin
+- **Pose drawings carry the action** [measured, `frames.motion` → gate `picture_changes_per_min`]: picture changes per minute
+  S01 82, S05 56, S03 54, S02 52, S04 48 (S01's first 20 s: 98) — stills + camera (our gecko v3, otter) only 15–20.
+  How to build it: `recipe.md` (+ `kit.py`, `examples/`). S01 0–20 s, frame by frame: stand → sit (1.2 s) → paw on chin
   (1.8) → face close-up + bird flying across (2.2) → hand pats head, panda squashes, sad eyes (2.8) → hand slides bamboo to mouth (3.8)
   → ranger rises from behind ferns (4.8) → binoculars up (5.6) → eating loop of 2 pictures (6.4–8.2) → word-by-word headline (8.4) →
   ranger writing (9.4) → pull-out to full body (11.0) → group of deer/ranger/hippo/frog (11.4) → ranger rubbing forehead loop + scribble

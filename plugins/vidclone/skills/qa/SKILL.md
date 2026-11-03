@@ -15,9 +15,12 @@ bin/vidclone qa <video.mp4> --style styles/<name> [--edl edl.json]     # exit co
 problem frame between its neighbours. With `--edl`, shot starts, transitions, overlay edges and kicks count as planned; without it,
 the measured transitions do (so in-place swaps the analyser missed show up as pops — check them by eye).
 
-**Local motion** (when the samples animate characters): `python -m vidclone.parts <work/proxy.mp4> <analysis.json> <out>` on a
-sample and on the new video — compare `active_share_median` and `local_p95_median` and read the `parts_*.jpg` heat maps. Stills with
-camera moves read ~25 % / ~1.5 px/f; cut-out puppet styles read 65–100 % / 6–11 px/f.
+**Motion** (every video): `analyze` records `motion` — picture changes / min (cuts + in-place swaps + block moves, counted
+with a detector that tolerates camera motion) and local motion (`parts`: flow minus the camera fit → share of the frame moving,
+p95 speed, heat maps in `<out>/parts/parts_*.jpg`). They are gated like everything else (`picture_changes_per_min`,
+`local_motion_share`, `local_motion_p95`). As a guide: stills with camera moves read 10–20 changes / min, ~25 %, ~1.5 px/f;
+pose-swap / cut-out character styles 30–110 / min, 65–100 %, 6–16 px/f. Older sample folders: `bin/vidclone motion
+styles/<name>/samples/*` then `merge` to add the gates. Fast block snaps can read as camera moves (camera ease-in gate) — check by eye.
 
 **Verifier round** (after the numbers pass, or when they cannot judge the look): give one fresh agent (Agent tool, no prior context)
 `sheets/compare.jpg`, 2–3 `sheets/sec_*.jpg` of the new video, the matching sample sheets and `style.md`. Ask for ≤ 200 words:
