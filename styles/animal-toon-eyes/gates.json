@@ -58,8 +58,8 @@
   "path": "edit.summary.shot_len.median",
   "label": "Median shot length (s)",
   "target": 1.5,
-  "lo": 0.8665,
-  "hi": 2.2505,
+  "lo": 0.8557,
+  "hi": 2.7905,
   "on": true
  },
  {
@@ -68,14 +68,14 @@
   "label": "Transitions per minute",
   "target": 31.64,
   "lo": 13.332,
-  "hi": 51.142,
+  "hi": 53.914,
   "on": true
  },
  {
   "key": "cuts",
   "path": "edit.summary.transition_mix.cut",
   "label": "Hard cuts (count)",
-  "target": 14.0,
+  "target": 13.0,
   "lo": null,
   "hi": 25,
   "on": true
@@ -84,7 +84,7 @@
   "key": "dissolve_dur_s",
   "path": "edit.summary.dissolve_dur.median",
   "label": "Dissolve length (s)",
-  "target": 0.45,
+  "target": 0.433,
   "lo": 0.1965,
   "hi": 0.753,
   "on": true
@@ -102,9 +102,9 @@
   "key": "static_share",
   "path": "edit.summary.camera_share.static",
   "label": "Camera static share",
-  "target": 0.094,
+  "target": 0.119,
   "lo": 0.0,
-  "hi": 0.652,
+  "hi": 0.765,
   "on": true
  },
  {
@@ -113,7 +113,7 @@
   "label": "Camera push-in share",
   "target": 0.339,
   "lo": 0.0,
-  "hi": 0.961,
+  "hi": 0.969,
   "on": true
  },
  {
@@ -121,8 +121,8 @@
   "path": "edit.summary.camera_share.pull",
   "label": "Camera pull-out share",
   "target": 0.281,
-  "lo": 0.034,
-  "hi": 0.474,
+  "lo": 0.023,
+  "hi": 0.471,
   "on": true
  },
  {
@@ -131,25 +131,115 @@
   "label": "Camera pan share",
   "target": 0.04,
   "lo": 0.0,
-  "hi": 0.509,
+  "hi": 0.474,
   "on": true
  },
  {
   "key": "move_run_median_s",
   "path": "edit.summary.camera_move_run_s.median",
   "label": "Camera move changes every (s)",
-  "target": 0.5333,
-  "lo": 0.1916,
-  "hi": 1.0,
+  "target": 0.6333,
+  "lo": 0.2167,
+  "hi": 1.1501,
   "on": true
  },
  {
   "key": "jitter",
   "path": "edit.summary.handheld_jitter",
   "label": "Handheld jitter",
-  "target": 6.984,
-  "lo": 2.3824,
-  "hi": 13.6064,
+  "target": 6.284,
+  "lo": 2.1396,
+  "hi": 12.1264,
+  "on": true
+ },
+ {
+  "key": "cam_hold_share",
+  "path": "edit.camera_grammar.hold_share",
+  "label": "Camera dead-still frames (< 0.3 px/f)",
+  "target": 0.086,
+  "lo": null,
+  "hi": 0.674,
+  "on": true
+ },
+ {
+  "key": "cam_move_share",
+  "path": "edit.camera_grammar.move_share",
+  "label": "Camera moving frames (≥ 2 px/f)",
+  "target": 0.484,
+  "lo": 0.129,
+  "hi": 0.888,
+  "on": true
+ },
+ {
+  "key": "moves_per_10s",
+  "path": "edit.camera_grammar.moves_per_10s",
+  "label": "Camera moves per 10 s",
+  "target": 4.93,
+  "lo": 1.086,
+  "hi": 12.894,
+  "on": true
+ },
+ {
+  "key": "move_peak_px",
+  "path": "edit.camera_grammar.move_peak_px720.median",
+  "label": "Camera move peak speed (px/f @720)",
+  "target": 17.05,
+  "lo": 3.85,
+  "hi": 37.8,
+  "on": true
+ },
+ {
+  "key": "move_peak_p90_px",
+  "path": "edit.camera_grammar.move_peak_px720.p90",
+  "label": "Fastest moves, p90 (px/f @720)",
+  "target": 28.72,
+  "lo": null,
+  "hi": 53.11,
+  "on": true
+ },
+ {
+  "key": "move_fwhm_f",
+  "path": "edit.camera_grammar.move_fwhm_f.median",
+  "label": "Camera move width at half speed (frames)",
+  "target": 7.5,
+  "lo": 3.0,
+  "hi": null,
+  "on": true
+ },
+ {
+  "key": "move_attack_f",
+  "path": "edit.camera_grammar.move_attack_f.median",
+  "label": "Camera move ease-in (frames)",
+  "target": 6.0,
+  "lo": 2.5,
+  "hi": null,
+  "on": true
+ },
+ {
+  "key": "quiet_push_rate",
+  "path": "edit.camera_grammar.quiet_push_rate_pct_f.median",
+  "label": "Push-in during holds (%/f)",
+  "target": 0.2254,
+  "lo": 0.0681,
+  "hi": 0.6434,
+  "on": true
+ },
+ {
+  "key": "hf_residual_px",
+  "path": "edit.camera_grammar.hf_residual_px720",
+  "label": "Hand-held float (px @720)",
+  "target": 0.052,
+  "lo": null,
+  "hi": 0.315,
+  "on": true
+ },
+ {
+  "key": "whips_per_min",
+  "path": "edit.camera_grammar.whips_per_min",
+  "label": "Whip pans per minute",
+  "target": 0.0,
+  "lo": null,
+  "hi": 7.08,
   "on": true
  },
  {
@@ -225,7 +315,7 @@
   "label": "Caption baseline (y / height)",
   "target": 0.7219,
   "lo": 0.4891,
-  "hi": 0.7527,
+  "hi": 0.7519,
   "on": true
  },
  {

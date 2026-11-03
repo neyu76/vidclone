@@ -46,24 +46,24 @@
   },
   "shot_len_median_s": {
    "median": 1.5,
-   "min": 1.333,
-   "max": 1.667,
+   "min": 1.3165,
+   "max": 2.067,
    "label": "Median shot length (s)"
   },
   "transitions_per_min": {
    "median": 31.64,
    "min": 22.22,
-   "max": 36.53,
+   "max": 38.51,
    "label": "Transitions per minute"
   },
   "cuts": {
-   "median": 14.0,
+   "median": 13.0,
    "min": 3,
    "max": 24,
    "label": "Hard cuts (count)"
   },
   "dissolve_dur_s": {
-   "median": 0.45,
+   "median": 0.433,
    "min": 0.3165,
    "max": 0.633,
    "label": "Dissolve length (s)"
@@ -75,40 +75,100 @@
    "label": "Hard cuts in last 3 s"
   },
   "static_share": {
-   "median": 0.094,
+   "median": 0.119,
    "min": 0.004,
-   "max": 0.532,
+   "max": 0.645,
    "label": "Camera static share"
   },
   "push_share": {
    "median": 0.339,
-   "min": 0.144,
-   "max": 0.811,
+   "min": 0.079,
+   "max": 0.819,
    "label": "Camera push-in share"
   },
   "pull_share": {
    "median": 0.281,
-   "min": 0.154,
-   "max": 0.354,
+   "min": 0.143,
+   "max": 0.351,
    "label": "Camera pull-out share"
   },
   "pan_share": {
    "median": 0.04,
-   "min": 0.031,
-   "max": 0.359,
+   "min": 0.03,
+   "max": 0.324,
    "label": "Camera pan share"
   },
   "move_run_median_s": {
-   "median": 0.5333,
-   "min": 0.3833,
-   "max": 0.6667,
+   "median": 0.6333,
+   "min": 0.4333,
+   "max": 0.7667,
    "label": "Camera move changes every (s)"
   },
   "jitter": {
-   "median": 6.984,
-   "min": 5.956,
-   "max": 8.504,
+   "median": 6.284,
+   "min": 5.349,
+   "max": 7.579,
    "label": "Handheld jitter"
+  },
+  "cam_hold_share": {
+   "median": 0.086,
+   "min": 0.0,
+   "max": 0.574,
+   "label": "Camera dead-still frames (< 0.3 px/f)"
+  },
+  "cam_move_share": {
+   "median": 0.484,
+   "min": 0.249,
+   "max": 0.768,
+   "label": "Camera moving frames (≥ 2 px/f)"
+  },
+  "moves_per_10s": {
+   "median": 4.93,
+   "min": 1.81,
+   "max": 9.21,
+   "label": "Camera moves per 10 s"
+  },
+  "move_peak_px": {
+   "median": 17.05,
+   "min": 7.7,
+   "max": 25.2,
+   "label": "Camera move peak speed (px/f @720)"
+  },
+  "move_peak_p90_px": {
+   "median": 28.72,
+   "min": 13.06,
+   "max": 43.11,
+   "label": "Fastest moves, p90 (px/f @720)"
+  },
+  "move_fwhm_f": {
+   "median": 7.5,
+   "min": 5.0,
+   "max": 23.5,
+   "label": "Camera move width at half speed (frames)"
+  },
+  "move_attack_f": {
+   "median": 6.0,
+   "min": 4.5,
+   "max": 17.0,
+   "label": "Camera move ease-in (frames)"
+  },
+  "quiet_push_rate": {
+   "median": 0.2254,
+   "min": 0.1703,
+   "max": 0.4021,
+   "label": "Push-in during holds (%/f)"
+  },
+  "hf_residual_px": {
+   "median": 0.052,
+   "min": 0.01,
+   "max": 0.215,
+   "label": "Hand-held float (px @720)"
+  },
+  "whips_per_min": {
+   "median": 0.0,
+   "min": 0.0,
+   "max": 6.58,
+   "label": "Whip pans per minute"
   },
   "saturation": {
    "median": 69.0,
@@ -147,7 +207,7 @@
    "label": "Frames with a face"
   },
   "caption_share": {
-   "median": 0.28,
+   "median": 0.36,
    "min": 0.078,
    "max": 0.918,
    "label": "Seconds with captions"
@@ -155,7 +215,7 @@
   "caption_baseline": {
    "median": 0.7219,
    "min": 0.5191,
-   "max": 0.7227,
+   "max": 0.7219,
    "label": "Caption baseline (y / height)"
   },
   "caption_height": {
@@ -241,28 +301,28 @@
   "transition_mix": [
    {
     "cut": 13,
-    "dissolve": 15,
+    "dissolve": 14,
     "flash": 0,
     "fade": 0,
     "whip": 0
    },
    {
     "cut": 15,
-    "dissolve": 8,
+    "dissolve": 9,
     "flash": 0,
-    "fade": 1,
+    "fade": 0,
     "whip": 2
    },
    {
     "cut": 24,
-    "dissolve": 13,
+    "dissolve": 15,
     "flash": 0,
     "fade": 0,
     "whip": 0
    },
    {
-    "cut": 14,
-    "dissolve": 8,
+    "cut": 13,
+    "dissolve": 7,
     "flash": 0,
     "fade": 0,
     "whip": 2
@@ -277,51 +337,51 @@
   ],
   "camera_share": [
    {
-    "static": 0.094,
-    "push": 0.39,
-    "pull": 0.354,
-    "pan": 0.033,
-    "tilt": 0.129,
+    "static": 0.119,
+    "push": 0.4,
+    "pull": 0.351,
+    "pan": 0.03,
+    "tilt": 0.1,
     "roll": 0.0
    },
    {
-    "static": 0.019,
-    "push": 0.301,
-    "pull": 0.268,
-    "pan": 0.359,
-    "tilt": 0.042,
-    "roll": 0.012
-   },
-   {
-    "static": 0.167,
-    "push": 0.339,
-    "pull": 0.32,
-    "pan": 0.17,
-    "tilt": 0.004,
-    "roll": 0.0
-   },
-   {
-    "static": 0.532,
-    "push": 0.144,
+    "static": 0.117,
+    "push": 0.256,
     "pull": 0.281,
+    "pan": 0.324,
+    "tilt": 0.021,
+    "roll": 0.0
+   },
+   {
+    "static": 0.291,
+    "push": 0.339,
+    "pull": 0.281,
+    "pan": 0.088,
+    "tilt": 0.001,
+    "roll": 0.0
+   },
+   {
+    "static": 0.645,
+    "push": 0.079,
+    "pull": 0.236,
     "pan": 0.04,
-    "tilt": 0.002,
+    "tilt": 0.0,
     "roll": 0.0
    },
    {
     "static": 0.004,
-    "push": 0.811,
-    "pull": 0.154,
+    "push": 0.819,
+    "pull": 0.143,
     "pan": 0.031,
-    "tilt": 0.0,
+    "tilt": 0.004,
     "roll": 0.0
    }
   ],
   "dissolve_dur_s": [
-   0.333,
    0.3165,
-   0.567,
-   0.45,
+   0.433,
+   0.533,
+   0.367,
    0.633
   ],
   "palette": [
@@ -458,22 +518,21 @@
   ],
   "caption_style": [
    {
-    "fill": "#e2d0b3",
+    "fill": "#4a4542",
     "edge": "#000000",
     "boxed": false,
-    "uppercase_share": 0.5,
+    "uppercase_share": 0.0,
     "words_hist": {
      "1": 1.0
     }
    },
    {
-    "fill": "#9a7d57",
+    "fill": "#ff780b",
     "edge": "#000000",
     "boxed": false,
     "uppercase_share": 1.0,
     "words_hist": {
-     "1": 0.933,
-     "2": 0.067
+     "1": 1.0
     }
    },
    {
@@ -497,8 +556,8 @@
     }
    },
    {
-    "fill": "#e87e33",
-    "edge": "#000000",
+    "fill": "#92886e",
+    "edge": "#665e4a",
     "boxed": false,
     "uppercase_share": 0.5,
     "words_hist": {
