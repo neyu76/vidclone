@@ -1,7 +1,7 @@
 {
  "engine": "stills-motion",
  "canvas": {"w": 1080, "h": 1920, "fps": 30},
- "voice": {"tool": "elevenlabs", "voice_id": null, "model": null, "speed": 1.15,
+ "voice": {"tool": "elevenlabs", "voice_id": "UgBBYS2sOqTuMpoF3BR0", "model": null, "speed": 1.15,
            "notes": "adult male, ~110-135 Hz, casual US 'buddy explaining a fun fact' tone, fast (230-290 wpm), almost no pauses (longest 0.3 s), slightly amused on the myth line, deadpan on the twist"},
  "image_prompt": "Photorealistic wildlife photo, vertical 9:16, {subject}, centred full-body, natural habitat background with soft depth of field, even daylight, high detail fur, the animal faces the camera; then add flat 2D cartoon overlay eyes: big white circles with thick black outline and black pupils, thick black cartoon eyebrows, expression {expression}",
  "image_edit_prompts": {
@@ -20,6 +20,9 @@
  "captions": {"font": "Anton", "bold": 0,
               "upper": true, "pop": true, "fill": "#ff8a1e", "edge": "#2a1200", "outline_rel": 0.15, "shadow_rel": 0.06,
               "words_hist": {"1": 1.0}, "max_hold": 0.8, "strip_punct": true},
+ "creep": 0.03,
+ "kicks": {"amp": 0.01, "frames": 7, "use": "on impact / surprise words (NOPE, crash, slap, a prop slamming in), 1-3 per video"},
+ "frame_check": {"max_frozen_s": 0.4},
  "edit": {"default_transition": {"kind": "dissolve", "dur": 0.4},
           "transition_mix": {"cut": 0.55, "dissolve": 0.4, "whip": 0.05},
           "moves": {"push": 0.35, "pull": 0.28, "pan": 0.12, "tilt": 0.08, "static": 0.17},

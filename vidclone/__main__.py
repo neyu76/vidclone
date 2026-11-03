@@ -2,7 +2,7 @@
 
   vidclone analyze <video> --style styles/<name> [--id S01] [--script script.txt]
   vidclone merge   styles/<name>
-  vidclone qa      <video> --style styles/<name>
+  vidclone qa      <video> --style styles/<name> [--edl edl.json]
   vidclone assemble <edl.json>
   vidclone captions <words.json> --style styles/<name> --w 1080 --h 1920 --out captions.ass
   vidclone transcribe <audio> --out words.json [--script script.txt]
@@ -15,7 +15,7 @@ def main():
     a = sub.add_parser('analyze'); a.add_argument('video'); a.add_argument('--style', required=True)
     a.add_argument('--id'); a.add_argument('--script'); a.add_argument('--no-sheets', action='store_true')
     m = sub.add_parser('merge'); m.add_argument('style')
-    qq = sub.add_parser('qa'); qq.add_argument('video'); qq.add_argument('--style', required=True); qq.add_argument('--out')
+    qq = sub.add_parser('qa'); qq.add_argument('video'); qq.add_argument('--style', required=True); qq.add_argument('--out'); qq.add_argument('--edl')
     e = sub.add_parser('assemble'); e.add_argument('edl')
     c = sub.add_parser('captions'); c.add_argument('words'); c.add_argument('--style'); c.add_argument('--w', type=int, default=1080)
     c.add_argument('--h', type=int, default=1920); c.add_argument('--out', required=True); c.add_argument('--script')
@@ -35,7 +35,7 @@ def main():
         print(f"{prof['n']} sample(s) → {len(gates)} gates in {x.style}/gates.json")
     elif x.cmd == 'qa':
         from . import qa
-        rep = qa.run(x.video, x.style.rstrip('/'), x.out)
+        rep = qa.run(x.video, x.style.rstrip('/'), x.out, x.edl)
         sys.exit(0 if not rep['failed'] else 1)
     elif x.cmd == 'assemble':
         from . import assemble

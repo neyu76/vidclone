@@ -5,10 +5,22 @@ description: Check any video against a learned style — measure it the same way
 # QA against a style
 
 ```bash
-bin/vidclone qa <video.mp4> --style styles/<name>      # exit code 0 = all gates pass
+bin/vidclone qa <video.mp4> --style styles/<name> [--edl edl.json]     # exit code 0 = all gates + frame check pass
 ```
 → `styles/<name>/qa/<video>/report.md` (✅/❌ per gate with value, target and range), `qa.json`, `analysis.json`, `sheets/compare.jpg`
 (sample | new at the same relative times), `sheets/sec_*.jpg`, `sheets/shots_*.jpg`.
+
+**Frame check** (every frame at 30 fps): black frames, unplanned white frames and holds frozen longer than `style.json`
+`frame_check.max_frozen_s` (default 0.4 s) fail; unplanned pops (one-frame jumps) are listed for review. `sheets/problems.jpg` shows each
+problem frame between its neighbours. With `--edl`, shot starts, transitions, overlay edges and kicks count as planned; without it,
+the measured transitions do (so in-place swaps the analyser missed show up as pops — check them by eye).
+
+**Verifier round** (after the numbers pass, or when they cannot judge the look): give one fresh agent (Agent tool, no prior context)
+`sheets/compare.jpg`, 2–3 `sheets/sec_*.jpg` of the new video, the matching sample sheets and `style.md`. Ask for ≤ 200 words:
+a score out of 10 for each area — subject & art style, faces/characters, colour & light, framing & composition, camera & rhythm,
+captions & text, story-to-picture match — and a numbered fix list with times. Map each fix to its source (prompt, shot list, EDL,
+style.json), fix, reassemble, re-QA, and send the next round to the same verifier (SendMessage) so scores are comparable.
+Up to 3 rounds; report the scores per round.
 
 Then look at the sheets and judge what numbers cannot: subject and action match the narration, framing/composition like the samples,
 art style and character consistency, text legibility, no blank/broken frames, nothing copied from the samples.

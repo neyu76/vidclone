@@ -13,8 +13,9 @@ Workflow lives in the plugin skills (`plugins/vidclone/skills/{setup,learn,make,
 | `text.py` | tesseract OCR; captions = words that match the narration ±2 s; second pass on the caption band with a colour mask |
 | `sheets.py` | contact sheets (per second, per shot, sample-vs-new) |
 | `profile.py` | analyze one video; merge samples → profile + gates (`GATES` table: path, rule, tolerance) |
-| `qa.py` | analyze a video, compare to gates, report.md/qa.json + compare sheet |
-| `assemble.py` | EDL → mp4: OpenCV compositor (moves, transitions, overlays) → ffmpeg (grade, ASS captions, mux) |
+| `qa.py` | analyze a video, compare to gates, frame check, report.md/qa.json + compare sheet |
+| `frames.py` | every frame at 30 fps: black / unplanned white / frozen holds / pops, planned jumps from the EDL, problems.jpg (idea from mromidev/claude-animated-shorts, MIT) |
+| `assemble.py` | EDL → mp4: OpenCV compositor (moves, creep on held shots, impact kicks, transitions, overlays) → ffmpeg (grade, ASS captions, mux) |
 | `captions.py` | ASS from word timings; chunking follows the profile's words-per-caption histogram |
 | `mixer.py` | numpy mix: voice LUFS, music at `bed_db`, ducking, SFX, mono, final LUFS + true-peak limiter |
 

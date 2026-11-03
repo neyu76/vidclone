@@ -25,7 +25,9 @@ and transcribe again. Words must equal the script (fix ASR spellings in `words.j
 
 ## 3. Shot list (`shots.md`)
 One row per beat from the bible's shot grammar, placed on the word timings:
-`id | start–end | words | subject + action (what we SEE happen on the key word ±0.15 s) | shot size/angle | camera move | transition in | text/labels | sfx`.
+`id | start–end | words | subject + action (what we SEE happen on the key word) | shot size/angle | camera move | transition in | text/labels | sfx`.
+Timing rule: every visual reaction (cut, swap, prop pop-in, kick) lands **0–3 frames (0–0.1 s) before** its word's start in `words.json`,
+never after; the SFX for it sits on the same frame. Never show only what the narration already says when a gag can add to it.
 Match the profile: median shot length, transitions/min and mix, camera-move shares, dissolve length, cuts allowed, motifs (open and close
 on the same image if the samples loop), text overlays where the samples use them. Every noun/verb that matters gets a visual.
 
@@ -45,7 +47,8 @@ shot list's cue times; level/ducking from the profile (`bed_db`, mono/stereo, LU
 ## 6. Assemble
 Write `edl.json` (format in `vidclone/assemble.py` docstring): shots with `dur`, `move`/`amount`/`focus` or `from`/`to`, `trans`
 (kind + dur) from the shot list; `grade` from style.json; `captions: {"words": "words.json", "style": "<styles>/<name>", "offset": <voice_offset>}`;
-`audio` block. Then
+`audio` block; `creep` from style.json (every `"move": "none"` hold still zooms slowly, so nothing freezes) and `kicks`
+(`{"t", "amp", "frames"}`, impact shakes that flip every frame and decay over ~7 f) on the shot list's impact words. Then
 ```bash
 bin/vidclone assemble edl.json
 ```
@@ -53,9 +56,12 @@ Shot durations must add up so the picture covers the voice + tail (transitions o
 
 ## 7. QA loop — not done until it passes
 ```bash
-bin/vidclone qa out/final.mp4 --style styles/<name>
+bin/vidclone qa out/final.mp4 --style styles/<name> --edl edl.json
 ```
-Read `report.md`, then look at `sheets/compare.jpg` (sample vs new at the same % of time), `sheets/sec_*.jpg`, `sheets/shots_*.jpg`.
+Read `report.md` (gates + frame check: black / unplanned white / frozen holds fail; unplanned pops are listed for review with
+`sheets/problems.jpg`), then look at `sheets/compare.jpg` (sample vs new at the same % of time), `sheets/sec_*.jpg`, `sheets/shots_*.jpg`.
+Then run the **verifier round** from the `qa` skill (fresh agent, side-by-side sheets, scores per area + numbered fixes with times);
+fix, reassemble, re-QA. Stop after 3 rounds or when scores stop rising, and report the scores.
 Fix failures at the source (shot timing, moves, grade, caption style in `style.json`, music level, script length), reassemble, re-QA.
 Eye review too: every key word has its action on screen, no broken/blank frames, captions never covered, text legible, characters
 consistent, nothing copied from the samples. A gate that is wrong for this video (e.g. duration of a deliberately longer cut) → say why

@@ -14,6 +14,8 @@ EDL (paths relative to the EDL file):
   "moves": push | pull | pan_left | pan_right | tilt_up | tilt_down | drift | handheld | none
   "transitions": cut | dissolve | fade (via black) | flash (via white) | whip_left/right/up/down | zoom (push-through)
   "motion_blur": true,                                          # sub-frame blur on fast moves/whips
+  "creep": 0.03,                       # zoom per second on "move": "none" shots so no hold freezes (shot "creep": 0 turns it off)
+  "kicks": [{"t": 4.2, "amp": 0.012, "frames": 7}],             # impact shake: offset flips sign every frame, decays over N frames
   "grade": {"saturation": 1.0, "contrast": 1.0, "brightness": 0.0, "gamma": 1.0, "temperature": 6500, "vignette": 0.0},
   "overlays": [{"src": "logo.png", "t0": 0, "t1": 5, "x": 0.5, "y": 0.1, "w": 0.3}],
   "captions": {"ass": "captions.ass"} | {"words": "words.json", "style": "styles/x", "offset": 0.1},
@@ -128,13 +130,23 @@ def run(edl_path):
     srcs = {}
     blur = E.get('motion_blur', True)
     overl = [(o, cv2.imread(os.path.join(base, o['src']), cv2.IMREAD_UNCHANGED)) for o in E.get('overlays', [])]
+    creep, kicks = E.get('creep', 0.0), E.get('kicks', [])
 
     def shot_px(k, tt, shift=(0, 0), extra_zoom=1.0):
         s = shots[k]
         if k not in srcs: srcs[k] = Source(s, W, H, fps, base)
         u = (tt - starts[k]) / s['dur']
         cx, cy, z = _cam(s, u)
+        if s.get('move', 'push') == 'none' and 'from' not in s:
+            z *= 1 + s.get('creep', creep) * (tt - starts[k])
         return srcs[k].render(int((tt - starts[k]) * fps), cx, cy, z * extra_zoom, shift).astype(np.float32)
+
+    def kick_at(fi):
+        dy = 0.0
+        for kk in kicks:
+            j = fi - int(round(kk['t'] * fps)); n = kk.get('frames', 7)
+            if 0 <= j < n: dy += kk.get('amp', 0.012) * H * (1 - j / n) * (-1) ** j
+        return dy
 
     for fi in range(N):
         tt = fi / fps
@@ -174,6 +186,11 @@ def run(edl_path):
             x0, y0 = max(0, min(W - w, x0)), max(0, min(H - h, y0))
             al = (r[..., 3:4] / 255.0) if r.shape[2] == 4 else 1.0
             img[y0:y0 + h, x0:x0 + w] = img[y0:y0 + h, x0:x0 + w] * (1 - al) + r[..., :3] * al
+        dy = kick_at(fi) if kicks else 0.0
+        if dy:  # shake the whole picture, scaled up a little so no edge shows
+            z = 1 + 2.2 * abs(dy) / H
+            M = np.array([[z, 0, W / 2 * (1 - z) + dy * 0.4], [0, z, H / 2 * (1 - z) + dy]], np.float32)
+            img = cv2.warpAffine(img, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
         enc.stdin.write(np.clip(img, 0, 255).astype(np.uint8).tobytes())
         if fi % (fps * 5) == 0: print(f'  frame {fi}/{N}', flush=True)
     enc.stdin.close(); enc.wait()
