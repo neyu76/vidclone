@@ -86,7 +86,8 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         txt = ' '.join(w['w'] for w in c)
         if st['strip_punct']: txt = re.sub(r'[^\w\s\'%$-]', '', txt)
         if st['upper']: txt = txt.upper()
-        pop = r'{\fscx85\fscy85\t(0,70,\fscx100\fscy100)}' if st['pop'] else ''
+        f0, ms = int(st.get('pop_from', 0.85) * 100), int(st.get('pop_ms', 70))
+        pop = rf'{{\fscx{f0}\fscy{f0}\t(0,{ms},\fscx100\fscy100)}}' if st['pop'] else ''
         ev.append(f'Dialogue: 0,{_t(s)},{_t(e)},Cap,,0,0,0,,{pop}{txt}')
     with open(out, 'w', encoding='utf-8') as f:
         f.write(hdr + '\n'.join(ev) + '\n')

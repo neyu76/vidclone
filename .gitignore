@@ -5,6 +5,7 @@ _test/
 # samples, their frames and audio never leave the machine
 styles/*/samples/*/work/
 styles/*/samples/*/sheets/
+styles/*/samples/*/parts/
 styles/*/qa/*/work/
 styles/*/qa/*/sheets/
 *.mp4

@@ -22,11 +22,16 @@ def prepare(video, work):
     """Analysis inputs from any codec: 30 fps H.264 proxy (360 px short side),
     1 fps PNG stills (720 px short side), 48 kHz stereo wav, 16 kHz mono wav."""
     os.makedirs(work, exist_ok=True)
+    px = f'{work}/proxy.mp4'
+    if os.path.exists(px) and os.path.getmtime(video) > os.path.getmtime(px):  # video re-rendered: old inputs are stale
+        import shutil
+        for f in ('proxy.mp4', 'audio.wav', 'audio16.wav'):
+            if os.path.exists(f'{work}/{f}'): os.remove(f'{work}/{f}')
+        shutil.rmtree(f'{work}/stills', ignore_errors=True)
     info = probe(video)
     portrait = info['h'] >= info['w']
     small = 'scale=360:-2' if portrait else 'scale=-2:360'
     still = 'scale=720:-2' if portrait else 'scale=-2:720'
-    px = f'{work}/proxy.mp4'
     if not os.path.exists(px):
         sh(['ffmpeg', '-y', '-v', 'error', '-i', video, '-an', '-vf', f'fps=30,{small}:flags=area',
             '-c:v', 'libx264', '-crf', '16', '-preset', 'veryfast', px])

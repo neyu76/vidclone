@@ -16,7 +16,12 @@ Workflow lives in the plugin skills (`plugins/vidclone/skills/{setup,learn,make,
 | `qa.py` | analyze a video, compare to gates, frame check, report.md/qa.json + compare sheet |
 | `frames.py` | every frame at 30 fps: black / unplanned white / frozen holds / pops, planned jumps from the EDL, problems.jpg (idea from mromidev/claude-animated-shorts, MIT) |
 | `assemble.py` | EDL → mp4: OpenCV compositor (moves, creep on held shots, impact kicks, transitions, overlays) → ffmpeg (grade, ASS captions, mux) |
-| `captions.py` | ASS from word timings; chunking follows the profile's words-per-caption histogram |
+| `layers.py` | animated layers on a shot's picture (before the camera move): procedural cartoon eyes (looks, brows, lids, blinks, single profile eye, happy / shock moods, lower lid), PNG props / icons / lens / bounce text with pop, slide, bob, wobble, keyframes (per-key ease, hop, alpha); cut-out blocks with jaw `parts`, contact `shadow`, silhouette `fill`, `glow`; `meter`, `bubble`, `tint`, changing `texts`; `shift_times` |
+| `cutout.py` | green-screen prop → trimmed RGBA PNG (soft edge, despill); `--white` for green props shot on white |
+| `parts.py` | local motion inside shots = flow minus camera fit: moving-area share, local speed p95 (px/f @720), dominant Hz of the main blob, heat-map sheets — tells "puppet / cut-out animation" apart from stills with camera moves |
+| `seedvis.py` | seedvis.com images (Nano Banana 2.1 = model `NARWHAL`, image-to-image with up to 10 references, 9:16, upscale 2k/4k); key `~/.secrets/seedvis_key` |
+| `gemini.py` | the user's own Gemini key (`~/.secrets/gemini_key`): Nano Banana image generation (needs billing) and vision `find_points` (eye positions; free tier = 20 requests/day) |
+| `captions.py` | ASS from word timings; chunking follows the profile's words-per-caption histogram; pop_from / pop_ms word pop |
 | `mixer.py` | numpy mix: voice LUFS, music at `bed_db`, ducking, SFX, mono, final LUFS + true-peak limiter |
 
 ## Accuracy (checked on 4 team samples, 2026-11-02)

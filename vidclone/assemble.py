@@ -16,6 +16,7 @@ EDL (paths relative to the EDL file):
   "motion_blur": true,                                          # sub-frame blur on fast moves/whips
   "creep": 0.03,                       # zoom per second on "move": "none" shots so no hold freezes (shot "creep": 0 turns it off)
   "kicks": [{"t": 4.2, "amp": 0.012, "frames": 7}],             # impact shake: offset flips sign every frame, decays over N frames
+  shot "layers": [...]                 # animated eyes / props / icons / text on the picture (see layers.py)
   "grade": {"saturation": 1.0, "contrast": 1.0, "brightness": 0.0, "gamma": 1.0, "temperature": 6500, "vignette": 0.0},
   "overlays": [{"src": "logo.png", "t0": 0, "t1": 5, "x": 0.5, "y": 0.1, "w": 0.3}],
   "captions": {"ass": "captions.ass"} | {"words": "words.json", "style": "styles/x", "offset": 0.1},
@@ -52,8 +53,8 @@ PRESET = {  # (from, to) as (cx, cy, zoom); amount scales the move
 class Source:
     """One shot's pixels at output size for a camera (cx, cy, zoom) — image, clip or colour."""
     def __init__(self, shot, W, H, fps, base):
-        self.W, self.H, self.fps = W, H, fps
-        self.kind = 'color' if 'color' in shot else 'video' if os.path.splitext(shot['src'])[1].lower() in ('.mp4', '.mov', '.webm', '.mkv', '.gif') else 'image'
+        self.W, self.H, self.fps, self.base = W, H, fps, base
+        self.kind ='color' if 'color' in shot else 'video' if os.path.splitext(shot['src'])[1].lower() in ('.mp4', '.mov', '.webm', '.mkv', '.gif') else 'image'
         self.zmax = 1.0
         if self.kind == 'color':
             self.img = np.zeros((H, W, 3), np.uint8); self.img[:] = _hex(shot['color']); return
@@ -82,9 +83,12 @@ class Source:
             self.cur = np.frombuffer(b, np.uint8).reshape(self.dh, self.dw, 3); self.idx += 1
         return self.cur
 
-    def render(self, i, cx, cy, z, shift=(0, 0)):
+    def render(self, i, cx, cy, z, shift=(0, 0), layers=None, t=0.0):
         src = self.frame_at(i)
         if self.kind == 'color': return src
+        if layers:  # animated layers live on the picture, so the camera move carries them
+            from . import layers as L
+            src = L.draw(src.astype(np.float32), layers, t, self.base)
         sh, sw = src.shape[:2]
         cover = max(self.W / sw, self.H / sh)
         s = cover * z
@@ -139,7 +143,8 @@ def run(edl_path):
         cx, cy, z = _cam(s, u)
         if s.get('move', 'push') == 'none' and 'from' not in s:
             z *= 1 + s.get('creep', creep) * (tt - starts[k])
-        return srcs[k].render(int((tt - starts[k]) * fps), cx, cy, z * extra_zoom, shift).astype(np.float32)
+        return srcs[k].render(int((tt - starts[k]) * fps), cx, cy, z * extra_zoom, shift,
+                              s.get('layers'), tt - starts[k]).astype(np.float32)
 
     def kick_at(fi):
         dy = 0.0

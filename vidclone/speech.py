@@ -4,14 +4,39 @@ from .common import dist, save, load
 
 MODEL = os.environ.get('VIDCLONE_WHISPER', 'small')
 
-def transcribe(wav16, out_json, script=None):
+def align_to_script(words, script):
+    """Script tokens with times: match ASR words to the script (difflib on normalised words); tokens the ASR missed or
+    misheard get times interpolated between their matched neighbours. Returns [{'w', 's', 'e'}] with the script's spelling."""
+    import difflib
+    norm = lambda s: re.sub(r"[^a-z0-9']", '', s.lower())
+    toks = script.split()
+    a, b = [norm(t) for t in toks], [norm(w['w']) for w in words]
+    out = [None] * len(toks)
+    for blk in difflib.SequenceMatcher(None, a, b, autojunk=False).get_matching_blocks():
+        for k in range(blk.size):
+            w = words[blk.b + k]; out[blk.a + k] = {'w': toks[blk.a + k], 's': w['s'], 'e': w['e']}
+    i = 0
+    while i < len(out):
+        if out[i] is None:
+            j = i
+            while j < len(out) and out[j] is None: j += 1
+            t0 = out[i - 1]['e'] if i else (words[0]['s'] if words else 0.0)
+            t1 = out[j]['s'] if j < len(out) else (words[-1]['e'] if words else t0 + 0.3 * (j - i))
+            step = max(0.05, (t1 - t0) / (j - i))
+            for k in range(i, j): out[k] = {'w': toks[k], 's': round(t0 + (k - i) * step, 3), 'e': round(t0 + (k - i + 1) * step, 3)}
+            i = j
+        else: i += 1
+    return out
+
+def transcribe(wav16, out_json, script=None, language=None):
+    """language: force it ('en') for scripted narration — auto-detect plus a long prompt can make Whisper hallucinate."""
     if os.path.exists(out_json): return load(out_json)
     from faster_whisper import WhisperModel
     import soundfile as sf
     m = WhisperModel(MODEL, device='cpu', compute_type='int8')
     pcm, _ = sf.read(wav16, dtype='float32')  # 16 kHz mono; avoids faster-whisper's PyAV decoder
-    segs, info = m.transcribe(pcm, word_timestamps=True, vad_filter=True,
-                              initial_prompt=script[:800] if script else None)
+    # never pass the script as initial_prompt: Whisper treats prompt text as already spoken and skips the opening sentences
+    segs, info = m.transcribe(pcm, word_timestamps=True, vad_filter=True, language=language or os.environ.get('VIDCLONE_LANG'))
     words = []
     for s in segs:
         for w in s.words or []:

@@ -20,6 +20,7 @@ def main():
     c = sub.add_parser('captions'); c.add_argument('words'); c.add_argument('--style'); c.add_argument('--w', type=int, default=1080)
     c.add_argument('--h', type=int, default=1920); c.add_argument('--out', required=True); c.add_argument('--script')
     t = sub.add_parser('transcribe'); t.add_argument('audio'); t.add_argument('--out', required=True); t.add_argument('--script')
+    t.add_argument('--lang', help="force the language, e.g. en (recommended with --script)")
     x = ap.parse_args()
     if x.cmd == 'analyze':
         from . import profile
@@ -49,7 +50,8 @@ def main():
         wav = tempfile.mktemp(suffix='.wav')
         subprocess.run(['ffmpeg', '-y', '-v', 'error', '-i', x.audio, '-ac', '1', '-ar', '16000', wav], check=True)
         sc = open(x.script, encoding='utf-8').read() if x.script else None
-        r = speech.transcribe(wav, x.out, sc); os.remove(wav)
+        if os.path.exists(x.out): os.remove(x.out)   # an explicit transcribe always redoes it
+        r = speech.transcribe(wav, x.out, sc, x.lang); os.remove(wav)
         print(f"{len(r['words'])} words → {x.out}")
 
 if __name__ == '__main__':

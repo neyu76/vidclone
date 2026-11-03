@@ -15,6 +15,10 @@ bin/vidclone qa <video.mp4> --style styles/<name> [--edl edl.json]     # exit co
 problem frame between its neighbours. With `--edl`, shot starts, transitions, overlay edges and kicks count as planned; without it,
 the measured transitions do (so in-place swaps the analyser missed show up as pops — check them by eye).
 
+**Local motion** (when the samples animate characters): `python -m vidclone.parts <work/proxy.mp4> <analysis.json> <out>` on a
+sample and on the new video — compare `active_share_median` and `local_p95_median` and read the `parts_*.jpg` heat maps. Stills with
+camera moves read ~25 % / ~1.5 px/f; cut-out puppet styles read 65–100 % / 6–11 px/f.
+
 **Verifier round** (after the numbers pass, or when they cannot judge the look): give one fresh agent (Agent tool, no prior context)
 `sheets/compare.jpg`, 2–3 `sheets/sec_*.jpg` of the new video, the matching sample sheets and `style.md`. Ask for ≤ 200 words:
 a score out of 10 for each area — subject & art style, faces/characters, colour & light, framing & composition, camera & rhythm,
