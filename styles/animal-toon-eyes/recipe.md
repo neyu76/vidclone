@@ -20,7 +20,9 @@ Several characters when the narration lists animals; a human stand-in (real body
 Per pose 1–2 events on the words: expression change, icon pop, bubble, prop slide, squash on impact.
 
 ## 2. Assets
-- Pose pictures: Nano Banana 2.1 (ElevenLabs `gemini-nano-banana-2.1`, 9:16 2K), realistic animal photo, natural eyes visible.
+- Pose pictures: Nano Banana 2.1, 9:16 2K, realistic animal photo, natural eyes visible. Use whichever front end the
+  project's config names (Google Flow web UI, ElevenLabs `gemini-nano-banana-2.1`, Gemini API); generate generously —
+  one picture per pose, per expression and per prop, never reuse one picture to save credits.
 - Every pose cut out with BiRefNet (full-frame, aligned → x = y = 0.5, w = 1 is its original place).
 - ONE clean plate per scene ("remove the animal" edit of a base picture), slightly blurred (radius = width / 300).
 - Props, food, plants, side characters generated separately: on pure green #00FF00, or on white #FFFFFF when the prop
@@ -46,6 +48,20 @@ Per pose 1–2 events on the words: expression change, icon pop, bubble, prop sl
 - Dark-furred animals: set `lid` (panda #a39c92, black dog #5a524c) or half lids read as black slits.
 - Read eye / jaw positions off gridded crops in picture fractions (`kit.grid_crop`), never by guess.
 
+## 4b. People = real body + REPLACED cartoon head (never toon eyes on a real face)
+Every human in S01–S03 (ranger, surgeon, sled driver, owner, grandma, diver, boat driver) keeps the real photographed body,
+clothes and props, but the whole head is swapped for a flat 2D meme head — the joke depends on it:
+- Flat skin fill (warm beige ~#d9a98a, grey-old ~#b9a99a), THICK black outline (~3 % of head width), head drawn
+  ~1.1–1.3x real size, slightly squarish oval with a heavy jaw.
+- Eyes: white ovals, small black dot pupils, a heavy black upper-lid line; brows = short thick black strokes.
+- Nose = two or three thin black lines (bridge + nostril hook); mouth = small line or dark open oval; ears simple.
+- Hair, beard, stubble = flat single-colour shapes with outline (brown, black, grey), no texture.
+- Real headwear stays photographic ON TOP of the cartoon head: cap, hairnet, beanie, goggles, diving mask, surgical mask.
+- Expressions change per beat on the head itself: deadpan, worried (sweat drops light blue), shocked (tiny pupils, open
+  mouth), crying, squinting, covering ears. One head design per character, kept across shots.
+- Build: generate the person photo, then an edit "replace the head with a flat 2D cartoon meme head ... keep body, clothes,
+  hat" chained from one head base per character; one edit per expression. No extra toon-eye layer on these heads.
+
 ## 5. Devices seen in S02–S05 (layers.py)
 battery `meter` draining with effort · cutout `fill` (silhouette energy gauge) · `bubble` thought / speech whose words
 change (`texts`) · `text` + `texts` for calendars and counters · `tint` for night → day / flashback (list it last) · keys
@@ -64,6 +80,12 @@ Never copy the channel's round logo (top-right) — our own mark or none.
   X-ray (`fill` on lower body + bones) and the diagram card are the same skeleton, so they always agree.
 - Known false fail: `hook_end_s` reads the first Whisper segment, not the first sentence.
 
-## 6. Voice and captions
+## 6. Voice, SFX and captions
 ElevenLabs `eleven_v4`, voice `UgBBYS2sOqTuMpoF3BR0` (Mark) reads ~181 wpm → cap pauses at 0.25 s, then atempo 1.2 (~235 wpm).
+Start the prompt with `[casual, upbeat, fast-paced, playful, like telling a friend a funny animal fact]`; without it the
+take came out at ~216 wpm and needed atempo 1.3 (ATE01-003).
+SFX: pick one sound per cue from a real SFX library (search by what happens: "cartoon pop", "stamp thud", "whoosh throw",
+"squish", "ding correct", "buzzer wrong", "slide whistle"...), not a fixed set of eight clips reused all video.
+Grade: ffmpeg `colortemperature` LOWER kelvin = warmer. Sunset / golden-hour plates already read warm: ~8200 K and
+saturation ~0.82 (ATE01-003 failed saturation 172 and warmth 27.7 at 6200 K / 1.25).
 Transcribe with `--lang en`, align to the script. Captions: one word, Anton, orange gradient, y 0.72 (style.json).
