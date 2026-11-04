@@ -12,6 +12,7 @@ EDL (paths relative to the EDL file):
     {"src": "art/04.png", "dur": 2, "from": [0.3, 0.5, 1.0], "to": [0.6, 0.5, 1.2]}   # explicit (cx, cy, zoom)
   ],
   "moves": push | pull | pan_left | pan_right | tilt_up | tilt_down | drift | handheld | none
+  any shot may add "handheld": 0.004 (float amplitude, frame fraction) on top of its move
   "transitions": cut | dissolve | fade (via black) | flash (via white) | whip_left/right/up/down | zoom (push-through)
   "motion_blur": true,                                          # sub-frame blur on fast moves/whips
   "creep": 0.03,                       # zoom per second on "move": "none" shots so no hold freezes (shot "creep": 0 turns it off)
@@ -110,8 +111,8 @@ def _cam(shot, u):
     fr, to = (shot['from'], shot['to']) if 'from' in shot else PRESET[shot.get('move', 'push')](a, f)
     e = _ease(u, shot.get('ease', 'inout' if 'from' in shot else 'linear'))
     c = [fr[k] + (to[k] - fr[k]) * e for k in range(3)]
-    if shot.get('move') == 'handheld':
-        t = u * shot['dur']; amp = shot.get('amount', 0.1) * 0.05
+    if shot.get('move') == 'handheld' or shot.get('handheld'):   # "handheld": amplitude on any shot = light float
+        t = u * shot['dur']; amp = shot.get('handheld') or shot.get('amount', 0.1) * 0.05
         c[0] += amp * (np.sin(t * 2.1) * 0.6 + np.sin(t * 5.3 + 1) * 0.4) / 5
         c[1] += amp * (np.sin(t * 1.7 + 2) * 0.6 + np.sin(t * 4.1) * 0.4) / 5
     return c

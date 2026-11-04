@@ -53,6 +53,17 @@ change (`texts`) · `text` + `texts` for calendars and counters · `tint` for ni
 on their words · line-ups of characters entering one by one over labels · big orange outlined words on objects.
 Never copy the channel's round logo (top-right) — our own mark or none.
 
+## 5b. Long episodes (60–70 s Notion scripts, ATE01-002 penguin)
+- Beats of 8–10 s need reframe cuts: `kit.split_long(SHOTS, max_shot=1.6, piece=1.15, keep=(boards, final hold))` +
+  `write_edl(cam_gain=1.0, handheld=0.004)`; without it QA read 4.7 s median shots and a frozen camera (27/42 → 38/42).
+- `kit.IDLE.update(breathe=0.014, sway=0.9)` keeps standing animals alive between actions (local motion 39 % → 97 %).
+- Snow / white scenes: grade `saturation 1.45, contrast 1.06, brightness -0.05, temperature 5300`, bed_db -10. The
+  saturation gate still reads low on snow (content, not grade) — note it in the report instead of over-saturating.
+- Text inside reframed shots: keep it between y 0.3 and 0.85 and x 0.15–0.85, off the eyes.
+- Anatomy claims: draw the schematic yourself (PIL) from gridded positions instead of asking the image model; the
+  X-ray (`fill` on lower body + bones) and the diagram card are the same skeleton, so they always agree.
+- Known false fail: `hook_end_s` reads the first Whisper segment, not the first sentence.
+
 ## 6. Voice and captions
 ElevenLabs `eleven_v4`, voice `UgBBYS2sOqTuMpoF3BR0` (Mark) reads ~181 wpm → cap pauses at 0.25 s, then atempo 1.2 (~235 wpm).
 Transcribe with `--lang en`, align to the script. Captions: one word, Anton, orange gradient, y 0.72 (style.json).

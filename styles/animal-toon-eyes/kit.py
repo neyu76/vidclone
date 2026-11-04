@@ -63,12 +63,16 @@ def eyes(img, keys, jitter=True, parent=None, mul=1.0):
     if parent: E['parent'] = parent
     return E
 
+IDLE = dict(breathe=0.008, sway=0.0, sway_hz=0.6)   # idle life on every block (a project may raise it)
+
 def block(img, t0, x=0.5, y=0.5, w=1.0, rot=0.0, keys=(), pose=(), pivot=(0.5, 1.0), eye_keys=None, jitter=True,
-          breathe=0.008, chew=None, jaw_keys=(), src=None, bid=None, **extra):
+          breathe=None, chew=None, jaw_keys=(), src=None, bid=None, **extra):
     """A pose picture / character / prop as a keyframed cut-out block, with its jaw part, contact shadow and eyes on it."""
     bid = bid or img
+    idle = dict(IDLE, **({'breathe': breathe} if breathe is not None else {}))
+    idle = {k: v for k, v in idle.items() if k not in extra}
     B = dict(type='cutout', id=bid, src=src or f'cut/{img}.png', x=x, y=y, w=w, rot=rot, t0=t0, keys=list(keys), pose=list(pose),
-             pivot=list(pivot), breathe=breathe, breathe_hz=0.9, **NONE, **extra)
+             pivot=list(pivot), breathe_hz=0.9, **idle, **NONE, **extra)
     if img in SHADOW:
         sx, sy, sw = SHADOW[img]; B['shadow'] = dict(x=sx, y=sy, w=sw, h=sw * 0.14, alpha=0.4)
     if img in JAW and (chew or jaw_keys):
@@ -91,10 +95,30 @@ def bites(t0, t1, food, rest, bite, mouth, period=0.55, bits='leaf_bits', bits_w
         t += period
     return [png(food[0], t0, t1, rest[0], rest[1], food[1], rot=rest[2], keys=keys, **NONE)] + out
 
+REFRAME = [(0.0, 0.0, 0.0, 0.12), (0.03, -0.02, 0.16, -0.12), (-0.03, 0.02, 0.07, 0.1)]   # dx, dy, zoom+, move
+
+def split_long(SHOTS, max_shot=2.0, piece=1.4, keep=()):
+    """Long shots -> hard-cut reframes every ~piece s (the samples cut every ~1.5 s, many cuts are in-place reframes of the
+    same picture). Each piece gets another framing of the same scene and a quick push or pull (ease out = fast start);
+    layers continue (absolute times). Shots whose start is in keep (e.g. a final hold) stay whole."""
+    out = []
+    for i, (T, src, cam, tr, lay) in enumerate(SHOTS):
+        nxt = SHOTS[i + 1][0] if i + 1 < len(SHOTS) else None
+        dur = (nxt - T) if nxt is not None else None
+        if dur is None or dur <= max_shot or any(abs(T - k) < 1e-6 for k in keep):
+            out.append((T, src, cam, tr, lay)); continue
+        n = max(2, round(dur / piece)); step = dur / n
+        x, y, z = cam['from']
+        for k in range(n):
+            dx, dy, dz, mv = REFRAME[k % len(REFRAME)]
+            a = (x + dx, y + dy, z * (1 + dz)); b = (a[0] + dx * 0.4, a[1], a[2] * (1 + mv))
+            out.append((round(T + k * step, 3), src, FT(a, b, 'out'), tr if k == 0 else 'cut', lay))
+    return out
+
 def write_edl(SHOTS, end, path, out_mp4, sfx=(), kicks=(), cam_gain=0.45, dissolve=0.2, creep=0.02,
-              grade=None, music='audio/music.mp3', voice='voice/voice.wav', words='words.json'):
+              grade=None, music='audio/music.mp3', voice='voice/voice.wav', words='words.json', bed_db=-14, handheld=0.0):
     """(T, background, camera, 'cut'|'dis', layers) with absolute times -> edl.json. Camera travel is scaled by cam_gain
-    (the samples keep the camera calm while pictures change)."""
+    (the samples keep the camera calm while pictures change); handheld adds a light float to every shot."""
     trans = lambda tr: ('cut', 0.0) if tr == 'cut' else ('dissolve', dissolve)
     starts = [T - trans(tr)[1] / 2 for T, _, _, tr, _ in SHOTS]
     shots = []
@@ -104,6 +128,7 @@ def write_edl(SHOTS, end, path, out_mp4, sfx=(), kicks=(), cam_gain=0.45, dissol
         cam = dict(cam)
         a, b = cam['from'], cam['to']; cam['to'] = [a[j] + (b[j] - a[j]) * cam_gain for j in range(3)]
         s = {'src': f'{src}.png', 'dur': round(dur, 3), 'ease': cam.get('ease', 'inout'), **cam}
+        if handheld: s['handheld'] = handheld
         if lay: s['layers'] = shift_times(lay, starts[i])
         if i: s['trans'] = {'kind': kind, 'dur': d} if kind == 'dissolve' else {'kind': 'cut'}
         shots.append(s)
@@ -111,7 +136,7 @@ def write_edl(SHOTS, end, path, out_mp4, sfx=(), kicks=(), cam_gain=0.45, dissol
            'kicks': [{'t': t, 'amp': 0.014, 'frames': 7} for t in kicks], 'shots': shots,
            'grade': grade or {'saturation': 1.0, 'contrast': 1.02, 'temperature': 7000},
            'captions': {'words': words, 'style': STYLE, 'offset': 0.0},
-           'audio': {'voice': voice, 'voice_offset': 0.0, 'voice_lufs': -16, 'music': music, 'bed_db': -14, 'duck_db': 0,
+           'audio': {'voice': voice, 'voice_offset': 0.0, 'voice_lufs': -16, 'music': music, 'bed_db': bed_db, 'duck_db': 0,
                      'music_fade_out': 1.0, 'sfx': [{'src': f'audio/{f}.mp3', 't': t, 'db': db} for t, f, db in sfx],
                      'lufs': -14, 'true_peak': -1.0, 'mono': False}}
     json.dump(edl, open(path, 'w'), indent=1)
