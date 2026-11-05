@@ -13,6 +13,7 @@ topic/script ──▶ voice ──▶ words.json ──▶ shot list ──▶ 
 bash setup.sh                                               # ffmpeg, tesseract, venv (~/.vidclone/venv)
 bin/vidclone analyze sample1.mp4 --style styles/my-style --id S01
 bin/vidclone merge styles/my-style                          # profile.json + gates.json
+bin/vidclone capfont sample1.mp4 --t 0.5 --style styles/my-style   # caption font + libass size/margin → style.json
 bin/vidclone transcribe voice.mp3 --out words.json --script script.txt
 bin/vidclone assemble edl.json                              # format: vidclone/assemble.py docstring
 bin/vidclone qa out/final.mp4 --style styles/my-style       # report.md + compare sheets

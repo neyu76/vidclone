@@ -7,6 +7,8 @@
   vidclone captions <words.json> --style styles/<name> --w 1080 --h 1920 --out captions.ass
   vidclone transcribe <audio> --out words.json [--script script.txt]
   vidclone motion  styles/<name>/samples/S01      # (re)measure picture changes + local motion into analysis.json
+  vidclone capfont <video> --t 0.5 [--text "..."] [--fill '#rrggbb'] [--fonts DIR ...] [--style styles/<name>]
+                                                   # find caption font + libass size/margin from a sample frame
 """
 import argparse, json, os, sys
 
@@ -23,7 +25,13 @@ def main():
     t = sub.add_parser('transcribe'); t.add_argument('audio'); t.add_argument('--out', required=True); t.add_argument('--script')
     t.add_argument('--lang', help="force the language, e.g. en (recommended with --script)")
     mo = sub.add_parser('motion'); mo.add_argument('sample_dirs', nargs='+')
+    cf = sub.add_parser('capfont'); cf.add_argument('video'); cf.add_argument('--t', type=float, default=0.5)
+    cf.add_argument('--text'); cf.add_argument('--fill'); cf.add_argument('--fonts', nargs='*', default=[]); cf.add_argument('--style')
     x = ap.parse_args()
+    if x.cmd == 'capfont':
+        from . import capfont
+        print(json.dumps(capfont.run(x.video, x.t, x.text, x.fill, x.fonts, x.style), indent=1, ensure_ascii=False))
+        return
     if x.cmd == 'motion':   # back-fill / refresh the motion block of already analysed samples
         from . import profile
         from .common import load, save

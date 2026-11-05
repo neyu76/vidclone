@@ -33,6 +33,29 @@ def _ocr(img_path, psm='11'):
 def _norm(s):
     return re.sub(r"[^a-z0-9']", '', s.lower())
 
+def _glyph_fill(img, x, y, w, h):
+    """Fill colour of the glyphs in one OCR box. The brightest pixels of the box are often the BACKGROUND (white jerseys,
+    sky, snow) — fixed 2026-11-05 after yellow captions over a white/green scene were read as #ffffff.
+    Glyph pixels = box pixels unlike every colour of the ring around the box, and not the dark outline."""
+    H, W = img.shape[:2]
+    crop = img[y:y + h, x:x + w].reshape(-1, 3).astype(np.float32)
+    y0, y1, x0, x1 = max(0, y - h // 2), min(H, y + h + h // 2), max(0, x - h), min(W, x + w + h)
+    ring = img[y0:y1, x0:x1].astype(np.float32).copy(); ring[y - y0:y - y0 + h, x - x0:x - x0 + w] = np.nan
+    ring = ring.reshape(-1, 3); ring = ring[~np.isnan(ring[:, 0])]
+    if len(crop) < 20 or len(ring) < 20: return None
+    k = min(6, len(ring) // 10)
+    _, _, pal = cv2.kmeans(ring, k, None, (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 20, 1.0), 2, cv2.KMEANS_PP_CENTERS)
+    dist = np.min(np.linalg.norm(crop[:, None, :] - pal[None], axis=2), 1)
+    l = crop.mean(1)
+    cand = crop[(dist > 45) & (l > np.percentile(l, 35))]
+    if len(cand) < 15: return None  # text indistinguishable from its background here
+    # anti-aliased edges sit between fill and outline: take the brightest cluster that holds ≥ 20 % of the candidates
+    _, lab, cen = cv2.kmeans(cand, 3, None, (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 20, 1.0), 2, cv2.KMEANS_PP_CENTERS)
+    share = np.bincount(lab.ravel(), minlength=3) / len(cand)
+    ok = [k for k in range(3) if share[k] >= 0.2] or [int(share.argmax())]
+    best = max(ok, key=lambda k: cen[k].mean())
+    return np.median(cand[lab.ravel() == best], 0)
+
 def _colors(img, boxes):
     fill, edge, bg_std = [], [], []
     for b in boxes:
@@ -40,13 +63,24 @@ def _colors(img, boxes):
         crop = img[y:y + h, x:x + w].reshape(-1, 3).astype(float)
         if len(crop) < 20: continue
         l = crop.mean(1)
-        fill.append(np.median(crop[l >= np.percentile(l, 80)], 0))
+        f = _glyph_fill(img, x, y, w, h)
+        fill.append(f if f is not None else np.median(crop[l >= np.percentile(l, 80)], 0))
         edge.append(np.median(crop[l <= np.percentile(l, 15)], 0))
         pad = img[max(0, y - h):y + 2 * h, max(0, x - w // 2):x + w + w // 2]
         bg_std.append(float(pad.std()))
     hx = lambda c: '#%02x%02x%02x' % (int(c[2]), int(c[1]), int(c[0]))
     if not fill: return None
     return {'fill': hx(np.median(fill, 0)), 'edge': hx(np.median(edge, 0)), 'bg_std': q(bg_std)}
+
+def _dominant(hexes):
+    """Most common colour with tolerance: bin to 48-level steps, return the median colour of the biggest bin.
+    (Exact-hex mode picked whichever noisy value repeated — e.g. a clipped #ffffff background.)"""
+    if not hexes: return None
+    c = np.array([[int(h[1:3], 16), int(h[3:5], 16), int(h[5:7], 16)] for h in hexes])
+    keys = [tuple(v) for v in (c // 48)]
+    best = max(set(keys), key=keys.count)
+    m = np.median(c[[k == best for k in keys]], 0)
+    return '#%02x%02x%02x' % tuple(int(v) for v in m)
 
 def analyze(work, words):
     files = stills(work)
@@ -86,10 +120,20 @@ def analyze(work, words):
         for b in ovl:
             if b['h'] > H * 0.012 and len(b['t']) > 1:
                 other.append({'t': t, 'text': b['t'], 'y_rel': round(b['y'] / H, 3), 'h_rel': round(b['h'] / H, 4)})
+    # Graphics cards often repeat spoken words ("COWBOYS vs 50 BABIES" while the narrator says it) and were counted as
+    # captions. Keep only rows on the dominant caption line (baseline within ±2.5 % of the most common one).
+    if len(cap_rows) >= 5:
+        bl = np.array([r['baseline_rel'] for r in cap_rows]); bins = np.round(bl / 0.02).astype(int)
+        mode = np.bincount(bins - bins.min()).argmax() + bins.min()
+        main = float(np.median(bl[bins == mode]))
+        keep = [r for r in cap_rows if abs(r['baseline_rel'] - main) <= 0.025]
+        for r in cap_rows:
+            if r not in keep: per_sec[int(r['t'] - 0.5)]['caption'] = ''
+        cap_rows = keep
     # second pass on the caption band for seconds the full-frame OCR missed
     if len(cap_rows) >= 3:
         fills0 = [r['colors']['fill'] for r in cap_rows if r['colors']]
-        fill = max(set(fills0), key=fills0.count) if fills0 else '#ffffff'
+        fill = _dominant(fills0) or '#ffffff'
         H = cv2.imread(files[0]).shape[0]
         base = float(np.median([r['baseline_rel'] for r in cap_rows])) * H
         hh = float(np.percentile([r['height_rel'] for r in cap_rows], 90)) * H
@@ -117,8 +161,8 @@ def analyze(work, words):
             'words_on_screen': dist(wc),
             'words_hist': {str(k): round(wc.count(k) / max(1, len(wc)), 3) for k in sorted(set(wc))},
             'uppercase_share': q([r['upper'] for r in cap_rows]),
-            'fill': max(set(fills), key=fills.count) if fills else None,
-            'edge': max(set(edges), key=edges.count) if edges else None,
+            'fill': _dominant(fills),
+            'edge': _dominant(edges),
             'boxed': (q([r['colors']['bg_std'] for r in cap_rows if r['colors']]) or 99) < 18,
         } if cap_rows else {'present_share': 0.0},
         'overlay_text_share': round(sum(1 for r in per_sec if r['other']) / max(1, n), 3),

@@ -33,6 +33,16 @@ What it measures (all relative to frame size, so it transfers across resolutions
   (share of the frame moving, p95 speed, heat maps in `parts/`) — separates "stills + camera" from animated / cut-out styles.
 Check the numbers against the sheets when something looks odd (e.g. a "cut" that is a 4-frame dissolve) and say so in the bible.
 
+## 1a. Caption font (when the samples burn captions in)
+```bash
+bin/vidclone capfont <sample.mp4> --t <second with one caption line> [--text "exact caption words"] [--fill '#rrggbb'] --style styles/<name>
+```
+Renders every candidate font (repo `fonts/`, `~/.fonts`, `--fonts DIR`) through libass at a fitted size, scores glyph overlap with
+the sample and writes font / size / margin_v / outline_px into `style.json` "captions" (captions.write uses them as is).
+Never eyeball the font or derive the size from x-height: ASS size ≠ CSS px, and a guessed size was ~40 % too big once.
+If the winner's IoU < 0.6, the real font is not installed — add a closer OFL font to `fonts/` and rerun. Check the
+result by burning one caption over the sample frame.
+
 ## 1b. Watch the motion at 10 fps (1 fps sheets hide it)
 For each sample, three 2.4 s stretches (start, middle, late) as 10 fps strips, kept in a scratch folder (never in the repo):
 ```bash
@@ -48,11 +58,16 @@ ghosts). This list drives section 4b of the bible and the recipe.
 bin/vidclone merge styles/<name>
 ```
 → `profile.json` (per-metric median/min/max over samples + facts) and `gates.json` (QA ranges: target, lo, hi, on).
+`merge` leaves out duplicate samples (same duration + narration — the same video saved twice once counted double).
 Turn a gate off (`"on": false`) when it does not define the style (e.g. face share for a faceless channel); hand-set bounds get `"manual": true`
 so a later merge keeps them.
 
 ## 3. Read the samples (the part numbers cannot do)
-Open every `sheets/shots_*.jpg` and `sec_*.jpg`, the transcript and `analysis.json`. For each sample write a beat table:
+Read `docs/LESSONS.md` first (what past clones missed in every niche). Open every `sheets/shots_*.jpg` and `sec_*.jpg`, the transcript and `analysis.json`.
+Write down for the bible, per sample: camera height / angle and lens width (planes visible, subject size in frame), depth
+layers and haze, light (key source, dark areas, pools of light), palette width and accent colour, how people / characters
+are drawn (and how their heads / faces are treated), every prop and side character, the graphics package (cards, fonts,
+on / off timing), flashes and other transition devices, scenes in the first 15 s. For each sample write a beat table:
 `time | narration | what is on screen | subject/action | shot size & angle | camera move | transition | text on screen | sound`.
 Then write **`styles/<name>/style.md`** (the style bible), using `docs/STYLE_TEMPLATE.md`:
 format & niche · narrative template (hook type with the samples' hook lines paraphrased, beats with % of duration, twist position, closer

@@ -91,6 +91,13 @@ GATES = [
     ('contrast', 'look.contrast.median', 'rel', 0.2, 'Contrast (luma std)'),
     ('detail', 'look.detail.median', 'abs', 0.05, 'Fine detail ratio'),
     ('warmth', 'look.warmth.median', 'abs', 6, 'Warmth (Lab b*)'),
+    # lighting / palette shape: brightness can match while the look is flat (RickClips T005 vs Pink Prison, 2026-11-05).
+    # Only styles re-measured after that date get these gates (merge skips metrics the samples lack).
+    ('shadow_share', 'look.light.shadow_share.median', 'abs', 0.08, 'Dark areas (luma < 0.2) share'),
+    ('luma_spread', 'look.light.luma_spread.median', 'rel', 0.2, 'Light range (luma p90 - p10)'),
+    ('light_pattern', 'look.light.light_pattern.median', 'rel', 0.3, 'Large-scale light pattern (pools of light)'),
+    ('vignette', 'look.light.vignette.median', 'abs', 0.12, 'Centre / border brightness'),
+    ('hue_spread', 'look.light.hue_spread.median', 'abs', 0.35, 'Palette hue spread (rad)'),
     ('face_share', 'look.face_share', 'abs', 0.2, 'Frames with a face'),
     ('caption_share', 'text.captions.present_share', 'abs', 0.2, 'Seconds with captions'),
     ('caption_baseline', 'text.captions.baseline_rel.median', 'abs', 0.03, 'Caption baseline (y / height)'),
@@ -105,6 +112,13 @@ GATES = [
 def merge(style_dir):
     rs = [load(p) for p in sorted(glob.glob(f'{style_dir}/samples/*/analysis.json'))]
     if not rs: raise SystemExit(f'no samples in {style_dir}/samples')
+    # the same video downloaded twice under two names counts double (sport-usa V3 == V1, 2026-11-05): drop repeats
+    seen, uniq = {}, []
+    for r in rs:
+        k = (round(_get(r, 'info.dur') or 0, 2), (_get(r, 'speech.text') or '')[:200])
+        if k in seen and k[0]: print(f"! duplicate sample {r['source']} = {seen[k]} (same duration and narration), left out"); continue
+        seen[k] = r['source']; uniq.append(r)
+    rs = uniq
     prof = {'samples': [r['source'] for r in rs], 'n': len(rs), 'metrics': {}}
     gates = []
     for key, path, rule, tol, label in GATES:

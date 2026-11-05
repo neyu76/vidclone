@@ -31,12 +31,20 @@ Up to 3 rounds; report the scores per round.
 
 Then look at the sheets and judge what numbers cannot: subject and action match the narration, framing/composition like the samples,
 art style and character consistency, text legibility, no blank/broken frames, nothing copied from the samples.
+**Matching numbers can still be a flat picture** (`docs/LESSONS.md` B): compare sample vs new on the same frames for camera
+height and lens width (planes visible, subject size), foreground / subject / background layers and haze, dark areas and
+pools of light, palette width and the one accent colour, surface detail, scenes per 15 s, hands acting on props, the
+subject never covered and faces out of the caption band. List differences by impact before fixing.
 
 Reading failures:
 - duration / wpm → script length or voice speed; shot length / transitions per min → the shot list; camera shares → `move` mix in the EDL;
 - saturation / brightness / contrast / warmth → `grade` (or the image prompt's palette); detail low → images too small for the push-in or blur;
+- shadow share / light range / light pattern / vignette / hue spread (`look.light`, styles merged after 2026-11-05) → lighting and
+  palette of the pictures / 3D scene (key light, dark corners, one accent colour), not the global grade — brightening to hit a
+  median flattens the look;
 - caption baseline/height/words → `style.json` `captions` (baseline_rel, height_rel, size_per_cap, words_hist);
 - LUFS / true peak / bed level / stereo → the EDL `audio` block.
-Metric limits: OCR misses stylised fonts (caption share reads low), fast whips can read as dissolves, faces = frontal human faces only
+Metric limits: OCR misses stylised fonts (caption share reads low) and can misread the caption colour (check a frame), fast whips
+can read as dissolves, `hook_end_s` reads the first Whisper segment (false fail when the hook is short), faces = frontal human faces only
 (cartoon faces count sometimes). When a gate does not apply, turn it off in `gates.json` with a note rather than chasing it.
 Report pass count, each failure with the fix you made or why it stays, and what you checked by eye.

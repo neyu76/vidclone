@@ -188,12 +188,41 @@ def analyze(proxy, fps_out=30, mask_band=None):
         rs = [float(np.abs(frames[j] - (A + x * d)).mean()) / ad for j, x in zip(range(a + 1, b), al)]
         return (np.mean(rs) if rs else 9), al
 
+    def wash(j, ref):
+        """how far frame j is pushed toward white relative to a clean frame of the same shot (0 = none, 1 = white)."""
+        R = frames[ref]; return float(np.median((frames[j] - R) / np.maximum(8.0, 255.0 - R)))
+
+    def short_flash(i):
+        """2–4 frame partial white wash straddling a cut (peak ~0.5–0.8, measured on 3D-sports shorts 2026-11-05).
+        The old absolute test (+60 luma, peak > 200) missed these and the blend test then called them dissolves."""
+        # anchors 8 frames out: a replay-style flash ramps up over ~4 frames, so nearer anchors are already washed
+        # the candidate frame can land up to ~7 frames from the wash peak (the histogram jump of the cut, not the flash)
+        if i < 12 or i + 12 >= n: return 0
+        A, B = i - 12, i + 12
+        # each frame against the clean anchor of its own shot (the candidate i may sit on the cut or a few frames off it)
+        al = [wash(j, A if _hd(hist[j], hist[A]) < _hd(hist[j], hist[B]) else B) for j in range(i - 7, i + 8)]
+        rise = luma[i - 7:i + 8].max() - max(luma[A], luma[B])
+        # a real flash turns a big part of the frame near-white (share of pixels > 0.7 jumps by 0.4-0.9 on sport / doc
+        # flashes); a dissolve into a brighter shot or a light bump does not (regression on 17 old samples, 2026-11-05)
+        white = lambda j: float((frames[j] > 178).mean())
+        # true flashes peak at 0.60-1.00 of the frame near-white (sport V1/V2, rail R01, team S04); light bumps and dissolves
+        # into brighter shots that the older test took for flashes peaked at 0.44-0.48 (team S01, pink P01)
+        peak = max(white(j) for j in range(i - 7, i + 8))
+        pop = peak - min(white(A), white(B))
+        # ... or a 1-3 frame wash of the whole frame that drops straight back (sport V1 60.7 / 63.0: luma 0.3 -> 0.7 -> 0.3)
+        k = int(np.argmax(luma[i - 7:i + 8])) + i - 7
+        spike = luma[k] - max(luma[max(0, k - 4)], luma[min(n - 1, k + 4)])
+        white_ok = (pop >= 0.3 and peak >= 0.55) or spike >= 50
+        return sum(x > 0.1 for x in al) if max(al) >= 0.2 and rise > 12 and white_ok else 0
+
     trans, taken = [], np.zeros(n, bool)
     for score, i in sorted(cand, reverse=True):
         if taken[i]: continue
         kind, span = None, 0
+        sf = short_flash(i)
+        if sf: kind, span = 'flash', max(2, sf)
         # hard cut: the jump is isolated (frames either side are each stable)
-        if i >= 3 and i + 2 < n:
+        if kind is None and i >= 3 and i + 2 < n:
             j = hd1[i]
             if j > 0.25 and _hd(hist[i - 3], hist[i - 1]) < 0.3 * j and _hd(hist[i], hist[i + 2]) < 0.3 * j:
                 kind = 'cut'

@@ -11,9 +11,30 @@ def _letterbox(g):
     lef = int(np.argmax(cols > 12)); rig = int(np.argmax(cols[::-1] > 12))
     return top / len(rows), bot / len(rows), lef / len(cols), rig / len(cols)
 
+def _light(g, hsv):
+    """Lighting / palette shape (added 2026-11-05: a clone matched brightness median and still looked flat — the sample had
+    dark corners, pools of light, a vignette, a narrow cold palette with ONE saturated accent).
+    shadow / highlight share, luma p90 - p10 spread, large-scale light pattern (std of a heavy blur), centre / border
+    luma ratio (vignette), hue spread and accent share (saturated pixels far from the dominant hue)."""
+    h, w = g.shape; v = g / 255.0
+    light = float(cv2.GaussianBlur(g, (0, 0), max(4, w / 20)).std())
+    cy, cx = h // 4, w // 4
+    centre = float(g[cy:h - cy, cx:w - cx].mean()); border = float((g.sum() - g[cy:h - cy, cx:w - cx].sum()) / (g.size - (h - 2 * cy) * (w - 2 * cx)))
+    sat = hsv[..., 1] / 255.0; hue = hsv[..., 0] * 2 * np.pi / 180.0       # OpenCV hue 0..180
+    m = sat > 0.25
+    if m.sum() > 50:
+        z = np.exp(1j * hue[m]) * sat[m]; mean = z.sum() / sat[m].sum()
+        spread = float(np.sqrt(max(0.0, -2 * np.log(max(abs(mean), 1e-6)))))          # circular std (rad)
+        dom = np.angle(mean); far = np.abs(np.angle(np.exp(1j * (hue - dom)))) > np.radians(45)
+        accent = float(((sat > 0.45) & far).mean())
+    else: spread, accent = 0.0, 0.0
+    return (float((v < 0.2).mean()), float((v > 0.85).mean()), float(np.percentile(g, 90) - np.percentile(g, 10)), light,
+            centre / max(border, 1.0), spread, accent)
+
 def analyze(work):
     files = stills(work)
     S, V, C, D, warm, clip, crush, faces, fsize, bars, pix = [], [], [], [], [], [], [], [], [], [], []
+    LT = []
     for p in files:
         f = cv2.imread(p)
         h, w = f.shape[:2]
@@ -30,6 +51,7 @@ def analyze(work):
         faces.append(len(fs) > 0)
         if len(fs): fsize.append(float(max(r[2] for r in fs)) / w)
         bars.append(_letterbox(g))
+        LT.append(_light(g, hsv))
         sm = cv2.resize(lab, (48, int(48 * h / w)), interpolation=cv2.INTER_AREA).reshape(-1, 3)
         pix.append(sm)
     pal = []
@@ -43,7 +65,11 @@ def analyze(work):
     b = np.array(bars) if bars else np.zeros((1, 4))
     # brightness arc: thirds of the video
     th = np.array_split(np.array(V), 3) if len(V) >= 3 else [V]
+    lt = np.array(LT) if LT else np.zeros((1, 7))
+    light = {k: dist([float(x) for x in lt[:, i]]) for i, k in enumerate(
+        ('shadow_share', 'highlight_share', 'luma_spread', 'light_pattern', 'vignette', 'hue_spread', 'accent_share'))}
     return {
+        'light': light,
         'saturation': dist(S), 'brightness': dist(V), 'contrast': dist(C), 'detail': dist(D),
         'warmth': dist(warm), 'clipped_pct': dist(clip), 'crushed_pct': dist(crush),
         'face_share': round(float(np.mean(faces)), 3) if faces else 0.0,

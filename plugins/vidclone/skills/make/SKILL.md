@@ -20,8 +20,16 @@ Generate with `style.json.voice` (2 takes when the tool allows). Then:
 ```bash
 bin/vidclone transcribe voice/take1.mp3 --out words.json --script script.txt
 ```
-Measure wpm = words / speech span; outside the gate → regenerate with another speed, or time-stretch (`ffmpeg -af atempo=X`, 0.9–1.15)
-and transcribe again. Words must equal the script (fix ASR spellings in `words.json` against `script.txt`).
+Measure wpm = words / speech span; outside the gate → regenerate with another speed, or cap long pauses first (cut the middle
+of gaps over the samples' longest pause) and then time-stretch (`ffmpeg -af atempo=X`, 0.8–1.35) and transcribe again — TTS
+takes read slower than the samples even with a "fast" tag. Words must equal the script (fix ASR spellings in `words.json`
+against `script.txt`). Changing the pace after shots exist: stretch the voice and scale EVERY timing (shots, words, captions,
+SFX) by the same factor in one pass; never re-plan the scenes.
+
+## 2b. New style or "not like the samples yet" → imitate 15–20 s first
+Before full episodes in a style that has not been accepted yet, rebuild the first 15–20 s of one sample beat for beat
+(own content, same devices, same timing), put it next to the sample (`qa` compare + frames at the same times) and fix
+what differs. Both accepted styles so far only converged after this step (`docs/LESSONS.md`).
 
 ## 3a. Style recipe and motion
 Niche rules live in the style folder, not here. If `styles/<name>/recipe.md` exists it is this style's production recipe
@@ -88,7 +96,9 @@ Then run the **verifier round** from the `qa` skill (fresh agent, side-by-side s
 fix, reassemble, re-QA. Stop after 3 rounds or when scores stop rising, and report the scores.
 Fix failures at the source (shot timing, moves, grade, caption style in `style.json`, music level, script length), reassemble, re-QA.
 Eye review too: every key word has its action on screen, no broken/blank frames, captions never covered, text legible, characters
-consistent, nothing copied from the samples. A gate that is wrong for this video (e.g. duration of a deliberately longer cut) → say why
+consistent, nothing copied from the samples, the main subject never covered by props or graphics, faces and key text out of the
+caption band, the same graphics package as the samples (not a new card style per episode), and the light / space checks of the
+`qa` skill (a picture can pass every number and still be flat). A gate that is wrong for this video (e.g. duration of a deliberately longer cut) → say why
 in the report instead of forcing it.
 
 ## 8. Deliver

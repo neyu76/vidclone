@@ -3,6 +3,11 @@
 Workflow lives in the plugin skills (`plugins/vidclone/skills/{setup,learn,make,qa}`); this file is the code map and the known limits.
 Keep the skills and `vidclone/` niche-neutral. Everything specific to one style lives in `styles/<name>/`: `style.md` (bible),
 `style.json`, `gates.json`, `recipe.md` (how to build it), optional `kit.py` helpers and `examples/` reference builds.
+Cross-niche clone-fidelity lessons (what past clones missed, which numbers lied): `docs/LESSONS.md` — read it before learning a
+new style; add to it when a niche session teaches something general.
+`look.light` (2026-11-05): shadow / highlight share, luma p90-p10, large-scale light pattern, vignette, hue spread, accent share —
+gated only for styles analysed + merged after that date. `edit.short_flash`: partial white flashes need a near-white jump
+(peak ≥ 0.55 of the frame > 0.7 luma) or a 1–3 frame luma spike ≥ 50; regression on 8 stored samples in the commit message.
 
 ## Code (`vidclone/`, Python 3.10+, venv `~/.vidclone/venv`, run via `bin/vidclone`)
 | Module | Does |

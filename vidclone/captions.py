@@ -7,6 +7,20 @@ from .common import load
 
 FONTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'fonts')
 
+def _check_font(family):
+    """libass (ffmpeg, melt, Kdenlive) only loads .ttf / .otf and silently falls back to another font (DejaVu) otherwise —
+    a .woff2 caption font rendered the wrong face in a kit (2026-11-05). Warn when no loadable file of the family exists."""
+    import glob, subprocess
+    key = re.sub(r'[^a-z0-9]', '', family.lower())
+    files = [os.path.basename(p) for p in glob.glob(os.path.join(FONTS, '*')) + glob.glob(os.path.expanduser('~/.fonts/*'))]
+    if any(re.sub(r'[^a-z0-9]', '', f.lower()).startswith(key) and f.lower().endswith(('.ttf', '.otf')) for f in files): return True
+    try:
+        if family.lower() in subprocess.run(['fc-list', ':', 'family'], capture_output=True, text=True).stdout.lower(): return True
+    except FileNotFoundError: pass
+    print(f"! caption font '{family}' has no .ttf/.otf in fonts/ or the system: libass will substitute another face. "
+          f"Add the .ttf (convert .woff/.woff2 first) to {os.path.abspath(FONTS)}")
+    return False
+
 def _ass_col(hexc, alpha=0):
     h = hexc.lstrip('#')
     return f'&H{alpha:02X}{h[4:6]}{h[2:4]}{h[0:2]}'.upper()
@@ -62,6 +76,11 @@ def write(words_json, out, W=1080, H=1920, style_dir=None, script=None, offset=0
     outline = max(1, round(size * st['outline_rel']))
     shadow = round(size * st['shadow_rel'])
     margin_v = round(H * (1 - st['baseline_rel']) - size * 0.2)
+    # measured overrides from `vidclone capfont` (libass-calibrated against the sample frame; ref_h = sample height)
+    k = H / st.get('ref_h', H)
+    if 'size' in st: size = round(st['size'] * k)
+    if 'margin_v' in st: margin_v = round(st['margin_v'] * k)
+    if 'outline_px' in st: outline = max(0, round(st['outline_px'] * k))
     border = 3 if st['boxed'] else 1
     hdr = f"""[Script Info]
 ScriptType: v4.00+
@@ -91,4 +110,5 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         ev.append(f'Dialogue: 0,{_t(s)},{_t(e)},Cap,,0,0,0,,{pop}{txt}')
     with open(out, 'w', encoding='utf-8') as f:
         f.write(hdr + '\n'.join(ev) + '\n')
+    _check_font(st['font'])
     return {'file': out, 'fontsize': size, 'margin_v': margin_v, 'captions': len(ev), 'fontsdir': os.path.abspath(FONTS)}
