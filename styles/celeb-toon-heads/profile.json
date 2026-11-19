@@ -1,0 +1,571 @@
+{
+ "samples": [
+  "/root/.claude/uploads/c90515bf-f3e4-5ff8-b00a-a237b61bd08c/a612babd-oUOwgxQYIE7fWwFD4jqELDsByEbWSElfgATFLR.mp4",
+  "/root/.claude/uploads/c90515bf-f3e4-5ff8-b00a-a237b61bd08c/800241ce-t_i_xu_ng_21.mp4",
+  "/root/.claude/uploads/c90515bf-f3e4-5ff8-b00a-a237b61bd08c/7fa6d7f4-t_i_xu_ng_22.mp4",
+  "/root/.claude/uploads/c90515bf-f3e4-5ff8-b00a-a237b61bd08c/bc113dd9-t_i_xu_ng_23.mp4"
+ ],
+ "n": 4,
+ "metrics": {
+  "duration_s": {
+   "median": 62.2,
+   "min": 50.933,
+   "max": 67.0,
+   "label": "Duration (s)"
+  },
+  "wpm": {
+   "median": 224.15,
+   "min": 198.5,
+   "max": 240.5,
+   "label": "Narration pace (words/min)"
+  },
+  "hook_end_s": {
+   "median": 8.06,
+   "min": 7.34,
+   "max": 8.76,
+   "label": "Hook sentence ends by (s)"
+  },
+  "closer_words": {
+   "median": 15.5,
+   "min": 5,
+   "max": 22,
+   "label": "Closing sentence words"
+  },
+  "longest_pause_s": {
+   "median": 0.36,
+   "min": 0.34,
+   "max": 0.4,
+   "label": "Longest pause (s)"
+  },
+  "speech_start_s": {
+   "median": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "label": "First word starts by (s)"
+  },
+  "shot_len_median_s": {
+   "median": 1.8665,
+   "min": 1.6165,
+   "max": 2.167,
+   "label": "Median shot length (s)"
+  },
+  "transitions_per_min": {
+   "median": 26.38,
+   "min": 23.34,
+   "max": 31.81,
+   "label": "Transitions per minute"
+  },
+  "cuts": {
+   "median": 15.5,
+   "min": 5,
+   "max": 22,
+   "label": "Hard cuts (count)"
+  },
+  "dissolve_dur_s": {
+   "median": 0.367,
+   "min": 0.3165,
+   "max": 0.4,
+   "label": "Dissolve length (s)"
+  },
+  "cuts_in_last_3s": {
+   "median": 0.0,
+   "min": 0,
+   "max": 1,
+   "label": "Hard cuts in last 3 s"
+  },
+  "static_share": {
+   "median": 0.785,
+   "min": 0.758,
+   "max": 0.857,
+   "label": "Camera static share"
+  },
+  "push_share": {
+   "median": 0.102,
+   "min": 0.042,
+   "max": 0.136,
+   "label": "Camera push-in share"
+  },
+  "pull_share": {
+   "median": 0.0445,
+   "min": 0.024,
+   "max": 0.096,
+   "label": "Camera pull-out share"
+  },
+  "pan_share": {
+   "median": 0.034,
+   "min": 0.01,
+   "max": 0.143,
+   "label": "Camera pan share"
+  },
+  "move_run_median_s": {
+   "median": 0.9417,
+   "min": 0.7333,
+   "max": 1.0333,
+   "label": "Camera move changes every (s)"
+  },
+  "jitter": {
+   "median": 8.1135,
+   "min": 4.852,
+   "max": 12.77,
+   "label": "Handheld jitter"
+  },
+  "cam_hold_share": {
+   "median": 0.741,
+   "min": 0.701,
+   "max": 0.798,
+   "label": "Camera dead-still frames (< 0.3 px/f)"
+  },
+  "cam_move_share": {
+   "median": 0.1655,
+   "min": 0.112,
+   "max": 0.198,
+   "label": "Camera moving frames (≥ 2 px/f)"
+  },
+  "moves_per_10s": {
+   "median": 1.635,
+   "min": 1.22,
+   "max": 2.61,
+   "label": "Camera moves per 10 s"
+  },
+  "move_peak_px": {
+   "median": 11.925,
+   "min": 10.9,
+   "max": 12.7,
+   "label": "Camera move peak speed (px/f @720)"
+  },
+  "move_peak_p90_px": {
+   "median": 32.4,
+   "min": 18.81,
+   "max": 47.66,
+   "label": "Fastest moves, p90 (px/f @720)"
+  },
+  "move_fwhm_f": {
+   "median": 7.0,
+   "min": 4.0,
+   "max": 11.5,
+   "label": "Camera move width at half speed (frames)"
+  },
+  "move_attack_f": {
+   "median": 3.5,
+   "min": 3.0,
+   "max": 4.5,
+   "label": "Camera move ease-in (frames)"
+  },
+  "quiet_push_rate": {
+   "median": 0.1417,
+   "min": 0.1196,
+   "max": 0.2536,
+   "label": "Push-in during holds (%/f)"
+  },
+  "hf_residual_px": {
+   "median": 0.0,
+   "min": 0.0,
+   "max": 0.001,
+   "label": "Hand-held float (px @720)"
+  },
+  "whips_per_min": {
+   "median": 0.555,
+   "min": 0.0,
+   "max": 2.41,
+   "label": "Whip pans per minute"
+  },
+  "picture_changes_per_min": {
+   "median": 48.1,
+   "min": 38.3,
+   "max": 57.7,
+   "label": "Picture changes per minute (cuts + swaps + block moves)"
+  },
+  "local_motion_share": {
+   "median": 0.3306,
+   "min": 0.1854,
+   "max": 0.6573,
+   "label": "Share of the frame moving inside shots"
+  },
+  "local_motion_p95": {
+   "median": 8.365,
+   "min": 5.78,
+   "max": 10.29,
+   "label": "Local motion speed p95 (px/f @720)"
+  },
+  "saturation": {
+   "median": 60.5,
+   "min": 38.0,
+   "max": 96.0,
+   "label": "Saturation median"
+  },
+  "brightness": {
+   "median": 109.1937,
+   "min": 94.6812,
+   "max": 126.5732,
+   "label": "Brightness median"
+  },
+  "contrast": {
+   "median": 59.5935,
+   "min": 45.3452,
+   "max": 63.5865,
+   "label": "Contrast (luma std)"
+  },
+  "detail": {
+   "median": 0.9181,
+   "min": 0.9014,
+   "max": 0.9272,
+   "label": "Fine detail ratio"
+  },
+  "warmth": {
+   "median": 5.1259,
+   "min": 3.1326,
+   "max": 11.1227,
+   "label": "Warmth (Lab b*)"
+  },
+  "shadow_share": {
+   "median": 0.2646,
+   "min": 0.2014,
+   "max": 0.4595,
+   "label": "Dark areas (luma < 0.2) share"
+  },
+  "luma_spread": {
+   "median": 154.25,
+   "min": 110.0,
+   "max": 169.0,
+   "label": "Light range (luma p90 - p10)"
+  },
+  "light_pattern": {
+   "median": 41.8022,
+   "min": 28.0382,
+   "max": 49.0752,
+   "label": "Large-scale light pattern (pools of light)"
+  },
+  "vignette": {
+   "median": 0.99,
+   "min": 0.8632,
+   "max": 1.1535,
+   "label": "Centre / border brightness"
+  },
+  "hue_spread": {
+   "median": 0.6968,
+   "min": 0.3351,
+   "max": 1.0286,
+   "label": "Palette hue spread (rad)"
+  },
+  "face_share": {
+   "median": 0.5165,
+   "min": 0.349,
+   "max": 0.765,
+   "label": "Frames with a face"
+  },
+  "caption_share": {
+   "median": 0.7255,
+   "min": 0.672,
+   "max": 0.73,
+   "label": "Seconds with captions"
+  },
+  "caption_baseline": {
+   "median": 0.6737,
+   "min": 0.6062,
+   "max": 0.7285,
+   "label": "Caption baseline (y / height)"
+  },
+  "caption_height": {
+   "median": 0.0221,
+   "min": 0.0203,
+   "max": 0.043,
+   "label": "Caption letter height (/ height)"
+  },
+  "caption_words": {
+   "median": 1.0,
+   "min": 1.0,
+   "max": 1.0,
+   "label": "Words on screen per caption"
+  },
+  "lufs": {
+   "median": -14.165,
+   "min": -15.09,
+   "max": -9.32,
+   "label": "Loudness (LUFS)"
+  },
+  "true_peak": {
+   "median": -3.6,
+   "min": -4.34,
+   "max": 0.51,
+   "label": "True peak (dBTP)"
+  },
+  "bed_db": {
+   "median": -6.6,
+   "min": -8.2,
+   "max": -3.6,
+   "label": "Music/bed in gaps vs voice (dB)"
+  },
+  "stereo_side_db": {
+   "median": -16.4,
+   "min": -20.2,
+   "max": -13.6,
+   "label": "Stereo side − mid (dB)"
+  }
+ },
+ "facts": {
+  "resolution": [
+   "1080x1920",
+   "1080x1918",
+   "1080x1918",
+   "1080x1918"
+  ],
+  "fps": [
+   30.0,
+   30.0,
+   30.0,
+   30.0
+  ],
+  "language": [
+   "en",
+   "en",
+   "en",
+   "en"
+  ],
+  "music_key": [
+   "C minor",
+   "G# minor",
+   "A minor",
+   "G minor"
+  ],
+  "tempo_bpm": [
+   129.2,
+   117.5,
+   123.0,
+   117.5
+  ],
+  "voice_f0_hz": [
+   111.3191,
+   112.6126,
+   113.2649,
+   202.9842
+  ],
+  "transition_mix": [
+   {
+    "cut": 13,
+    "dissolve": 10,
+    "flash": 0,
+    "fade": 0,
+    "whip": 1
+   },
+   {
+    "cut": 22,
+    "dissolve": 7,
+    "flash": 0,
+    "fade": 0,
+    "whip": 0
+   },
+   {
+    "cut": 18,
+    "dissolve": 9,
+    "flash": 0,
+    "fade": 0,
+    "whip": 1
+   },
+   {
+    "cut": 5,
+    "dissolve": 17,
+    "flash": 4,
+    "fade": 0,
+    "whip": 1
+   }
+  ],
+  "camera_share": [
+   {
+    "static": 0.808,
+    "push": 0.136,
+    "pull": 0.024,
+    "pan": 0.031,
+    "tilt": 0.0,
+    "roll": 0.0
+   },
+   {
+    "static": 0.762,
+    "push": 0.042,
+    "pull": 0.053,
+    "pan": 0.143,
+    "tilt": 0.0,
+    "roll": 0.0
+   },
+   {
+    "static": 0.857,
+    "push": 0.097,
+    "pull": 0.036,
+    "pan": 0.01,
+    "tilt": 0.0,
+    "roll": 0.0
+   },
+   {
+    "static": 0.758,
+    "push": 0.107,
+    "pull": 0.096,
+    "pan": 0.037,
+    "tilt": 0.002,
+    "roll": 0.0
+   }
+  ],
+  "dissolve_dur_s": [
+   0.3165,
+   0.4,
+   0.367,
+   0.367
+  ],
+  "palette": [
+   [
+    {
+     "hex": "#161616",
+     "share": 0.274
+    },
+    {
+     "hex": "#3f3632",
+     "share": 0.23
+    },
+    {
+     "hex": "#ac927e",
+     "share": 0.149
+    },
+    {
+     "hex": "#785d36",
+     "share": 0.125
+    },
+    {
+     "hex": "#5c6573",
+     "share": 0.124
+    },
+    {
+     "hex": "#c2c7d0",
+     "share": 0.098
+    }
+   ],
+   [
+    {
+     "hex": "#645d58",
+     "share": 0.264
+    },
+    {
+     "hex": "#3d3a2c",
+     "share": 0.175
+    },
+    {
+     "hex": "#191815",
+     "share": 0.168
+    },
+    {
+     "hex": "#998675",
+     "share": 0.152
+    },
+    {
+     "hex": "#ccd3df",
+     "share": 0.14
+    },
+    {
+     "hex": "#98b6d9",
+     "share": 0.102
+    }
+   ],
+   [
+    {
+     "hex": "#594436",
+     "share": 0.267
+    },
+    {
+     "hex": "#392b22",
+     "share": 0.214
+    },
+    {
+     "hex": "#130f0e",
+     "share": 0.175
+    },
+    {
+     "hex": "#7b624d",
+     "share": 0.154
+    },
+    {
+     "hex": "#958c88",
+     "share": 0.129
+    },
+    {
+     "hex": "#c6c0ba",
+     "share": 0.06
+    }
+   ],
+   [
+    {
+     "hex": "#675748",
+     "share": 0.196
+    },
+    {
+     "hex": "#b4aca8",
+     "share": 0.194
+    },
+    {
+     "hex": "#897c71",
+     "share": 0.183
+    },
+    {
+     "hex": "#43342b",
+     "share": 0.171
+    },
+    {
+     "hex": "#161416",
+     "share": 0.14
+    },
+    {
+     "hex": "#e0e1e3",
+     "share": 0.116
+    }
+   ]
+  ],
+  "caption_style": [
+   {
+    "fill": "#fdfdfd",
+    "edge": "#000000",
+    "boxed": false,
+    "uppercase_share": 1.0,
+    "words_hist": {
+     "1": 0.978,
+     "2": 0.022
+    }
+   },
+   {
+    "fill": "#fefbfb",
+    "edge": "#010000",
+    "boxed": false,
+    "uppercase_share": 1.0,
+    "words_hist": {
+     "1": 1.0
+    }
+   },
+   {
+    "fill": "#fdfbfb",
+    "edge": "#000000",
+    "boxed": false,
+    "uppercase_share": 1.0,
+    "words_hist": {
+     "1": 1.0
+    }
+   },
+   {
+    "fill": "#fdfdfd",
+    "edge": "#000000",
+    "boxed": false,
+    "uppercase_share": 1.0,
+    "words_hist": {
+     "1": 0.973,
+     "2": 0.027
+    }
+   }
+  ],
+  "hooks": [
+   "10 Weird Things You Didn't Know About Zayn Malik First off, Zayn almost missed the audition that made him famous because he was too lazy to wake up at 4 in the morning.",
+   "10 Weird Things You Didn't Know About Lil Baby First off, Lil Baby used to hang out with guys almost twice his age when he was only 10 years old, so they started calling him Lil Baby.",
+   "10 Weird Things You Didn't Know About The Conjuring House First off, when the Perron family arrived in 1971, almost immediately strange things started happening.",
+   "10 weird things you didn't know about Ariana Grande. First off, when Ariana Grande was only 13 years old, her own mom thought that she would grow up to be a serial killer."
+  ],
+  "closers": [
+   "Lastly, Zayn got kicked off Tinder because people thought he was using fake pictures of Zayn Malik, except it was actually him.",
+   "Lil Baby eventually agreed and became one of the biggest rappers in America.",
+   "Lastly, after the parents finally moved out, another couple lived there for 32 years without reporting anything similar.",
+   "Follow for more weird facts."
+  ]
+ }
+}

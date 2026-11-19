@@ -1,0 +1,52 @@
+{
+ "engine": "stills-motion",
+ "canvas": {"w": 1080, "h": 1920, "fps": 30},
+ "voice": {"tool": "elevenlabs", "voice_id": "UgBBYS2sOqTuMpoF3BR0", "model": "eleven_v4", "speed": 1.0,
+           "female_voice_id": null,
+           "notes": "Default adult male, f0 ~110-115 Hz (S01-S03), casual US storyteller, gossip / 'can you believe this' tone, steady fast pace 200-240 wpm, longest pause <= 0.4 s. A female narrator (f0 ~200 Hz, S04) is used for a female celebrity: pick one with creative_list_voices and put its id in female_voice_id. Prompt tag: [casual, amused, fast-paced, like telling a friend wild celebrity gossip]."},
+ "image_prompt": "Photorealistic vertical 9:16 photo, {scene}. One person, {person_desc}, full body, centred, standing on the ground plane, real clothes, real props and real background in natural light. Their head AND neck are a flat 2D cartoon meme drawing (see head_prompt). Everything else stays a real photograph.",
+ "head_prompt": "Replace the person's whole head and neck with a flat 2D cartoon meme drawing in the style of the reference head: flat warm skin fill with soft cel shading, thin clean black outline, slightly oversized head, simple line nose, white almond eyes with small black pupils and a heavy upper-lid line, thick short brows, mouth as a small line or dark open shape, hair and beard as flat shapes with a few strands, keeping the person's real hairstyle, hair colour, facial hair, skin tone, earrings and glasses so they are recognisable as a caricature. Expression: {expression}. Keep the body, clothes, hands, props, lighting and background exactly unchanged. The cartoon head must look drawn, never photoreal.",
+ "image_edit_prompts": {
+  "expression": "Same picture, only change the cartoon head's expression to {expression}; keep everything else identical",
+  "pose": "Same person with the same cartoon head, outfit and background, now {pose}",
+  "side_character": "Add a {role} standing {where}, real photo body and clothes with a flat 2D cartoon meme head and neck in the same style, expression {expression}",
+  "thought_bubble": "Add a white cloud thought bubble with a thin black outline at the top-left, its tail of small circles pointing to the person's head, containing a small flat cartoon picture of {content}",
+  "pov_phone": "First-person POV photo looking down at two real hands holding a smartphone over the lap, the screen shows {content}",
+  "empty_plate": "Remove the person completely and fill in the background naturally; keep the camera, light and every other object unchanged"
+ },
+ "video_prompt": "The cartoon-headed person {action}; camera locked, background still, head stays a flat 2D drawing and moves rigidly with the body (no lip sync, no 3D turning)",
+ "music_prompt": "Dark-curious minor-key underscore for a celebrity weird-facts short: muted plucks or soft piano ostinato, light trap hi-hats and soft 808, 117-130 bpm, no vocals, steady, loops cleanly, slightly mysterious gossip feel",
+ "sfx_list": ["whoosh", "pop", "camera shutter", "record scratch", "cash register", "glass ding", "low boom", "crowd gasp", "phone notification", "car pass-by"],
+ "grade": {"saturation": 1.0, "contrast": 1.04, "temperature": 6500},
+ "captions": {
+  "font": "Rubik Black", "size": 100, "margin_v": 600, "outline_px": 9, "ref_h": 1920, "fill": "#ffffff", "edge": "#000000",
+  "bold": 0, "upper": true, "pop": false, "shadow_rel": 0.03, "words_hist": {"1": 0.98, "2": 0.02}, "max_hold": 0.9, "strip_punct": true,
+  "notes": "capfont IoU on S01 'ALIEN': Titan One 0.46 / Rubik Black 0.44 / Work Sans Black 0.44 (real face not installed). Rubik Black chosen by burn test: same weight and wide round letters; Titan One too blobby, Poppins Black too thin. S04 uses a bigger cartoon display face (Titan One look, ~0.045 of the height) - variant 'big_captions' below."
+ },
+ "big_captions": {"font": "Titan One", "size": 150, "outline_px": 12, "margin_v": 560},
+ "countdown": {"style": "badge", "from": 10, "start_s": 3.5, "x": 0.085, "y": 0.097, "w": 0.135,
+               "badge_fill": "#f4f4f4", "number": "#111111", "font": "Rubik-Black.ttf",
+               "notes": "white disc with a soft grey bevel and a heavy black number, top-left, appears after the title line, steps 10 -> 1 on fact boundaries (about every 5-6 s); '1' holds to the end. S04 variant: plain white '10.' with black outline (style 'text')."},
+ "watermark": {"text": null, "y": 0.885, "alpha": 0.55,
+               "notes": "samples carry the channel handle bottom-centre, small white, half transparent. Use the user's own handle or nothing - never the sample channel's."},
+ "creep": 0.0,
+ "kicks": {"amp": 0.012, "frames": 6, "use": "on violent / shock words (shooting, fight, crash, scream), 0-2 per video, with a red edge vignette pulse"},
+ "frame_check": {"max_frozen_s": 1.2},
+ "edit": {"default_transition": {"kind": "cut"},
+          "transition_mix": {"cut": 0.62, "dissolve": 0.33, "whip": 0.03, "flash": 0.02},
+          "dissolve_dur": 0.37,
+          "moves": {"static": 0.78, "push": 0.1, "pull": 0.05, "pan": 0.05, "tilt": 0.02},
+          "move_amount": 0.05,
+          "beats": "new scene every 1.5-2.5 s (one picture per clause); the camera mostly holds still, then SNAPS (3-4 frame attack) into a punch-in or pull-out on the key word; hard cuts between scenes, short dissolves (0.32-0.4 s) between facts"},
+ "animation": {
+  "heads": "cartoon head + neck baked into the picture by the image edit (not a layer); expression = a new edited picture swapped on the word",
+  "bodies": "people are cut-out blocks over an empty plate: walk in / walk across (2-4 pose pictures swapped at ~5 Hz while the block slides), turn-around = horizontal squash to a sliver and back with the next pose, sit down / stand up as pose swaps",
+  "objects": "cars, planes, chairs, money stacks, phones as blocks that slide or pop in; side characters with their own toon heads",
+  "icons": ["zzz", "spark", "question", "exclaim", "heart", "skull", "note", "lines"]},
+ "limits": [
+  "The samples' walk cycles look like AI video or 3-4 pose drawings; stills-motion fakes them with pose swaps on a sliding block, or uses a 2-3 s image-to-video clip per walk",
+  "The cartoon head is drawn by the image model: keep one head reference per celebrity and chain every pose / expression from it, then check identity on a contact sheet",
+  "Caption face is not the sample's exact font (IoU 0.44); Rubik Black is the closest OFL face installed",
+  "Real people: the head must stay an obvious caricature (flat, outlined) - never a photoreal face or deepfake-like lip sync"
+ ]
+}

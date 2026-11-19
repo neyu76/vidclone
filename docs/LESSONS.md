@@ -28,6 +28,9 @@ rejected or what measurement lied, and the rule that fixed it. Niche-specific ru
 8. **Caption colour / font / size**: OCR read yellow captions as white; a font chosen by eye was ~40 % too big (ASS size ≠
    pixel height). Use `vidclone capfont` (libass-fitted font, size, margin, outline) and check by burning one caption over
    the sample frame. Caption fonts must be .ttf/.otf — libass silently replaces .woff2 (captions now warn).
+8b. `capfont` reads the caption as the white blob near the caption line: on bright frames it grabbed white clothes and a
+    thought bubble (width 504 px for a ~220 px word, celeb-toon-heads 2026-11-19). Pick a frame where the caption sits on a
+    dark, plain background, and check the measured width against the frame before trusting the font ranking.
 9. **Camera**: "moving" can mean constant slow drift (wrong) or hold → fast whip / push (right). Compare hold share,
    push share and whips per minute, not just the share of moving frames.
 10. **hook_end_s** reads the first Whisper segment, not the first sentence — a known false fail when the hook is short.

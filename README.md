@@ -36,7 +36,9 @@ changes per minute, local motion inside shots). See `CLAUDE.md`.
 Engines for making videos: `docs/ENGINES.md`. Style bible + recipe template: `docs/STYLE_TEMPLATE.md`.
 
 The code and the skills are niche-neutral; each style folder carries its own rules. Example: `styles/animal-toon-eyes/`
-(bible, gates, `recipe.md`, `kit.py` helpers, `examples/remake_s01_edl.py` reference build).
+(bible, gates, `recipe.md`, `kit.py` helpers, `examples/remake_s01_edl.py` reference build); `styles/celeb-toon-heads/`
+(US celebrity / movie "10 weird things" countdowns: real-photo bodies with drawn cartoon heads, countdown badge, own kit on top of
+the animal kit).
 
 Samples, their frames and audio stay on the machine that analysed them (`styles/*/samples/*/work` is git-ignored); new videos are
 original content in the learned style.

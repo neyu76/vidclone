@@ -42,7 +42,8 @@ gated only for styles analysed + merged after that date. `edit.short_flash`: par
   0.14 %/f, 0.08 px). Hold share reads higher (21–35 % vs 10 %): flat backgrounds give no flow. Kicks are informational (not a gate).
 - Music character (`percussive_ratio`, `beat_regularity`) is unreliable under continuous narration (voice counts as percussive) — not a gate.
 - `bed_under_voice_db` = median level in word gaps minus 75th percentile of speech level; compare it only with the same metric.
-- Faces: OpenCV Haar frontal faces (needs `opencv-python-headless<5`; OpenCV 5 dropped CascadeClassifier).
+- Faces: OpenCV Haar frontal faces (needs `opencv-python-headless<5`; OpenCV 5 dropped CascadeClassifier). A dependency can pull
+  `opencv-python` 5 in next to it (seen 2026-11-19: `cv2` then has no CascadeClassifier) — uninstall both, reinstall `opencv-python-headless<5`.
 - OCR misses heavily stylised caption fonts → caption share reads low; the band pass recovers most.
 
 ## Gotchas
