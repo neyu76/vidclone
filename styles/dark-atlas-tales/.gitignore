@@ -6,3 +6,6 @@ dark_atlas/**/test.jpg
 dark_atlas/**/stills.jpg
 dark_atlas/**/qa_sheet.jpg
 __pycache__/
+
+# keep the kit audio in git (root .gitignore ignores *.mp3): voices, SFX library, music bed mp3
+!*.mp3
