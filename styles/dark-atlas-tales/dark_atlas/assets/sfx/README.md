@@ -19,3 +19,7 @@ baby_cry_over_water, cry_morph_screech, otter_creature_hiss, water_splash_grab, 
 
 ## ep05_nimerigar/ — riêng EP05 (3 file, 8 s, 40 credit, 19/11/2026)
 tiny_footsteps_gravel (3 s), arrow_whistle_thunk (2 s), little_people_chitter (3 s)
+
+## ep06_la_mala_hora/ — riêng EP06 (3 file, tổng hợp tại máy bằng `tools/synth_sfx_ep06.py`, 0 credit, 22/11/2026)
+church_bell_toll_single (5,8 s), mala_hora_breath_rasp (4 s — tiếng của chính La Mala Hora, dùng cho jumpscare 3 lớp + lộ mặt), rebozo_rustle_gravel (2,5 s).
+Phiên này không có Magnific nên chưa tạo bản ElevenLabs (báo giá 8 s = 40 credit); có thể thay sau, giữ nguyên tên file.
