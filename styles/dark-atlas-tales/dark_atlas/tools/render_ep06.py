@@ -739,14 +739,17 @@ def main():
         cols = min(8, len(ims)); sheet = Image.new("RGB", (270 * cols, 480 * ((len(ims) + cols - 1) // cols)))
         for k, im in enumerate(ims): sheet.paste(im, ((k % cols) * 270, (k // cols) * 480))
         out = os.path.join(EP, sys.argv[3] if len(sys.argv) > 3 else "stills.jpg"); sheet.save(out, quality=90); print("stills", out); return
+    nf = int(math.ceil(END * FPS)); n0, n1 = 0, nf
     out = os.path.join(EP, "ep06_noaudio.mp4")
+    if os.environ.get("RENDER_RANGE"):                                   # segment render (long renders OOM in one process)
+        n0, n1 = [int(x) for x in os.environ["RENDER_RANGE"].split(":")]; n1 = min(n1, nf)
+        out = os.path.join(EP, "seg_%05d.mp4" % n0)
     pr = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
                            "-c:v", "libx264", "-preset", "medium", "-crf", "16", "-pix_fmt", "yuv420p", out], stdin=subprocess.PIPE)
-    nf = int(math.ceil(END * FPS))
-    for n in range(nf):
+    for n in range(n0, n1):
         pr.stdin.write(frame(n).tobytes())
         if n % 150 == 0: print("frame", n, "/", nf, flush=True)
-    pr.stdin.close(); pr.wait(); print("wrote", out, "%.2f s" % (nf / FPS))
+    pr.stdin.close(); pr.wait(); print("wrote", out, "%.2f s" % ((n1 - n0) / FPS))
 
 if __name__ == "__main__":
     main()
