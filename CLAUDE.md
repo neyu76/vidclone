@@ -3,6 +3,7 @@
 Workflow lives in the plugin skills (`plugins/vidclone/skills/{setup,learn,make,qa}`); this file is the code map and the known limits.
 Keep the skills and `vidclone/` niche-neutral. Everything specific to one style lives in `styles/<name>/`: `style.md` (bible),
 `style.json`, `gates.json`, `recipe.md` (how to build it), optional `kit.py` helpers and `examples/` reference builds.
+`styles/dark-atlas-tales/` is a self-contained kit with its own engine + QA (not the EDL/gates) — see its README.
 Cross-niche clone-fidelity lessons (what past clones missed, which numbers lied): `docs/LESSONS.md` — read it before learning a
 new style; add to it when a niche session teaches something general.
 `look.light` (2026-11-05): shadow / highlight share, luma p90-p10, large-scale light pattern, vignette, hue spread, accent share —

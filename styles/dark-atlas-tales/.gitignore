@@ -1,0 +1,8 @@
+# Large or regenerated files: the full kit zip on Drive has them (fetch_kit.sh)
+*.wav
+*.mp4
+video_mau/
+dark_atlas/**/test.jpg
+dark_atlas/**/stills.jpg
+dark_atlas/**/qa_sheet.jpg
+__pycache__/
