@@ -1,0 +1,147 @@
+# TT_TOPIC_PACKET_V1 — TT-001 La Mala Hora (New Mexico) · darkatlas-topic-studio · 22/11/2026
+# Shortlist & Scorecard (Pha 5), 5-Axis Twin Check (Pha 2) ở cuối file.
+schema_version: TT_TOPIC_PACKET_V1
+packet_spec_revision: "4.0"
+identity:
+  topic_id: "TT-001"
+  episode_folder: "EP06_la_mala_hora"
+  slug: "la-mala-hora-new-mexico"
+  packet_revision: 1
+  niche_profile_id: "darkatlas-us-states"
+  profile_revision: 1
+  base_versions: "tiktok-topic-studio@4.0 | tiktok-script-all-in-one@4.0 | tiktok-studio-doctor@4.0"
+selection_and_scope:
+  selection_status: "DELEGATED_SELECTED"
+  decision_source: "USER_DELEGATED"
+  execution_mode: "AGENT_AUTONOMOUS_STEP_LOOP"
+  execution_scope: "FULL_SCRIPT_PIPELINE"   # dừng trước TTS/render theo lệnh người dùng
+  adaptation_route: "ORIGINAL_BUILD"
+  readiness: "READY_FOR_SCRIPT"
+  blockers_and_limitations:
+    - "Không có vidIQ/Apify MCP trong phiên: chưa có outlier đo số; bằng chứng thị trường = các danh sách 'creepiest legend from every state' (yếu)."
+    - "Thứ tự series: SERIES_PLAN ghi EP06 = Water Babies, nhưng Water Babies dính TWIN BLOCKER với EP04 (khóc bên nước) nên TT-001 lấy La Mala Hora (EP07 cũ) làm EP06; Water Babies cần đổi góc trước khi làm."
+    - "Espinosa 1910 chưa đọc được nguyên văn → không dùng năm 1910 trong lời đọc."
+niche_and_psychological_avatar:
+  niche_name: "US state horror folklore (Dark Atlas Tales)"
+  content_archetype_and_story_engine: "10-beat legend + OMEN (điềm báo: người thân chết, không phải bạn)"
+  brand_posture: "OMNISCIENT_NARRATOR"
+  channel_stage: "STAGE_1A_FOLLOWER_SPRINT"
+  target_person_and_inner_question: "Người Mỹ 16–34 lướt đêm, hay đi đường vắng/về nhà muộn: 'Nếu tối nay mình thấy thứ đó trên đường về, người gặp chuyện có phải là người mình thương?'"
+  emotional_posture: "CUSTOM_SINGLE_POSTURE: DREAD_RULE"
+  avatar_purity_check: "Trong lõi chân dung: truyền thuyết bang Mỹ + tình huống ban đêm của 'you' + quy tắc mang theo."
+  target_fyp_region_and_qualified_geo: "US (CA/UK/AU secondary)"
+  script_language: "en-US"
+  format_track: "creator_rewards"
+  fiction_and_fact_policy: "FICTION_CREATIVE legend (they say/according to the legend) + STRICT_NONFICTION F1–F3 trong SOURCES.md"
+  identity_and_non_stereotype_lock: "UNSPECIFIED (người đi đường, người vợ không gắn sắc tộc; cộng đồng Hispanic New Mexico nêu như nguồn truyền thuyết, tôn trọng)"
+  exploration_element_tested: "Động cơ OMEN: nỗi sợ chuyển sang người thân của người xem (EP02/04/05 đều đe doạ trực tiếp người xem)"
+angle_and_packaging_9x16:
+  core_question_and_viewer_promise: "Thấy người phụ nữ áo đen ở ngã tư lúc nửa đêm thì phải làm gì — và vì sao người gặp hoạ không phải là bạn."
+  concrete_stage_and_opening_object: "Ngã tư đường đất giữa sa mạc cao New Mexico lúc nửa đêm: cột biển đường bang có biểu tượng Zia, một descanso (thánh giá trắng + hoa nhựa), bóng người phụ nữ áo đen đứng im ở giữa ngã tư; người kể đi bộ một mình (đèn pin)."
+  unique_angle_familiar_plus_new: "Quen: 'đừng nhìn/đừng dừng khi gặp bóng ma bên đường'. Mới: bà không hại bạn — bà báo giờ chết của người bạn thương; câu kết lật: bà đứng đó để báo ai sẽ không còn chờ bạn ở nhà."
+  format_stack:
+    aaaa_or_story_engine: "OMEN"
+    outer_container: "Dark Atlas 10-beat"
+    inner_escalation_engine: "đứng im → thấy được bởi người đi một mình → điềm báo → câu chuyện người vợ → bóng đen lăn qua đường → đồng hồ điểm giờ"
+  visual_hook_archetype_1_to_8: "4 — Đối tượng bất động giữa khung + câu lệnh"
+  frame_0_four_elements:
+    motion_at_0s: "camera trượt ngang dài dọc đường đất (biến thể camera), bụi bay trong luồng đèn pin, cột biển Zia lướt tiền cảnh"
+    audio_hit_at_0s: "lời 'In New Mexico,' vào 0,00 s + gió đêm; cú nhấn lớn = jumpscare 0,85 s với tiếng thở/khàn biến dạng của chính La Mala Hora (SFX riêng) 3 lớp + sub_boom"
+    frame0_safezone_text: "IN NEW MEXICO,"
+    spoken_hook_what_plus_why: "What: woman in black standing at a crossroads after midnight. Why: she isn't waiting for you — she's waiting to tell you who's next."
+  hook_card_text: "KEEP WALKING."
+  tiktok_search_seo_keywords: ["la mala hora", "new mexico legend", "new mexico urban legend", "crossroads legend", "woman in black"]
+  fyp_throttle_word_check: "PASS (tránh 'killed'/'murdered' trong lời đọc: dùng 'died')"
+  spectacle_or_emotional_peak_at_55_65pct: "Nhịp 7–8 (~40–55 s): người vợ về nhà, đồng hồ dừng đúng giờ chồng chết; bóng đen lăn qua đường."
+  ending_loop_or_part2_plan: "Câu cuối 'who won't be waiting when you get home' nối về hình ngã tư + câu mở 'if you're walking home alone'."
+  episode_variations:   # không trùng EP04 (sương/dập dềnh/lạnh/trồi từ nước) và EP05 (vách nổ/whip mũi tên/góc thấp/ấm/hang đầy mắt)
+    title_card: "ngọn nến trên descanso bập bùng rồi tắt, khói tan thành chữ LA MALA HORA (ngọn lửa + khói)"
+    soft_transition: "wipe bằng bóng đen đi ngang khung (khăn choàng của bà quét qua)"
+    camera: "trượt ngang dài (lateral dolly) như đang bước ngang qua; đẩy vào rất chậm ở cảnh chân dung"
+    grade: "đêm tím chàm lạnh, đơn sắc gần như monochrome; một điểm nhấn đỏ chile ristra"
+    reveal: "quay đầu chậm: bà đứng quay lưng ở ngã tư, quay đầu, mặt dưới khăn choàng rebozo đen, mắt trắng đục, răng mảnh; không máu"
+    hook_accent: "bóng người phụ nữ đi ngang qua thẻ hook đen chữ đỏ, chữ chập chờn"
+    signature_sfx: ["chuông nhà thờ adobe điểm một tiếng trầm (giờ)", "tiếng thở khàn / thì thầm biến dạng của bà (dùng cho jumpscare, 3 lớp)", "vải khăn choàng sột soạt + bước chân trên sỏi"]
+  state_markers_min4:
+    - "nhà thờ adobe hai tháp chuông, tường đất bo tròn"
+    - "chuỗi ớt đỏ chile ristras treo trên xà vigas"
+    - "descansos: thánh giá trắng nhỏ ven đường + hoa nhựa"
+    - "biển đường bang New Mexico có biểu tượng Zia (vàng/đỏ)"
+    - "dãy Sangre de Cristo ở chân trời, sa mạc cao có bụi cây chamisa"
+    - "xe bán tải cũ, đồng hồ treo tường kiểu Tây Ban Nha trong nhà adobe"
+runtime_and_part_budgets:
+  target_seconds_range: "68-78 (T_fast >= 62.0)"
+  voice_delivery_mode: "clean_voiceover"
+  count_unit: "words"
+  rate_basis: "MEASURED_SAMPLE"
+  speaking_rate_center_min_max: [145, 138, 152]
+  non_speech_budget_seconds: 0
+  part_budgets_csv: "46,48,46,35"   # = 175 từ → ~72,4 s @145; T_fast 69,1 s; T_slow 76,1 s
+market_twin_and_source_governance:
+  evidence_confidence: "MODERATE_MIXED (fact HIGH; market evidence weak, no outlier tools)"
+  outlier_references:
+    - "OBSERVED_MARKET_EVIDENCE (yếu): La Mala Hora được chọn làm 'creepiest legend' của New Mexico trong các danh sách 50 bang (iHorror, WhenInYourState, Ranker) — chứng tỏ nhu cầu tìm 'new mexico legend', chưa có số view TikTok."
+  five_axis_twin_check:
+    closest_matches_scored:
+      - "V03 @darkatlastales 'help on the road / LOOK AT HER FEET': Question 0.5 (phụ nữ đêm bên đường) | Stage 0.5 (đường đêm; ta đổi sang ngã tư đất + đi bộ, không xe/capô) | Ladder 0 | Payoff 0 | Look 0.5 → 1.5/5 CLEAR (cấm cảnh capô xe & lời nhờ giúp)"
+      - "EP05 Nimerigar: Question 0 | Stage 0.5 (sa mạc đêm; ta đổi sang tím chàm, adobe, không đá đỏ) | Ladder 0 | Payoff 0 | Look 0 → 0.5/5"
+      - "EP04 Kushtaka: Question 0 | Stage 0 | Ladder 0.5 (đổi hình dạng) | Payoff 0.5 (mất người thân) | Look 0 → 1/5"
+      - "EP02 Belsnickel: 0/5"
+    verdict: "CLEAR"
+  source_register: ["SOURCES.md F1–F3"]
+  claim_ledger:
+    - {claim: "La Mala Hora means the evil hour", label: FACT, source: F1}
+    - {claim: "story told in Hispanic communities across New Mexico", label: FACT, source: F2}
+    - {claim: "roadside crosses called descansos mark places where people died", label: FACT, source: F3}
+    - {claim: "appears to people travelling alone at night, at crossroads", label: LEGEND, marker: "According to the legend"}
+    - {claim: "seeing her means someone you love will die", label: LEGEND, marker: "But here's the terrifying part / they say"}
+    - {claim: "woman came home, husband died at that same hour", label: LEGEND, marker: "One woman… (told as story)"}
+    - {claim: "shapes: woman in black, woman in white, dark shape", label: LEGEND, marker: "They say / some versions"}
+    - {claim: "keep walking, don't look back", label: CREATIVE, marker: "narrator advice beat 9"}
+ordered_modular_outline:
+  parts:
+    - part_id: "P01"
+      budget_units: 46
+      function_and_state_delta: "Nhịp 1–4. INFORMATION: tình huống + lệnh + lý do + tên. Viewer: an toàn → bị đe doạ gián tiếp."
+      concrete_action_and_9x16_data_cards: ["ngã tư + bóng áo đen bất động", "jumpscare mặt bà 0,85 s", "thẻ hook KEEP WALKING. + bóng đi ngang", "thẻ tiêu đề nến tắt → khói thành chữ"]
+      exit_bridge: "'The evil hour.' → hỏi ngầm: giờ gì?"
+    - part_id: "P02"
+      budget_units: 48
+      function_and_state_delta: "Nhịp 5–6. TRUST: dữ kiện thật (cộng đồng Hispanic NM, descansos) → luật xuất hiện (đi một mình, nửa đêm, ngã tư, không chạm vào ai)."
+      concrete_action_and_9x16_data_cards: ["làng adobe + nhà thờ hai tháp", "hàng descansos ven đường", "người đi một mình, đèn pin, bóng bà ở xa"]
+      exit_bridge: "'She doesn't have to.' → vậy bà làm gì?"
+    - part_id: "P03"
+      budget_units: 46
+      function_and_state_delta: "Nhịp 7–8. DANGER chuyển sang người thân: điềm báo + chuyện người vợ (đỉnh 55–65 %) + hình dạng khác nhau."
+      concrete_action_and_9x16_data_cards: ["chân dung người vợ run", "đồng hồ treo tường dừng ở 12:00", "bóng đen lăn qua đường"]
+      exit_bridge: "hình dạng thay đổi → vậy nhận ra bà thế nào?"
+    - part_id: "P04"
+      budget_units: 35
+      function_and_state_delta: "Nhịp 9–10. RULE + loop: lời khuyên cho 'you' tối nay → câu lật về người chờ ở nhà → lộ mặt quay đầu chậm."
+      concrete_action_and_9x16_data_cards: ["trở lại ngã tư (loop)", "bà quay đầu chậm, mắt trắng", "chuông điểm 1 tiếng + cắt"]
+      exit_bridge: "FINAL→0.0s: 'when you get home' ↔ 'walking home alone'"
+  open_loop_payoff_map:
+    - "P01 'waiting to tell you who's next' → trả ở P03 (người thân chết) và P04 (who won't be waiting)"
+    - "P01 'The evil hour' → trả ở P03 (đúng giờ đó)"
+  voice_and_must_keep_constraints:
+    voice_guide_summary: "Milo, calm and slow; sentences <= 20 words; 'you' in beats 1 and 9; one '...' before the hook command, optional second before the climax line"
+    user_must_keep: ["10-beat template", "black hook card red text", "jumpscare 0.8-1.7s with the creature's own sound", "no blood", ">=4 state markers", "Hispanic New Mexico origin stated respectfully"]
+    strictly_do_not_copy: ["@darkatlastales scripts and titles (esp. V03)", "Urban Legends for Every State scripts", "listicle wording from iHorror/WhenInYourState"]
+
+# ---------------- Pha 5: Shortlist Scorecard (/100) ----------------
+# | Ứng viên | Tiền đề30 | Cầu+SEO20 | Twin15 | Avatar15 | Giây10 | Nguồn+Kit10 | Tổng | Ghi chú |
+# | La Mala Hora (NM)            | 26 | 14 | 13 | 13 | 9 | 9 | 84 | CHỌN. OMEN mới với kênh; nguồn bách khoa + descansos |
+# | El Sombrerón (TX)            | 22 | 13 | 14 |  9 | 9 | 3 | 70 | Liên hệ Texas không có nguồn; avatar 'bang Mỹ' loãng |
+# | Dead Children's Playground (AL) | 23 | 13 | 13 |  8 | 9 | 0 | 66 | Không phải quái vật; jumpscare mặt trẻ em = phản cảm; truyền thuyết 1918/1960 không nguồn |
+# | Qallupilluit (Arctic AK)     | 20 | 10 |  8 | 11 | 9 | 6 | 64 | Gần EP04 (dụ trẻ ra mép nước), lại là Alaska |
+# | Pukwudgie (MA)               | 22 | 15 |  5 | 12 | 9 | 7 | 70→62 | TWIN với EP05 (người tí hon + tên độc) = BLOCKER, trừ điểm |
+# | Ircenrraat (AK)              | 18 |  8 |  6 | 11 | 9 | 8 | 60 | Alaska lần 2 + người tí hon (EP05) |
+# | Water Babies (NV)            | 24 | 12 |  2 | 12 | 9 | 7 | 58→BLOCK | TWIN với EP04 (Question+Payoff); bỏ chi tiết dìm trẻ |
+# | Walking Sam (SD)             | 22 | 11 | 13 |  8 | 9 | 2 | 55 | Chủ đề tự tử: rủi ro FYP + an toàn, cần dòng 988; không chọn làm tập thử bộ skill |
+
+# ---------------- START_COMMAND ----------------
+# Dùng $darkatlas-script-all-in-one ở AGENT_AUTONOMOUS_STEP_LOOP. Nhận TT_TOPIC_PACKET_V1
+# styles/dark-atlas-tales/dark_atlas/EP06_la_mala_hora/TT/TT-001_TT_TOPIC_PACKET_V1.yaml: init 4 phần "46,48,46,35",
+# frame0 "IN NEW MEXICO,", chọn 3-5 hook (>=16/20) cho P01, viết tuần tự P01..P04 (mỗi phần 1 lượt + verify-part),
+# opening-audit --p01-only, stitch-draft, beat-audit, atlas-audit --strict, QA 8 trục P0/P1, lock-export 4 file,
+# rồi kit-scenes ra 05-TT-KIT-SCENES. Không chạy TTS/render.

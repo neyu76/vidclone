@@ -32,6 +32,12 @@ Smoke test (≈ 40 s, writes `EP05_nimerigar/test.jpg`: jumpscare, title card, r
 cd styles/dark-atlas-tales/dark_atlas && ~/.darkatlas-venv/bin/python -I tools/render_ep05.py . "0.9,15,70.8" test.jpg
 ```
 
+## TikTok script suite (adapted 2026-11-22)
+`skill/darkatlas-topic-studio`, `skill/darkatlas-script-all-in-one` (+ `scripts/tiktok_script_assembler.py` with the channel
+commands `atlas-audit` and `kit-scenes`), `skill/darkatlas-studio-doctor` — BASE_RAW v4.0 personalised to profile
+`darkatlas-us-states`; linked in `.claude/skills/`. First run: TT-001 = `dark_atlas/EP06_la_mala_hora/TT/` (packet, parts,
+audits, locked 01–04 bundle, 05 kit scene plan). Stops before TTS/render.
+
 ## Changes from the zip (2026-11-22)
 - `render_ep02.py` / `render_ep04.py`: Windows-only fonts fall back to `fonts/Gelasio-Bold.ttf` / `fonts/Kalam-Regular.ttf`.
 - `mix_episode.py`: uses `<bed>.mp3` when the `<bed>.wav` master is missing.

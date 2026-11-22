@@ -1,0 +1,83 @@
+{
+  "lang_mode": "auto",
+  "candidates": [
+    {
+      "candidate": "In New Mexico, if you're walking home alone after midnight, and a woman in black is standing at the crossroads... keep walking.",
+      "max_competitor_jaccard": 0.129,
+      "closest_competitor": "If she asks you for help on the road at night... look at her feet.",
+      "max_own_past_jaccard": 0.1538,
+      "closest_own_past": "In Alaska, if you hear a baby crying down by the water at night, far from any house... don't go looking for it.",
+      "lexical_twin_verdict": "CLEAR_DISTINCT_WORDING (<0.30)",
+      "tiktok_search_seo_matched": [
+        "new mexico",
+        "crossroads",
+        "woman in black"
+      ],
+      "tiktok_search_seo_missing": [],
+      "fyp_throttle_watchlist_hits": []
+    },
+    {
+      "candidate": "In New Mexico, if your clock stops at midnight and someone is standing at the end of your road... don't go to the window.",
+      "max_competitor_jaccard": 0.125,
+      "closest_competitor": "If she asks you for help on the road at night... look at her feet.",
+      "max_own_past_jaccard": 0.1795,
+      "closest_own_past": "In Alaska, if you hear a baby crying down by the water at night, far from any house... don't go looking for it.",
+      "lexical_twin_verdict": "CLEAR_DISTINCT_WORDING (<0.30)",
+      "tiktok_search_seo_matched": [
+        "new mexico"
+      ],
+      "tiktok_search_seo_missing": [
+        "crossroads",
+        "woman in black"
+      ],
+      "fyp_throttle_watchlist_hits": []
+    },
+    {
+      "candidate": "In New Mexico, if you see a woman standing perfectly still where two dirt roads cross... don't look at her face.",
+      "max_competitor_jaccard": 0.1613,
+      "closest_competitor": "If she asks you for help on the road at night... look at her feet.",
+      "max_own_past_jaccard": 0.1795,
+      "closest_own_past": "In Alaska, if you hear a baby crying down by the water at night, far from any house... don't go looking for it.",
+      "lexical_twin_verdict": "CLEAR_DISTINCT_WORDING (<0.30)",
+      "tiktok_search_seo_matched": [
+        "new mexico"
+      ],
+      "tiktok_search_seo_missing": [
+        "crossroads",
+        "woman in black"
+      ],
+      "fyp_throttle_watchlist_hits": []
+    },
+    {
+      "candidate": "In New Mexico, if a woman in black is waiting at the crossroads when you drive home... don't stop the car.",
+      "max_competitor_jaccard": 0.1333,
+      "closest_competitor": "If she asks you for help on the road at night... look at her feet.",
+      "max_own_past_jaccard": 0.2222,
+      "closest_own_past": "In Alaska, if you hear a baby crying down by the water at night, far from any house... don't go looking for it.",
+      "lexical_twin_verdict": "CLEAR_DISTINCT_WORDING (<0.30)",
+      "tiktok_search_seo_matched": [
+        "new mexico",
+        "crossroads",
+        "woman in black"
+      ],
+      "tiktok_search_seo_missing": [],
+      "fyp_throttle_watchlist_hits": []
+    },
+    {
+      "candidate": "In New Mexico, if you're out alone at midnight and a dark shape is standing where the roads cross... don't stop.",
+      "max_competitor_jaccard": 0.1212,
+      "closest_competitor": "If she asks you for help on the road at night... look at her feet.",
+      "max_own_past_jaccard": 0.2353,
+      "closest_own_past": "In Wyoming, if you hear something small moving between the rocks at night... don't follow it into the dark.",
+      "lexical_twin_verdict": "CLEAR_DISTINCT_WORDING (<0.30)",
+      "tiktok_search_seo_matched": [
+        "new mexico"
+      ],
+      "tiktok_search_seo_missing": [
+        "crossroads",
+        "woman in black"
+      ],
+      "fyp_throttle_watchlist_hits": []
+    }
+  ]
+}

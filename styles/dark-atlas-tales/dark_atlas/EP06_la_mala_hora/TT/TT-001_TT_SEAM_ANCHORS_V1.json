@@ -1,0 +1,22 @@
+[
+  {
+    "seam": "P01->P02",
+    "prev_closing": "The evil hour.",
+    "next_opening": "Her story is told in Hispanic communities across New Mexico,"
+  },
+  {
+    "seam": "P02->P03",
+    "prev_closing": "She doesn't have to.",
+    "next_opening": "But here's the terrifying part."
+  },
+  {
+    "seam": "P03->P04",
+    "prev_closing": "Sometimes she's just a dark shape rolling across the road.",
+    "next_opening": "So if you're walking home alone tonight,"
+  },
+  {
+    "seam": "FINAL->0.0s_LOOP_OR_PART2",
+    "prev_closing": "She's there to tell you who's not coming home.",
+    "next_opening": "In New Mexico,"
+  }
+]

@@ -1,0 +1,98 @@
+{
+  "topic_id": "TT-001",
+  "words": 178,
+  "hook_card": "keep walking.",
+  "checks": [
+    {
+      "check": "word_count_165_180",
+      "level": "P0",
+      "pass": true,
+      "detail": "178 words"
+    },
+    {
+      "check": "ellipsis_1_or_2",
+      "level": "P0",
+      "pass": true,
+      "detail": "2 x \"...\" (before the hook command; optional 2nd before the climax line)"
+    },
+    {
+      "check": "beat1_In_STATE_if",
+      "level": "P0",
+      "pass": true,
+      "detail": "In New Mexico, if"
+    },
+    {
+      "check": "beat2_spoken_command_le_6_words",
+      "level": "P0",
+      "pass": true,
+      "detail": "keep walking."
+    },
+    {
+      "check": "hook_card_text_le_3_words",
+      "level": "P2",
+      "pass": true,
+      "detail": "card suggestion: KEEP WALKING. (EP04/05 shortened the spoken command on the card)"
+    },
+    {
+      "check": "beat2_hook_is_imperative",
+      "level": "P1",
+      "pass": true,
+      "detail": "keep walking."
+    },
+    {
+      "check": "beat3_because",
+      "level": "P0",
+      "pass": true,
+      "detail": "because she isn't waiting for a ride. sh"
+    },
+    {
+      "check": "beat4_they_call",
+      "level": "P0",
+      "pass": true,
+      "detail": "they call her la mala hora. the evil hou"
+    },
+    {
+      "check": "beat6_according_to_the_legend",
+      "level": "P0",
+      "pass": true,
+      "detail": "according to the legend, she appears to "
+    },
+    {
+      "check": "beat7_terrifying_part",
+      "level": "P0",
+      "pass": true,
+      "detail": "but here's the terrifying part. seeing h"
+    },
+    {
+      "check": "beat9_so_if_you",
+      "level": "P0",
+      "pass": true,
+      "detail": "so if you're walking home alone tonight,"
+    },
+    {
+      "check": "beat10_reversal_starts_because",
+      "level": "P0",
+      "pass": true,
+      "detail": "because she isn't there for you. she's there to tell you who's not coming home."
+    },
+    {
+      "check": "legend_marker_they_say_or_legend",
+      "level": "P0",
+      "pass": true,
+      "detail": "supernatural claims framed as legend"
+    },
+    {
+      "check": "no_ai_punct",
+      "level": "P1",
+      "pass": true,
+      "detail": "no em dash / arrow"
+    },
+    {
+      "check": "fyp_watchlist_soft",
+      "level": "P2",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "verdict": "PASS"
+}

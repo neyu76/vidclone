@@ -1,0 +1,28 @@
+beat_id,part_id,speaker,fyp_window_bucket,est_start_sec,est_end_sec,est_duration_sec,units,contiguity_anchors,spoken_text
+b001,P01,NARRATOR,00_03s_FRAME0_SWIPE_GATE,0.00,1.24,1.24,3,,"In New Mexico,"
+b002,P01,NARRATOR,00_03s_FRAME0_SWIPE_GATE,1.24,4.14,2.90,7,,"if you're walking home alone after midnight,"
+b003,P01,NARRATOR,03_15s_PREMISE_ANCHOR,4.14,8.28,4.14,10,,and a woman in black is standing at the crossroads...
+b004,P01,NARRATOR,03_15s_PREMISE_ANCHOR,8.28,9.11,0.83,2,,keep walking.
+b005,P01,NARRATOR,03_15s_PREMISE_ANCHOR,9.11,12.01,2.90,7,,Because she isn't waiting for a ride.
+b006,P01,NARRATOR,03_15s_PREMISE_ANCHOR,12.01,14.91,2.90,7,,She's waiting to tell you who's next.
+b007,P01,NARRATOR,03_15s_PREMISE_ANCHOR,14.91,17.39,2.48,6,,They call her La Mala Hora.
+b008,P01,NARRATOR,15_30s_ESCALATION_ZONE,17.39,18.63,1.24,3,,The evil hour.
+b009,P02,NARRATOR,15_30s_ESCALATION_ZONE,18.63,22.77,4.14,10,,"Her story is told in Hispanic communities across New Mexico,"
+b010,P02,NARRATOR,15_30s_ESCALATION_ZONE,22.77,26.49,3.72,9,,where white crosses called descansos line the back roads.
+b011,P02,NARRATOR,15_30s_ESCALATION_ZONE,26.49,29.80,3.31,8,,Each one marks a place where someone died.
+b012,P02,NARRATOR,15_30s_ESCALATION_ZONE,29.80,34.77,4.97,12,,"According to the legend, she appears to people traveling alone at night,"
+b013,P02,NARRATOR,30_60s_CLIFF_BRIDGE,34.77,36.84,2.07,5,,right where two roads meet.
+b014,P02,NARRATOR,30_60s_CLIFF_BRIDGE,36.84,38.50,1.66,4,,She never touches you.
+b015,P02,NARRATOR,30_60s_CLIFF_BRIDGE,38.50,40.16,1.66,4,,She doesn't have to.
+b016,P03,NARRATOR,30_60s_CLIFF_BRIDGE,40.16,42.23,2.07,5,,But here's the terrifying part.
+b017,P03,NARRATOR,30_60s_CLIFF_BRIDGE,42.23,44.71,2.48,6,,Seeing her doesn't mean you'll die.
+b018,P03,NARRATOR,30_60s_CLIFF_BRIDGE,44.71,47.19,2.48,6,,It means someone you love will.
+b019,P03,NARRATOR,30_60s_CLIFF_BRIDGE,47.19,50.09,2.90,7,,One woman saw her at a crossroads.
+b020,P03,NARRATOR,30_60s_CLIFF_BRIDGE,50.09,53.40,3.31,8,,"By morning, she learned her husband had died..."
+b021,P03,NARRATOR,30_60s_CLIFF_BRIDGE,53.40,55.06,1.66,4,,at that exact hour.
+b022,P03,NARRATOR,30_60s_CLIFF_BRIDGE,55.06,57.96,2.90,7,,They say she doesn't always look human.
+b023,P03,NARRATOR,30_60s_CLIFF_BRIDGE,57.96,62.10,4.14,10,,Sometimes she's just a dark shape rolling across the road.
+b024,P04,NARRATOR,60s_PLUS_REWARDS_ZONE,62.10,65.00,2.90,7,,"So if you're walking home alone tonight,"
+b025,P04,NARRATOR,60s_PLUS_REWARDS_ZONE,65.00,67.48,2.48,6,,"don't stop, and don't look back."
+b026,P04,NARRATOR,60s_PLUS_REWARDS_ZONE,67.48,69.96,2.48,6,,Because she isn't there for you.
+b027,P04,NARRATOR,60s_PLUS_REWARDS_ZONE,69.96,73.68,3.72,9,,She's there to tell you who's not coming home.

@@ -1,0 +1,90 @@
+{
+  "schema": "TIKTOK_SCRIPT_STATE_V1",
+  "niche_profile_id": "darkatlas-us-states",
+  "assembler_version": "4.0",
+  "topic_id": "TT-001",
+  "slug": "la-mala-hora-new-mexico",
+  "track": "creator_rewards",
+  "mode": "clean_voiceover",
+  "count_unit": "words",
+  "clean_tts": true,
+  "strict_natural_speech": true,
+  "max_beat_sec": 8.5,
+  "max_open_sentence_units": 20,
+  "frame0_text": "IN NEW MEXICO,",
+  "blueprint_version": 1,
+  "script_version": 1,
+  "current_workflow": "WF06_SCRIPT_LOCKED",
+  "state": "SCRIPT_LOCKED",
+  "rate_spec": {
+    "rate_center_upm": 145.0,
+    "rate_min_upm": 138.0,
+    "rate_max_upm": 152.0,
+    "rate_basis": "MEASURED_SAMPLE",
+    "total_unit_budget": 175,
+    "non_speech_budget_seconds": 0.0,
+    "planned_spoken_center_seconds": 72.4,
+    "planned_center_seconds": 72.4,
+    "planned_range_seconds": [
+      69.1,
+      76.1
+    ]
+  },
+  "parts_expected": 4,
+  "parts_delivered": 4,
+  "next_part": null,
+  "parts_registry": {
+    "P01": {
+      "part_id": "P01",
+      "budget_units": 46,
+      "revision": 2,
+      "file": "/home/user/vidclone/styles/dark-atlas-tales/dark_atlas/EP06_la_mala_hora/TT/PARTS/P01.txt",
+      "status": "SECTION_PASSED",
+      "actual_units": 45,
+      "chunk_count": 8,
+      "sha256": "ce03e06e0ef992c57f9a5fa8f15c79177d3737141866e433e93ee4e4105f7b96",
+      "first_sentence": "In New Mexico,",
+      "last_sentence": "The evil hour."
+    },
+    "P02": {
+      "part_id": "P02",
+      "budget_units": 48,
+      "revision": 2,
+      "file": "/home/user/vidclone/styles/dark-atlas-tales/dark_atlas/EP06_la_mala_hora/TT/PARTS/P02.txt",
+      "status": "SECTION_PASSED",
+      "actual_units": 52,
+      "chunk_count": 7,
+      "sha256": "bd0e39d6d2ab188af3f6833355e136e25c967edee63e9a637f31d2f2616864b7",
+      "first_sentence": "Her story is told in Hispanic communities across New Mexico,",
+      "last_sentence": "She doesn't have to."
+    },
+    "P03": {
+      "part_id": "P03",
+      "budget_units": 46,
+      "revision": 2,
+      "file": "/home/user/vidclone/styles/dark-atlas-tales/dark_atlas/EP06_la_mala_hora/TT/PARTS/P03.txt",
+      "status": "SECTION_PASSED",
+      "actual_units": 53,
+      "chunk_count": 8,
+      "sha256": "ee11a1aed237990151578cfde074530ab8e68c9acd0f1d3737dd5c86186def1f",
+      "first_sentence": "But here's the terrifying part.",
+      "last_sentence": "Sometimes she's just a dark shape rolling across the road."
+    },
+    "P04": {
+      "part_id": "P04",
+      "budget_units": 35,
+      "revision": 1,
+      "file": "/home/user/vidclone/styles/dark-atlas-tales/dark_atlas/EP06_la_mala_hora/TT/PARTS/P04.txt",
+      "status": "SECTION_PASSED",
+      "actual_units": 28,
+      "chunk_count": 4,
+      "sha256": "78c531335e29bd67cbb236988207017d84277939f0e58035c023cb578664312b",
+      "first_sentence": "So if you're walking home alone tonight,",
+      "last_sentence": "She's there to tell you who's not coming home."
+    }
+  },
+  "cumulative_units": 178,
+  "cumulative_chunks": 27,
+  "last_delivered_boundary": "P03: Sometimes she's just a dark shape rolling across the road.",
+  "updated_at": "2026-11-22T06:25:44.855968+00:00"
+}

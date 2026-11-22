@@ -1,0 +1,25 @@
+{
+  "_note": "EP06 palette: New Mexico high desert at midnight, near-monochrome cold indigo/violet; one warm accent = chile ristra red (+ a single votive candle on the descanso). La Mala Hora: black rebozo/shawl and dress with violet sheen, milky white eyes, thin pale teeth, no blood. Walker: faded denim + tan. Distinct from EP04 (cold teal, fog, water) and EP05 (warm red rock, ochre).",
+  "country": "New Mexico, USA",
+  "sky_t": [8, 8, 20], "sky_b": [38, 32, 62],
+  "earth": [58, 52, 74], "earth_d": [32, 28, 44], "earth_l": [96, 88, 118],
+  "adobe": [112, 92, 104], "adobe_d": [70, 56, 68], "adobe_l": [150, 128, 140],
+  "chamisa": [74, 82, 86], "chamisa_d": [44, 50, 54],
+  "rebozo": [18, 14, 24], "rebozo_d": [8, 6, 12], "rebozo_sheen": [86, 70, 120],
+  "mh_skin": [176, 168, 184], "mh_skin_d": [120, 112, 132], "mh_eye": [232, 234, 240], "mh_teeth": [214, 210, 200],
+  "walker_denim": [58, 78, 112], "walker_denim_d": [34, 46, 70], "walker_tan": [168, 140, 104],
+  "wife_shawl": [40, 104, 108], "wife_shawl_d": [22, 64, 68],
+  "ristra": [186, 34, 30], "ristra_d": [120, 20, 20],
+  "descanso_cross": [226, 224, 230], "plastic_flowers": [[214, 64, 120], [236, 196, 70], [96, 160, 220]],
+  "votive": [255, 186, 96],
+  "zia_sign_yellow": [236, 196, 40], "zia_sign_red": [190, 34, 34],
+  "flash_jumpscare": [120, 80, 255],
+  "_culture_markers": [
+    "adobe church with two bell towers and rounded earthen walls",
+    "chile ristras hanging from vigas on a portal",
+    "descansos: small white roadside crosses with plastic flowers",
+    "New Mexico state road sign with the Zia sun symbol (sign only, never as decoration on the creature)",
+    "Sangre de Cristo mountains on the horizon, high-desert chamisa brush",
+    "old pickup truck; Spanish-style wall clock in an adobe kitchen"
+  ]
+}

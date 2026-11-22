@@ -1,0 +1,66 @@
+{
+  "schema": "TIKTOK_LOCK_MANIFEST_V4",
+  "niche_profile_id": "darkatlas-us-states",
+  "profile_revision": 1,
+  "topic_id": "TT-001",
+  "slug": "la-mala-hora-new-mexico",
+  "track": "creator_rewards",
+  "mode": "clean_voiceover",
+  "script_version": 1,
+  "timing_status": "ESTIMATED",
+  "count_unit": "words",
+  "total_spoken_units": 178,
+  "total_beats": 27,
+  "non_speech_seconds": 0.0,
+  "estimated_center_seconds": 73.7,
+  "estimated_range_seconds": [
+    70.3,
+    77.4
+  ],
+  "creator_rewards_60s_safe": true,
+  "lossless_token_roundtrip": true,
+  "seam_count": 4,
+  "beat_pacing_summary": {
+    "total_beats": 27,
+    "first_beat_est_sec": 1.24,
+    "max_single_beat_est_sec": 4.97,
+    "avg_beat_est_sec": 2.73,
+    "spoken_beats_per_10s": 3.66,
+    "max_beat_threshold_sec": 8.5,
+    "beats_exceeding_threshold": []
+  },
+  "opening_fyp_audit": {
+    "first_beat_est_sec": 1.24,
+    "beats_in_windows": {
+      "0_3s_swipe_gate": 2,
+      "3_15s_premise": 5,
+      "15_30s_escalation": 5
+    },
+    "sentences_in_0_15s": 5,
+    "avg_sentence_units_0_15s": 8.4,
+    "max_sentence_units_0_15s": 20,
+    "max_open_sentence_threshold": 20,
+    "long_sentences_0_15s": [],
+    "question_in_0_30s": false,
+    "contiguity_numeric_or_clock_anchors_0_30s": [],
+    "fyp_throttle_watchlist_hits_0_30s": [],
+    "frame0_safezone_text": "IN NEW MEXICO,",
+    "frame0_safezone_status": "PASS_SAFEZONE_MAX_2_LINES",
+    "warnings": []
+  },
+  "files": {
+    "01_script": {
+      "path": "/home/user/vidclone/styles/dark-atlas-tales/dark_atlas/EP06_la_mala_hora/TT/out/01-TT-SCRIPT-la-mala-hora-new-mexico.txt",
+      "sha256": "d728ea7ab98a9581652b0dce087c099a17b65d68b41cd8c6175ac1193bfe0c60"
+    },
+    "02_voice": {
+      "path": "/home/user/vidclone/styles/dark-atlas-tales/dark_atlas/EP06_la_mala_hora/TT/out/02-TT-VOICE-la-mala-hora-new-mexico.txt",
+      "sha256": "c0f535070ce025a28c75a7a7589abb84d4e25f7558434e42b37275ffabc24e7e"
+    },
+    "03_timeline_csv": {
+      "path": "/home/user/vidclone/styles/dark-atlas-tales/dark_atlas/EP06_la_mala_hora/TT/out/03-TT-TIMELINE-la-mala-hora-new-mexico.csv",
+      "sha256": "e7919d6d3bc9c75603a37b215d4990046f11d5ddc4ffdb1681b072e010a90b8e"
+    }
+  },
+  "locked_at": "2026-11-22T06:25:44.855881+00:00"
+}
